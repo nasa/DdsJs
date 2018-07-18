@@ -1,0 +1,14 @@
+{
+    "name": "dds-hostmonitor",
+    "version": "1.0.0",
+    "description": "Sample DDS.js NodeJS extension.",
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "install": "cmake-js compile"
+    },
+    "dependencies": {
+        "bindings": "^1.3.0",
+        "cmake-js": "^3.7.3"
+    }
+}

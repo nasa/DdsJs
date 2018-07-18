@@ -1,0 +1,21 @@
+/**
+ * \file dds_provider.h
+ * \brief Automatically-generated file that adapts a DDS provider to DdsJs
+ * \date 2018-07-17 16:00:57
+ * \author Rolando J. Nieves
+ */
+
+#ifndef _DDSJS_DDS_PROVIDER_H_
+#define _DDSJS_DDS_PROVIDER_H_
+
+#define DDS_PROVIDER_COREDX 0x0106
+#define DDS_PROVIDER_OSPL 0x0102
+#define DDS_PROVIDER_ODDS 0x0103
+
+#cmakedefine DDS_PROVIDER @DDS_PROVIDER@
+
+#if defined(DDS_PROVIDER) && (DDS_PROVIDER == DDS_PROVIDER_COREDX)
+# include <DdsJs/coredx_missing.hh>
+#endif /* (DDS_PROVIDER == DDS_PROVIDER_COREDX) */
+
+#endif /* !_DDSJS_DDS_PROVIDER_H_ */

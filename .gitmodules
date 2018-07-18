@@ -1,0 +1,3 @@
+[submodule "cmake"]
+	path = cmake
+	url = https://resolveserver.ndc.nasa.gov/git/dev-support/CMakeLibrary.git

@@ -1,0 +1,12 @@
+module HostMonitor {
+
+typedef string<256> HostNameType;
+
+struct OverallInformation {
+	HostNameType hostName;
+	float cpuUtilization;
+	float memoryUtilization;
+};
+
+};
+
