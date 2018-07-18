@@ -132,12 +132,14 @@ get_filename_component(
 )
 set(DDSJS_IDL_BUILD_CLASSPATH "${DDSJS_COMPILER_JAR}:${ANTLR4_JAR}:${COMMONS_CLI_JAR}:${STRINGTEMPLATE_JAR}")
 set(DDSJS_IDL_BUILD_DATADIR "${PROJECT_SOURCE_DIR}/Compiler/gov/nasa/ksc/ddsjs/idlc")
+set(DDSJS_IDL_BUILD_COMPILER "${PROJECT_BINARY_DIR}/ddsjs_idl")
 set(DDSJS_IDL_INSTALL_CLASSPATH "${CMAKE_INSTALL_PREFIX}/libexec/${DDSJS_COMPILER_JAR_FILE}:\
 ${CMAKE_INSTALL_PREFIX}/libexec/${ANTLR4_JAR_FILE}:\
 ${CMAKE_INSTALL_PREFIX}/libexec/${COMMONS_CLI_JAR_FILE}:\
 ${CMAKE_INSTALL_PREFIX}/libexec/${STRINGTEMPLATE_JAR_FILE}"
 )
 set(DDSJS_IDL_INSTALL_DATADIR "${CMAKE_INSTALL_PREFIX}/share")
+set(DDSJS_IDL_INSTALL_COMPILER "${CMAKE_INSTALL_PREFIX}/bin/ddsjs_idl")
 if (UNIX)
     add_custom_target(
         ddsjs_idl_for_build_create
@@ -328,9 +330,9 @@ set_target_properties(
         VERSION ${PROJECT_VERSION}
 )
 target_link_libraries(DdsJsRuntime ${WITH_DDS}::${DDS_PROVIDER_COMP})
-## --------------------------------------------------------------------------
+## ----------------------------------------------------------------------------
 
-## Runtime Library Installation Plan ---------------------------------------------
+## Runtime Library Installation Plan ------------------------------------------
 install(
     TARGETS DdsJsRuntime
     EXPORT DdsJsTargets
@@ -357,21 +359,53 @@ install(
     DESTINATION "include/DdsJs"
     COMPONENT Dev
 )
+## --------------------------------------------------------------------------
+
+# =============================================================================
+# Package configuration file
+# =============================================================================
+
+## Package configuration build plan -------------------------------------------
+add_custom_target(
+    package_config_for_build
+    ALL
+    "cmake"
+    "-DWITH_DDS=${WITH_DDS}"
+    "-DDDS_PROVIDER_COMP=${DDS_PROVIDER_COMP}"
+    "-DDDSJS_IDL_COMPILER=${DDSJS_IDL_BUILD_COMPILER}"
+    "-DINPUT_FILE=${PROJECT_SOURCE_DIR}/cmake_local/DdsJs/DdsJsConfig.cmake"
+    "-DOUTPUT_FILE=${PROJECT_BINARY_DIR}/DdsJs/DdsJsConfig.cmake"
+    "-DNL_STYLE=UNIX"
+    "-P" "${PROJECT_SOURCE_DIR}/cmake_local/DdsJs/ConfigureFileScript.cmake"
+    COMMENT "DDS.js package configuration file (for build tree use)."
+)
+
+add_custom_target(
+    package_config_for_install
+    ALL
+    "cmake"
+    "-DWITH_DDS=${WITH_DDS}"
+    "-DDDS_PROVIDER_COMP=${DDS_PROVIDER_COMP}"
+    "-DDDSJS_IDL_COMPILER=${DDSJS_IDL_INSTALL_COMPILER}"
+    "-DINPUT_FILE=${PROJECT_SOURCE_DIR}/cmake_local/DdsJs/DdsJsConfig.cmake"
+    "-DOUTPUT_FILE=${PROJECT_BINARY_DIR}/for_install/DdsJsConfig.cmake"
+    "-DNL_STYLE=UNIX"
+    "-P" "${PROJECT_SOURCE_DIR}/cmake_local/DdsJs/ConfigureFileScript.cmake"
+    COMMENT "DDS.js package configuration file (for install tree use)."
+)
+
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/DdsJs/DdsJsConfigVersion.cmake"
 	VERSION "${PROJECT_VERSION}"
 	COMPATIBILITY SameMajorVersion
 )
+## ----------------------------------------------------------------------------
 
+## Package configuration install plan -----------------------------------------
 export(EXPORT DdsJsTargets
 	FILE "${CMAKE_CURRENT_BINARY_DIR}/DdsJs/DdsJsTargets.cmake"
 	NAMESPACE DdsJs::
-)
-configure_file(
-	"cmake_local/DdsJs/DdsJsConfig.cmake"
-    "DdsJs/DdsJsConfig.cmake"
-    @ONLY
 )
 
 set(ConfigPackageLocation "lib/cmake/DdsJs")
@@ -387,14 +421,14 @@ install(EXPORT DdsJsTargets
 )
 install(
 	FILES
-		"${CMAKE_CURRENT_BINARY_DIR}/DdsJs/DdsJsConfig.cmake"
+		"${CMAKE_CURRENT_BINARY_DIR}/for_install/DdsJsConfig.cmake"
 		"${CMAKE_CURRENT_BINARY_DIR}/DdsJs/DdsJsConfigVersion.cmake"
 	DESTINATION
 		"${ConfigPackageLocation}"
 	COMPONENT
 		Dev
 )
-## --------------------------------------------------------------------------
+## ----------------------------------------------------------------------------
 
 # ===========================================================================
 # Package Definition
