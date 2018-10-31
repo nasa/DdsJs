@@ -246,10 +246,28 @@ private:
 
 		if (args.IsConstructCall())
 		{
-			args.This()->Set(ctx, ::v8::Local< ::v8::String >::New(isolate, DataWriterWrap::publisherFieldName), pubObj);
-			::DDS::Publisher *pub = reinterpret_cast< ::DDS::Publisher* >(pubObj->GetAlignedPointerFromInternalField(1));
-			args.This()->Set(ctx, ::v8::Local< ::v8::String >::New(isolate, DataWriterWrap::topicFieldName), topicObj);
-			::DDS::Topic *topic = reinterpret_cast< ::DDS::Topic* >(topicObj->GetAlignedPointerFromInternalField(1));
+			::v8::Maybe< bool > setResult = args.This()->Set(
+				ctx,
+				::v8::Local< ::v8::String >::New(
+					isolate,
+					DataWriterWrap::publisherFieldName
+				),
+				pubObj
+			);
+			::DDS::Publisher *pub = reinterpret_cast< ::DDS::Publisher* >(
+				pubObj->GetAlignedPointerFromInternalField(1)
+			);
+			setResult = args.This()->Set(
+				ctx,
+				::v8::Local< ::v8::String >::New(
+					isolate,
+					DataWriterWrap::topicFieldName
+				),
+				topicObj
+			);
+			::DDS::Topic *topic = reinterpret_cast< ::DDS::Topic* >(
+				topicObj->GetAlignedPointerFromInternalField(1)
+			);
 
 			DataWriterWrap *obj = new DataWriterWrap();
 			obj->m_writer = static_cast< typename TopicConfig::WriterType* >(

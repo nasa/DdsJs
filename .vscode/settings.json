@@ -3,7 +3,7 @@
         "-DANTLR_VERSION:STRING=4.5.1",
         "-DCOMMONS_CLI_VERSION:STRING=1.3.1",
         "-DST_VERSION:STRING=4.0.8",
-        "-DNODEJS_VERSION:STRING=8.9.3",
+        "-DNODEJS_VERSION:STRING=8.11.4",
         "-DCMAKE_INSTALL_PREFIX=/opt/ASTRA"
     ],
     "clangd.arguments": [
