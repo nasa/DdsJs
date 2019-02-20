@@ -54,6 +54,10 @@ struct DataWriteAsyncOperation
 	 */
 	::v8::Persistent< ::v8::Function > callback;
 	
+	::v8::Persistent< ::v8::Context > context;
+
+	::v8::Isolate *isolate;
+
 	/**
 	 * Flag used to discern whether the script that called write() provided a
 	 * completion callback.
@@ -65,10 +69,11 @@ struct DataWriteAsyncOperation
 	 */
 	DataWriteAsyncOperation()
 	{
-		writer = NULL;
-		writeResult = ::DDS::RETCODE_OK;
+		writer = nullptr;
+		writeResult = ::DDS::RETCODE_ERROR;
 		callbackProvided = false;
 		instanceHandle = ::DDS::HANDLE_NIL;
+		isolate = nullptr;
 	}
 };
 
@@ -375,6 +380,8 @@ private:
 		DataWriteAsyncOperation< TopicConfig > *asyncOp = 
 			new DataWriteAsyncOperation< TopicConfig >();
 		asyncOp->writer = obj->m_writer;
+		asyncOp->isolate = args.GetIsolate();
+		asyncOp->context.Reset(asyncOp->isolate, asyncOp->isolate->GetCurrentContext());
 		if (!TopicConfig::TopicFieldClass::FromJsValueToCpp(args[0], asyncOp->sample))
 		{
 			::std::stringstream errorMsg;
@@ -398,7 +405,7 @@ private:
 		asyncOp->callbackProvided = (args.Length() > 2) && args[2]->IsFunction();
 		if (asyncOp->callbackProvided)
 		{
-			asyncOp->callback.Reset(isolate, args[2].As< ::v8::Function >());
+			asyncOp->callback.Reset(asyncOp->isolate, args[2].As< ::v8::Function >());
 		}
 
 		uv_work_t *workToken = new uv_work_t;
@@ -686,14 +693,15 @@ private:
 	 */
 	static void concludeWrite(uv_work_t *workToken, int status)
 	{
-		::v8::Isolate *isolate = ::v8::Isolate::GetCurrent();
 		DataWriteAsyncOperation<TopicConfig> *asyncOp = reinterpret_cast< DataWriteAsyncOperation<TopicConfig>* >(workToken->data);
+		::v8::HandleScope handleScope(asyncOp->isolate);
+		::v8::Context::Scope(asyncOp->context.Get(asyncOp->isolate));
 
 		if (asyncOp->callbackProvided)
 		{
 			const unsigned argc = 1;
 			::v8::Local< ::v8::Value > argv[argc] = {
-					::v8::Null(isolate)
+					::v8::Null(asyncOp->isolate)
 			};
 
 			if (asyncOp->writeResult != ::DDS::RETCODE_OK)
@@ -701,15 +709,20 @@ private:
 				::std::stringstream errorMsg;
 
 				errorMsg << "Problem while writing " << TopicConfig::TopicName << " DDS sample:" << DDS_error(asyncOp->writeResult);
-				argv[0] = ::v8::String::NewFromUtf8(isolate, errorMsg.str().c_str());
+				argv[0] = ::v8::String::NewFromUtf8(asyncOp->isolate, errorMsg.str().c_str());
 			}
 
-			::v8::TryCatch exHandler { isolate };
-			::v8::Local< ::v8::Function > cb = ::v8::Local< ::v8::Function >::New(isolate, asyncOp->callback);
-			::node::MakeCallback(isolate, isolate->GetCurrentContext()->Global(), cb, argc, argv);
+			::v8::TryCatch exHandler { asyncOp->isolate };
+			::node::MakeCallback(
+				asyncOp->isolate,
+				asyncOp->context.Get(asyncOp->isolate)->Global(),
+				asyncOp->callback.Get(asyncOp->isolate),
+				argc,
+				argv
+			);
 			if (exHandler.HasCaught())
 			{
-				::node::FatalException(::v8::Isolate::GetCurrent(), exHandler);
+				::node::FatalException(asyncOp->isolate, exHandler);
 			}
 
 			asyncOp->callback.Reset();
