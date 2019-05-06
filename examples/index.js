@@ -1,1 +1,1 @@
-module.exports = require("bindings")("dds_hostmonitor");
+module.exports = require("bindings")("host_monitor");

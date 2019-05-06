@@ -163,6 +163,101 @@ tree). The aforementioned command will produce a `*.tgz` archive that can then
 be installed onto the target application as a Node.js module. The `Bin`-variants
 of **DDS.js** must also be distributed with the add-on.
 
+# Using the DDS.js Built Add-on
+
+With the NPM package containing the **DDS.js** built add-on installed on the
+target application, the API provided by said add-on can be used as any other
+Node.js module. Following is a sample Node.js "console" application that
+subscribes to the `OverallInformation` samples defined in the example module's
+`HostMonitor.idl` file:
+
+    const DDS = require("dds-hostmonitor").DDS;
+    const HostMonitor = require("dds-hostmonitor").HostMonitor;
+
+    var particip = DDS.createDomainParticipant(
+        /* Domain ID */0
+    );
+
+    var subscriber = particip.createSubscriber();
+
+    var overallInfoTopic = particip.createTopic(
+        HostMonitor.OverallInformationTopic
+    );
+
+    var overallInfoReader = subscriber.createDataReader(
+        overallInfoTopic
+    );
+
+    var printSamples = (error, samples, sampleInfos) => {
+        if (error) {
+            console.out("ERROR in take(): " + error);
+        } else {
+            console.out(JSON.stringify(samples));
+        }
+    };
+
+    var timerObj = setInterval(
+        () => {
+            overallInfoReader.take(
+                /* Max sample count */ 100,
+                /* Unused */ 0,
+                printSamples
+            );
+        },
+        1000
+    );
+
+    process.on("SIGINT", () => {
+        clearInterval(timerObj);
+        timerObj = null;
+        particip.deleteContainedEntities();
+        overallInfoReader = null;
+        overallInfoTopic = null;
+        subscriber = null;
+        particip = null;
+    });
+
+Inclusion of the **DDS.js** module is by the name given in `package.json`. The
+lone JS file in the example directory, `index.js`, basically relays the
+inclusion to the module via the `bindings` package. The aforementioned file can
+contain additional content at the developer's discretion.
+
+The module produced by **DDS.js** will contain *two* namespaces within it. The
+first namespace, called `DDS`, will contain the standard DDS calls and
+definitions (such as QoS structures). The only use of this namespace in the
+previous code appears when creating the DDS Domain Participant with
+`DDS.createDomainParticipant()`. The call is required to specify the DDS domain
+ID as the first argument. The second argument is optional and, if specified,
+must be an instance of the `DDS.DomainParticipantQos`. The recommended way to
+acquire an instance of this structure is to call
+`DDS.getDefaultParticipantQos()`. The fields in the returned object reflect
+those of the QoS structure defined in standard DDS.
+
+From the participant spawn several of the standard objects. In this simple
+example, the participant is used to create a `Subscriber` instance via the
+`createSubscriber()` method in the returned participant object. The participant
+object also creates the topic, but creation of IDL-specific topics requires a
+discussion of the other produced namespace.
+
+The second namespace in the module will take its name directly from the
+top-level IDL module name in the provided source IDL file. In this case, the
+top-level module is called `HostMonitor`, thus the produced namespace uses the
+same name. This module contains definitions for all of the data structures and
+topics defined in the IDL file. In this case, only one structure/topic called
+`OverallInformation` is defined. In order to create a topic instance, a helper
+object that follows the pattern `<TopicName>Topic` is created for every topic
+worthy data structure found in the IDL file. For `OverallInformation`, thus, the
+name of the helper object is `OverallInformationTopic`. Passing this helper to
+the DDS participant's `createTopic()` call takes care of both topic creation and
+type registration. The default type name is used when registering the type
+(by specifying `nullptr` in the underlying `register_type()` C++ call).
+
+The sample code should run, attempting to `take()` samples every second, and
+printing whatever it received. At the time of this writing, **DDS.js** does not
+support event-driven sample ingest, such as those that could be defined via
+either a `WaitSet` or via callbacks. The code should stop upon receiving a
+`SIGINT` event, usually via `Ctrl+C`.
+
 # Applicable Licenses
 
 ## ANTLR and StringTemplate
