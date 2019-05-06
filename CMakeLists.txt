@@ -1,5 +1,10 @@
 # -----------------------------------------------------------------------------
 # DDS NodeJS Interface Library
+#
+# Part of the software suite deployed for customers of the Avionics and Software
+# Technology Research and Application (ASTRA) team within the KSC Applied
+# Sciences branch (UB-R3), in the Exploration, Research and Technology KSC
+# Directorate (UB).
 # -----------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.11)
@@ -244,6 +249,16 @@ elseif (WIN32)
             Dev
     )
 endif ()
+install(
+    FILES
+        "${PROJECT_SOURCE_DIR}/cmake/Modules/TargetIDLSources.cmake"
+        "${PROJECT_SOURCE_DIR}/cmake/Modules/FindCoreDX.cmake"
+        "${PROJECT_SOURCE_DIR}/cmake_local/DdsJs/AddNodeJsModuleTarget.cmake"
+    DESTINATION
+        "lib/cmake/Modules"
+    COMPONENT
+        Dev
+)
 ## --------------------------------------------------------------------------
 
 # ===========================================================================
@@ -373,6 +388,8 @@ add_custom_target(
     "-DWITH_DDS=${WITH_DDS}"
     "-DDDS_PROVIDER_COMP=${DDS_PROVIDER_COMP}"
     "-DDDSJS_IDL_COMPILER=${DDSJS_IDL_BUILD_COMPILER}"
+    "-DDDSJS_CMAKE_MODULE_PATH=${PROJECT_SOURCE_DIR}/cmake/Modules\\;${PROJECT_SOURCE_DIR}/cmake_local/DdsJs"
+    "-DDDS_PROVIDER_ST=${DDS_PROVIDER_ST}"
     "-DINPUT_FILE=${PROJECT_SOURCE_DIR}/cmake_local/DdsJs/DdsJsConfig.cmake"
     "-DOUTPUT_FILE=${PROJECT_BINARY_DIR}/DdsJs/DdsJsConfig.cmake"
     "-DNL_STYLE=UNIX"
@@ -387,6 +404,8 @@ add_custom_target(
     "-DWITH_DDS=${WITH_DDS}"
     "-DDDS_PROVIDER_COMP=${DDS_PROVIDER_COMP}"
     "-DDDSJS_IDL_COMPILER=${DDSJS_IDL_INSTALL_COMPILER}"
+    "-DDDSJS_CMAKE_MODULE_PATH=${CMAKE_INSTALL_PREFIX}/lib/cmake/Modules"
+    "-DDDS_PROVIDER_ST=${DDS_PROVIDER_ST}"
     "-DINPUT_FILE=${PROJECT_SOURCE_DIR}/cmake_local/DdsJs/DdsJsConfig.cmake"
     "-DOUTPUT_FILE=${PROJECT_BINARY_DIR}/for_install/DdsJsConfig.cmake"
     "-DNL_STYLE=UNIX"

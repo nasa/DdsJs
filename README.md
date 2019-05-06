@@ -9,13 +9,13 @@
 4. CMake (http://www.cmake.org). Version 3.11.0 or higher. A version may be provided by Linux distributions.
 5. Node.js (http://www.nodejs.org). Any NodeJS version belonging to major version 8. Note the actual version number.
 6. `cmake-js` (installed via NPM).
-7. CoreDX (http://www.twinoaks.com). Version 4.2.0 or higher.
+7. A properly-licensed DDS provider distribution. Currently, only CoreDX (http://www.twinoaks.com). Version 4.2.0 or higher is supported.
 8. Java Development Kit (http://java.oracle.com). Version 1.8 or higher. OpenJDK may also work if provided by your
    Linux distribution.
 
-## Node-GYP Preparation
+## Build Preparation
 
-DDS.js requires that the files required to build Node.js native add-ons be already installed. This can be done
+**DDS.js** requires that the files required to build Node.js native add-ons be already installed. This can be done
 by first installing `cmake-js`, then letting it install the build files:
 
     npm install -g cmake-js
@@ -23,15 +23,14 @@ by first installing `cmake-js`, then letting it install the build files:
 
 ## Preferred Location of JAR Dependencies
 
-The DDS.js build files prefer that the JAR files it depends on (ANTLR, StringTemplate, and CommonsCLI) be 
-installed in the `/usr/local/lib` directory. They may be installed in other locations, but configuring the
-build system them may be more difficult.
+The **DDS.js** build files prefer that the JAR files it depends on (ANTLR, StringTemplate, and CommonsCLI) be 
+installed in the `/usr/local/lib` directory. They may be installed in other locations, but doing so may make configuring the build system more difficult.
 
 ## DDS Environment Settings
 
 ### CoreDX
 
-The DDS.js build files expect the following CoreDX-related environment variables be properly configured:
+The **DDS.js** build files expect the following CoreDX-related environment variables be properly configured:
 
 *  `COREDX_TOP`: Should point to the top-level installation directory of CoreDX
 *  `COREDX_TARGET`: Should indicate the platform specification of the target on which CoreDX.js will run. Usually
@@ -47,14 +46,13 @@ TBD
 
 ## Build Configuration
 
-The recommended way to build DDS.js is to create a build directory inside the top-level source directory and 
-perform the build from that directory.
+The recommended way to build **DDS.js** is to create a build directory inside the top-level source directory (i.e., a "build tree") and perform the build from that directory.
 
     cd <top-level>
     mkdir build
     cd build
     
-DDS.js uses CMake as its build system. The command line parameters passed to CMake provide information regarding
+**DDS.js** uses CMake as its build system. The command line parameters passed to CMake provide information regarding
 where to find all the prerequisites. The available command line parameters are:
 
 *  `-DANTLR_VERSION=<ver>`: Version number of the ANTLR v4 JAR file. Should be evident from the JAR file name. This
@@ -67,12 +65,12 @@ where to find all the prerequisites. The available command line parameters are:
 *  `-DST_VERSION=<ver>`: Version number of the StringTemplate JAR file. Should be evident from the JAR file name.
    This option may only be used if the StringTemplate JAR file is installed in `/usr/local/lib`.
 *  `-DNODEJS_VERSION=<ver>`: Version number of Node.js being used.
-*  `-DWITH_DDS=<provider>`: Configure DDS.js to use a particular DDS provider. Currently, only `CoreDX` is supported.
+*  `-DWITH_DDS=<provider>`: Configure **DDS.js** to use a particular DDS provider. Currently, only `CoreDX` is supported.
 *  `-DCMAKE_BUILD_TYPE=(Debug|Release)`: Type of build. Labels are self-explanatory.
-*  `-DCMAKE_INSTALL_PREFIX=<directory>`: Directory where DDS.js will be installed. On user builds, it defaults to
+*  `-DCMAKE_INSTALL_PREFIX=<directory>`: Directory where **DDS.js** will be installed. On user builds, it defaults to
    `${HOME}/Install`. Production builds usually are rooted in `/opt`.
 
-For example, to configure the DDS.js build with ANTLR version 4.5, StringTemplate version 4.0.8, Commons-CLI
+For example, to configure the **DDS.js** build with ANTLR version 4.5, StringTemplate version 4.0.8, Commons-CLI
 version 1.2, and using CoreDX DDS, with all JARs installed in `/usr/local/lib`, and Node.js version 4.2.4, one would issue the
 following command (assuming the other prerequisites are met, and the command is being run from the build directory):
 
@@ -94,40 +92,45 @@ simply issuing a `make`.
 
 ## Packaging
 
-Once the build is complete, CMake may be used to create installable packages. On Debian systems, the follwing
+Once the build is complete, CMake may be used to create installable packages. On Intel/Linux systems, the follwing
 command produces two (2) installable DEB archives. On other Linux systems, it produces two (2) TAR-GZ archives:
 
     make package
 
-The resulting archives will bear in their name the DDS.js package name, version, target operating system, target
+This default behavior can be circumvented by calling the CPack tool (part of CMake) directly with a package generator specification. For example, to generate TAR-GZ archives even in Intel/Linux systems, the following command must be run from the build tree:
+
+    cpack -G TGZ
+
+The resulting archives will bear in their name the **DDS.js** package name, version, target operating system, target
 system processor, and whether the archive contains runtime files or files used for development. For example, a
 set of TAR-GZ archives built for a Linux x86-64 host would look like this:
 
 *  `ddsjs-1.0.0-Linux-x86_64-Bin.tar.gz`: Archive containing the shared libraries that are needed at runtime.
 *  `ddsjs-1.0.0-Linux-x86_64-Dev.tar.gz`: Archive containing header files and build scripts that are needed when
-   building a NodeJS add-on with DDS.js.
+   building a NodeJS add-on with **DDS.js**.
 
-A set of DEB archives would look as follows:
+A set of DEB archives would look as follows (when using CoreDX as the DDS provider):
 
 *  `ddsjs-coredx-bin_1.0.0-custom_amd64.deb`: Archive containing the shared libraries that are needed at runtime.
 *  `ddsjs-coredx-dev_1.0.0-custom_amd64.deb`: Archive containing header files and build scripts that are needed when
-   building a NodeJS add-on with DDS.js.
+   building a NodeJS add-on with **DDS.js**.
 
 
 ## Installation
 
 When installing from TAR-GZ archives, simply unpacking then on a target directory will create a
-directory for DDS.js and unpack all the files in their appropriate location. When `CMAKE_INSTALL_PREFIX` specified
+directory for **DDS.js** and unpack all the files in their appropriate location. When `CMAKE_INSTALL_PREFIX` specified
 a global location, it is expected that the archive be unpacked at the root of the file system:
 
     tar -C / -zxvf ddsjs-1.0.0-Linux-x86_64-Bin.tar.gz
 
+By default, `CMAKE_INSTALL_PREFIX` is configured to be `/opt/ASTRA`.
+
 ## Post-installation
 
-DDS.js must have the shared libraries in its "Bin" package be registered with the system's dynamic linker. On Linux
+**DDS.js** must have the shared libraries in its "Bin" package be registered with the system's dynamic linker. On Linux
 systems, this usually involves adding an entry to the `/etc/ld.so.conf` file pointing to the directory where the
 shared libraries were installed.
-
 
 # Using DDS.js
 
@@ -145,9 +148,20 @@ In order for users of the add-on to be able to re-compile the source files, the 
 `install` script fragment that calls `cmake-js compile`, as well as contain dependencies on `cmake-js` and (highly
 recommended) `bindings`.
 
+Refer to the `examples` directory in the source distribution in order to glean
+what the typical Node.js add-on package source tree should look like.
+
 ## Building Node.js Add-on
 
 After the aforementioned files are created, the command `cmake-js build` should build the add-on.
+
+## Distributing the Add-on
+
+Once the custom add-on is built using the **DDS.js** tools and libraries, it may be
+packaged for distribution using the `npm pack` command (run from the source
+tree). The aforementioned command will produce a `*.tgz` archive that can then
+be installed onto the target application as a Node.js module. The `Bin`-variants
+of **DDS.js** must also be distributed with the add-on.
 
 # Applicable Licenses
 

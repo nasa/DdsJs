@@ -489,14 +489,11 @@ protected:
      * JavaScript script calls the \c take() method in an object
      * instance created by this class' \c New() class method.
      *
-     * Unlike the other JavaScript object methods wrapped by this template
-     * class, the result of this method is returned via a callback. The 
-     * callback mechanism resembles closely that used by other
-     * asynchronous Node.js calls, where the first argument of the callback
-     * is a field that contains a non-null value in the event of an error.
-     * The callback must also accept two (2) arguments in addition to the
-     * error argument: one for the collection of samples taken, and one
-     * for the collection of corresponding sample status objects.
+     * The `take()` is done synchronously, taking any samples already available.
+     * Should no samples be available, the method simply returns empty
+     * collections. Error conditions prior to the `take()` are transmitted as
+     * JavaScript exceptions. Error conditions detected after `take()` are
+     * transmitted in the callback's error argument.
      *
      * \param args {in} Contains the arguments provided in the JavaScript
      *                  method call.
