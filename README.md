@@ -136,24 +136,47 @@ shared libraries were installed.
 
 ## Workspace Preparation
 
-The DDS.js package works best when used in conjunction with the CMake.js (https://www.npmjs.com/package/cmake-js) NPM
-package. A typical DDS.js enabled add-on would have the following files in its project root directory:
+The DDS.js package works best when used in conjunction with the CMake.js
+(https://www.npmjs.com/package/cmake-js) NPM package. A typical DDS.js enabled
+add-on would have the following files in its project root directory:
 
-*  `CMakeLists.txt`: CMake file containing the build instructions for the add-on.
+*  `CMakeLists.txt`: CMake file containing the build instructions for the
+   add-on.
 *  `package.json`: JSON file that describes the NodeJS add-on.
 *  `index.js`: Top-level, or "main", JavaScript file for the add-on.
-*  **IDL File**: The DDS IDL file describing the data types to use in the add-on.
+*  **IDL File**: The DDS IDL file describing the data types to use in the
+   add-on.
 
-In order for users of the add-on to be able to re-compile the source files, the `package.json` file must contain an
-`install` script fragment that calls `cmake-js compile`, as well as contain dependencies on `cmake-js` and (highly
+In order for users of the add-on to be able to re-compile the source files, the
+`package.json` file must contain an `install` script fragment that calls
+`cmake-js compile`, as well as contain dependencies on `cmake-js` and (highly
 recommended) `bindings`.
 
 Refer to the `examples` directory in the source distribution in order to glean
-what the typical Node.js add-on package source tree should look like.
+what the typical Node.js add-on package source tree should look like. In it,
+there is a very simple IDL file that will serve as the basis for the examples
+that follow:
+
+    module HostMonitor {
+
+    typedef string<256> HostNameType;
+
+    struct OverallInformation {
+        HostNameType hostName;
+        float cpuUtilization;
+        float memoryUtilization;
+    };
+
+    };
+
+An excellent idea for exploring **DDS.js** is to copy the contents of the 
+`examples` directory onto a different location, thus any experimentation does
+not affect the **DDS.js** source area.
 
 ## Building Node.js Add-on
 
-After the aforementioned files are created, the command `cmake-js build` should build the add-on.
+After the aforementioned files are created, the command `cmake-js build` should
+build the add-on.
 
 ## Distributing the Add-on
 
@@ -188,6 +211,7 @@ subscribes to the `OverallInformation` samples defined in the example module's
         overallInfoTopic
     );
 
+    /* Callable that receives samples from "take()" */
     var printSamples = (error, samples, sampleInfos) => {
         if (error) {
             console.out("ERROR in take(): " + error);
@@ -196,18 +220,20 @@ subscribes to the `OverallInformation` samples defined in the example module's
         }
     };
 
+    /* Do a "take()" every 1000 milliseconds */
     var timerObj = setInterval(
         () => {
             overallInfoReader.take(
                 /* Max sample count */ 100,
                 /* Unused */ 0,
-                printSamples
+                /* Callback */ printSamples
             );
         },
         1000
     );
 
     process.on("SIGINT", () => {
+        /* Cleanup after detecting Ctrl+C */
         clearInterval(timerObj);
         timerObj = null;
         particip.deleteContainedEntities();
@@ -257,6 +283,70 @@ printing whatever it received. At the time of this writing, **DDS.js** does not
 support event-driven sample ingest, such as those that could be defined via
 either a `WaitSet` or via callbacks. The code should stop upon receiving a
 `SIGINT` event, usually via `Ctrl+C`.
+
+# Bindings Reference
+
+The following table illustrates the API bindings available as of this writing to
+JavaScript developers, and their proper analogue in the standard DDS C++
+bindings. Note that only a small fraction of standard binding API calls area
+currently avaialable in this JavaScript implementation. Any calls not scoped to
+a class in the JavaScript column reside directly in the `DDS` namespace. All
+symbols in the C++ column reside within the `DDS::` namespace. As a general
+rule, any C++ calls that use *snake case* to define their symbol names were
+transformed to *camel case* in order to better abide by JavaScript conventions.
+
+| JS API call  | Equivalent C++ call  |
+| ------------ | -------------------- |
+| `createDomainParticipant()`  | `DomainParticipantFactory::create_domain_participant()`  |
+| `DomainParticipant.enable()`  | `DomainParticipant::enable()`  |
+| `DomainParticipant.createPublisher()`  | `DomainParticipant::create_publisher()`  |
+| `DomainParticipant.createSubscriber()`  | `DomainParticipant::create_subscriber()`  |
+| `DomainParticipant.createTopic()`  | `DomainParticipant::create_topic()`  |
+| `DomainParticipant.getDiscoveredParticipants()`  | `DomainParticipant::get_discovered_participants()`  |
+| `DomainParticipant.getDiscoveredParticipantData()`  | `DomainParticipant::get_discovered_participant_data()`  |
+| `DomainParticipant.deleteContainedEntities()`  | `DomainParticipant::delete_contained_entities()`  |
+| `DomainParticipant.addTransport()`  | `DomainParticipant::add_transport()`<sup>*</sup>  |
+| `Subscriber.createDataReader()`  | `Subscriber::create_datareader()`  |
+| `Subscriber.getDefaultDataReaderQos()`  | `Subsriber::get_default_datareader_qos()`  |
+| `Publisher.createDataWriter()`  | `Publisher::create_datawriter()`  |
+| `Publisher.getDefaultDataWriterQos()`  | `Publisher::get_default_datawriter_qos()`  |
+| `DataReader.take()`  | `DataReader::take()`  |
+| `DataReader.getStatusChanges()`  | `DataReader::get_status_changes()`  |
+| `DataReader.getLivelinessChangedStatus()`  | `DataReader::get_liveliness_changed_status()`  |
+| `DataReader.getSubscriptionMatchedStatus()`  | `DataReader::get_subscription_matched_status()`  |
+| `DataReader.getSampleLostStatus()`  | `DataReader::get_sample_lost_status()`  |
+| `DataReader.getRequestedIncompatibleQosStatus()`  | `DataReader::get_requested_incompatible_qos_status()`  |
+| `DataReader.getSampleRejectedStatus()`  | `DataReader::get_sample_rejected_status()`  |
+| `DataReader.getMatchedPublications()`  | `DataReader::get_matched_publications()`  |
+| `DataReader.getMatchedPublicationData()`  | `DataReader::get_matched_publication_data()`  |
+| `DataWriter.write()`  | `DataWriter::write()`  |
+| `DataWriter.getStatusChanges()`   | `DataWriter::get_status_changes()`  |
+| `DataWriter.getMatchedSubscriptions()`  | `DataWriter::get_matched_subscriptions()`  |
+| `DataWriter.getMatchedSubscriptionData()`  | `DataWriter::get_matched_subscription_data()`  |
+| `DataWriter.registerInstance()`  | `DataWriter::register_instance()`  |
+| `DataWriter.unregisterInstance()`  | `DataWriter::unregister_instance()`  |
+| `DataWriter.dispose()`  | `DataWriter::dispose()`  |
+
+<sup>*</sup> Denotes a feature only available with **CoreDX**.
+
+As far as the IDL productions fed through to **DDS.js**, no name alterations are
+done. The data types specified in the productions are mapped as follows:
+
+| IDL Type(s)  | Mapped in JS As  |
+| ------------ | ---------------- |
+| `struct`  | `Object`  |
+| `long`, `short`, `octet`, `float`, `double`  | `Number`  |
+| `string` (bounded and unbounded)  | `String`<sup>1</sup>  |
+| `sequence` (bounded and unbounded)  | `Array`<sup>2</sup>  |
+
+<sup>1</sup> Any bounds specified in the IDL are not currently enforced in
+JavaScript.
+
+<sup>2</sup> Only element homogeneity specified in the IDL is enforced in
+JavaScript, and the enforcement only manifests upon calls to the **DDS.js** API.
+
+Namespaces found in the IDL file(s) processed are turned into Node.js modules,
+observing any hierarchy specified in the source IDL.
 
 # Applicable Licenses
 
