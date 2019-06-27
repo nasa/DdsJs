@@ -33,7 +33,7 @@ installed in the `/usr/local/lib` directory. They may be installed in other loca
 The **DDS.js** build files expect the following CoreDX-related environment variables be properly configured:
 
 *  `COREDX_TOP`: Should point to the top-level installation directory of CoreDX
-*  `COREDX_TARGET`: Should indicate the platform specification of the target on which CoreDX.js will run. Usually
+*  `COREDX_TARGET`: Should indicate the platform specification of the target on which **DDS.js** will run. Usually
    this is the same as the platform building the software.
 
 ### OpenSplice
@@ -85,9 +85,18 @@ following command (assuming the other prerequisites are met, and the command is 
 The last argument (`..`; parent directory reference) is important, as it tells CMake where to find the 
 `CMakeLists.txt` file.
 
+As of this writing, **DDS.js** works with the following package versions:
+
+| Package  | Version  |
+| -------- | -------- |
+| ANTLR  | 4.5.1  |
+| Commons CLI  | 1.3.1  |
+| StringTemplate  | 4.0.8  |
+| NodeJS  | 8.11.4  |
+
 ## Building
 
-After CMake successfully completes the build environment configuration, building CoreDX.js may be done by
+After CMake successfully completes the build environment configuration, building **DDS.js** may be done by
 simply issuing a `make`.
 
 ## Packaging
