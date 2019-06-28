@@ -1,0 +1,27 @@
+{
+  "buildType": {
+    "default": "Debug",
+    "description": "Build Type Selection",
+    "choices": {
+      "Debug": {
+        "short": "Debug",
+        "long": "Build with no optimizations and debugging information",
+        "buildType": "Debug",
+        "settings": {
+          "CMAKE_CXX_FLAGS_DEBUG": "-ggdb -O0",
+          "DISABLE_UNITTEST": "OFF"
+        }
+      },
+      "Release": {
+        "short": "Release",
+        "long": "Build with optimizations and some debuging information",
+        "buildType": "Release",
+        "settings": {
+          "CMAKE_CXX_FLAGS_RELEASE": "-g -O3",
+          "CMAKE_INSTALL_PREFIX": "/opt/ASTRA",
+          "DISABLE_UNITTEST": "ON"
+        }
+      }
+    }
+  }
+}
