@@ -26,6 +26,7 @@ using v8::Isolate;
 using v8::FunctionCallbackInfo;
 using v8::Exception;
 using v8::MaybeLocal;
+using v8::Maybe;
 using node::ObjectWrap;
 using DDS::DomainParticipant;
 using DDS::ReturnCode_t;
@@ -63,7 +64,16 @@ void PublisherWrap::Init(Local<Object> exports)
 
 	PublisherWrap::constructor.Reset(isolate, tpl->GetFunction());
 
-	exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "Publisher"), tpl->GetFunction());
+	Maybe< bool > setResult = exports->Set(
+		isolate->GetCurrentContext(),
+		String::NewFromUtf8(isolate, "Publisher"),
+		tpl->GetFunction()
+	);
+
+	if (!setResult.FromMaybe(false))
+	{
+		// TODO: Throw exception.
+	}
 }
 
 
@@ -99,7 +109,15 @@ void PublisherWrap::New(FunctionCallbackInfo<Value> const& args)
 
 	if (args.IsConstructCall())
 	{
-		args.This()->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "participant"), args[0]);
+		Maybe< bool > setResult = args.This()->Set(
+			isolate->GetCurrentContext(),
+			String::NewFromUtf8(isolate, "participant"),
+			args[0]
+		);
+		if (!setResult.FromMaybe(false))
+		{
+			// TODO: Throw exception.
+		}
 		DomainParticipant *particip = reinterpret_cast<DomainParticipant*>(args[0]->ToObject()->GetAlignedPointerFromInternalField(1));
 		PublisherWrap *obj = new PublisherWrap();
         // --------------------------------------------------------------------

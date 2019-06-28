@@ -31,6 +31,7 @@ using v8::Primitive;
 using v8::PropertyCallbackInfo;
 using v8::MaybeLocal;
 using v8::Context;
+using v8::Maybe;
 using node::ObjectWrap;
 using DDS::DomainParticipantFactory;
 using DDS::DomainId_t;
@@ -83,7 +84,16 @@ void DomainParticipantWrap::Init(Local<Object> exports)
 
     DomainParticipantWrap::constructor.Reset(isolate, ctorTmpl->GetFunction());
     
-    exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "DomainParticipant"), ctorTmpl->GetFunction());
+    Maybe< bool > setResult = exports->Set(
+        isolate->GetCurrentContext(),
+        String::NewFromUtf8(isolate, "DomainParticipant"),
+        ctorTmpl->GetFunction()
+    );
+
+    if (!setResult.FromMaybe(false))
+    {
+        // TODO: Throw exception
+    }
 }
 
 
@@ -177,7 +187,7 @@ void DomainParticipantWrap::New(FunctionCallbackInfo<Value> const& args)
 
         obj->Wrap(args.This());
         args.This()->SetAlignedPointerInInternalField(1, obj->m_theParticipant);
-        args.This()->DefineOwnProperty(
+        Maybe< bool > defineResult = args.This()->DefineOwnProperty(
             ctx, 
             String::NewFromUtf8(
                 isolate, 
@@ -189,6 +199,10 @@ void DomainParticipantWrap::New(FunctionCallbackInfo<Value> const& args)
             ), 
             ::v8::ReadOnly
         );
+        if (!defineResult.FromMaybe(false))
+        {
+            // TODO: Throw exception.
+        }
         args.GetReturnValue().Set(args.This());
     }
     else
@@ -530,6 +544,7 @@ void DomainParticipantWrap::GetDiscoveredParticipantNameAndIp(FunctionCallbackIn
     InstanceHandle_t dpHandle;
     Local<Object> result(Object::New(isolate));
     char ipAddrText[20];
+    Maybe< bool > setResult = ::v8::Nothing< bool >();
 
     memset(ipAddrText, 0x00, sizeof(ipAddrText));
 
@@ -559,22 +574,30 @@ void DomainParticipantWrap::GetDiscoveredParticipantNameAndIp(FunctionCallbackIn
          * This class method takes advantage of this CoreDX-exclusive feature
          * and parses out the information for JavaScript scripts.
          */
-        result->Set(
+        setResult = result->Set(
             isolate->GetCurrentContext(), 
             String::NewFromUtf8(isolate, "name"), 
             String::NewFromUtf8(isolate, dpInfo.entity_name)
         );
+        if (!setResult.FromMaybe(false))
+        {
+            // TODO: Throw exception.
+        }
         struct in_addr theAddr;
         theAddr.s_addr = dpInfo.key.value[0];
         if (inet_ntop(AF_INET, &theAddr, ipAddrText, sizeof(ipAddrText)) == NULL)
         {
             strcpy(ipAddrText, "Unknown");
         }
-        result->Set(
+        setResult = result->Set(
             isolate->GetCurrentContext(), 
             String::NewFromUtf8(isolate, "ipAddress"), 
             String::NewFromUtf8(isolate, ipAddrText)
         );
+        if (!setResult.FromMaybe(false))
+        {
+            // TODO: Throw exception.
+        }
         args.GetReturnValue().Set(result);
     }
     else

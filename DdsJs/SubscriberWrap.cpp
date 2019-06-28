@@ -25,6 +25,7 @@ using v8::Context;
 using v8::Undefined;
 using v8::Isolate;
 using v8::MaybeLocal;
+using v8::Maybe;
 using node::ObjectWrap;
 using DDS::DomainParticipant;
 using DDS::DataReaderQos;
@@ -61,7 +62,16 @@ void SubscriberWrap::Init(Local<Object> exports)
 	
 	SubscriberWrap::constructor.Reset(isolate, tpl->GetFunction());
 
-	exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "Subscriber"), tpl->GetFunction());
+	Maybe< bool > setResult = exports->Set(
+		isolate->GetCurrentContext(),
+		String::NewFromUtf8(isolate, "Subscriber"),
+		tpl->GetFunction()
+	);
+
+	if (!setResult.FromMaybe(false))
+	{
+		// TODO: Throw exception
+	}
 }
 
 
@@ -103,7 +113,15 @@ void SubscriberWrap::New(FunctionCallbackInfo<Value> const& args)
 
 	if (args.IsConstructCall())
 	{
-		args.This()->Set(ctx, String::NewFromUtf8(isolate, "participant"), args[0]);
+		Maybe< bool > setResult = args.This()->Set(
+			ctx,
+			String::NewFromUtf8(isolate, "participant"),
+			args[0]
+		);
+		if (!setResult.FromMaybe(false))
+		{
+			// TODO: Throw exception.
+		}
 		SubscriberWrap *obj = new SubscriberWrap();
 		obj->m_theSubscriber = particip->create_subscriber(DDS::SUBSCRIBER_QOS_DEFAULT, nullptr, 0);
 		args.This()->SetAlignedPointerInInternalField(1, obj->m_theSubscriber);

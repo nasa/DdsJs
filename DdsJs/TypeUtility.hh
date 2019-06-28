@@ -65,10 +65,20 @@ struct ArrayField
 		v8::Isolate *isolate = v8::Isolate::GetCurrent();
 		v8::EscapableHandleScope scope(isolate);
 		v8::Local<v8::Array> result(v8::Array::New(isolate));
+		v8::Maybe< bool > setResult = v8::Just< bool >(true);
 
-		for (uint32_t idx = 0u; idx < ArraySize; idx++)
+		for (uint32_t idx = 0u; setResult.FromMaybe(false) && (idx < ArraySize); idx++)
 		{
-			result->Set(isolate->GetCurrentContext(), idx, ElementFieldDef::FromCppToJsValue(cppValue[idx]));
+			setResult = result->Set(
+				isolate->GetCurrentContext(),
+				idx,
+				ElementFieldDef::FromCppToJsValue(cppValue[idx])
+			);
+		}
+
+		if (!setResult.FromMaybe(false))
+		{
+			// TODO: Throw exception.
 		}
 
 		return scope.Escape(result);
@@ -154,10 +164,15 @@ struct UnboundedSeqField
 		v8::EscapableHandleScope scope(isolate);
 		v8::Local<v8::Array> result(v8::Array::New(isolate));
 		uint32_t idx = 0u;
+		v8::Maybe< bool > setResult = v8::Just< bool >(true);
 
-		for (idx = 0u; idx < cppValue.size(); idx++)
+		for (idx = 0u; setResult.FromMaybe(false) && idx < cppValue.size(); idx++)
 		{
-			result->Set(isolate->GetCurrentContext(), idx, ElementFieldDef::FromCppToJsValue(cppValue[idx]));
+			setResult = result->Set(
+				isolate->GetCurrentContext(),
+				idx,
+				ElementFieldDef::FromCppToJsValue(cppValue[idx])
+			);
 		}
 
 		return scope.Escape(result);
@@ -184,18 +199,28 @@ struct UnboundedSeqField
 		v8::EscapableHandleScope scope(isolate);
 		v8::Local<v8::Array> result(v8::Array::New(isolate));
 		uint32_t idx = 0u;
+		v8::Maybe< bool > setResult = v8::Just< bool >(true);
 
 		if (NULL == cSeq._buffer)
 		{
 			return scope.Escape(result);
 		}
 
-		for (idx = 0u; idx < cSeq._length; idx++)
+		for (idx = 0u; setResult.FromMaybe(false) && idx < cSeq._length; idx++)
 		{
 			typename ElementFieldDef::PtrType anItem = cSeq._buffer[idx];
-			result->Set(isolate->GetCurrentContext(), idx, ElementFieldDef::FromCppToJsValue(*anItem));
+			setResult = result->Set(
+				isolate->GetCurrentContext(),
+				idx,
+				ElementFieldDef::FromCppToJsValue(*anItem)
+			);
 		}
 
+		if (!setResult.FromMaybe(false))
+		{
+			// TODO: Throw exception.
+		}
+		
 		return scope.Escape(result);
 	}
 

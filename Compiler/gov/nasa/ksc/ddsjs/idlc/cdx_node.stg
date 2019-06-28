@@ -72,6 +72,7 @@ using v8::EscapableHandleScope;
 using v8::FunctionCallbackInfo;
 using v8::MaybeLocal;
 using v8::Exception;
+using v8::Maybe;
 using node::ObjectWrap;
 using DDS::Topic;
 using DDS::ReturnCode_t;
@@ -131,7 +132,19 @@ void InitAll(Local<Object> exports)
 {
 	Isolate *isolate = Isolate::GetCurrent();
 	Local<Object> moduleExports(Object::New(isolate));
-	exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "%moduleObj.moduleName%"), moduleExports);
+	Maybe< bool > setResult = exports->Set(
+		isolate->GetCurrentContext(),
+		String::NewFromUtf8(
+			isolate,
+			"%moduleObj.moduleName%"
+		),
+		moduleExports
+	);
+	
+	if (!setResult.FromMaybe(false))
+	{
+		// TODO: Throw exception
+	}
 	
 	//
 	// Constant Expressions
@@ -233,12 +246,24 @@ enum_impl_init(enumDef) ::= <<
 void %enumDef.enumName%Field::Init(Local<Object> exports)
 {
 	Isolate *isolate = Isolate::GetCurrent();
-	Local<Context> ctx = Local<Context>::New(isolate, isolate->GetCurrentContext());
+	Local<Context> ctx = Local<Context>::New(
+		isolate,
+		isolate->GetCurrentContext()
+	);
 	Local<Object> enumObj(Object::New(isolate));
 	
 	%enumDef.enumConstants:enum_impl_init_constant(enumDef)%
 	
-	exports->Set(ctx, String::NewFromUtf8(isolate, "%enumDef.enumName%"), enumObj);
+	Maybe< bool > setResult = exports->Set(
+		ctx,
+		String::NewFromUtf8(isolate, "%enumDef.enumName%"),
+		enumObj
+	);
+
+	if (!setResult.FromMaybe(false))
+	{
+		// TODO: Throw exception
+	}
 }
 
 >>
@@ -381,9 +406,20 @@ void %structDef.structName%Field::Init(Local<Object> exports)
 {
 	Isolate *isolate = Isolate::GetCurrent();
 	
-	exports->Set(isolate->GetCurrentContext(),
+	auto ctorFunc = FunctionTemplate::New(
+		isolate,
+		%structDef.structName%Field::New
+	);
+	Maybe< bool > setResult = exports->Set(
+		isolate->GetCurrentContext(),
 		String::NewFromUtf8(isolate, "%structDef.structName%"),
-		FunctionTemplate::New(isolate, %structDef.structName%Field::New)->GetFunction());
+		ctorFunc->GetFunction()
+	);
+	if (!setResult.FromMaybe(false))
+	{
+		// TODO: Throw exception
+	}
+
 	%structDef.fields:{ aField | %structDef.structName%Field::%aField.fieldName%FieldName.Reset(isolate,
 	String::NewFromUtf8(isolate, "%aField.fieldName%"));
 	}%
@@ -413,6 +449,7 @@ Local<Value> %structDef.structName%Field::FromCppToJsValue(%structDef.structName
 	EscapableHandleScope scope(isolate);
 	Local<Object> result(Object::New(isolate));
 	Local<Context> ctx = Local<Context>::New(isolate, isolate->GetCurrentContext());
+	Maybe< bool > setResult = ::v8::Nothing< bool >();
 	
 	%structDef.fields:struct_impl_from_cpp_field(structDef)%
 	
@@ -422,10 +459,21 @@ Local<Value> %structDef.structName%Field::FromCppToJsValue(%structDef.structName
 >>
 
 struct_impl_from_cpp_field(structField,structDef) ::= <<
-result->Set(ctx,
-	Local<String>::New(isolate, %structDef.structName%Field::%structField.fieldName%FieldName),
-	%cpp_scoped_type_name(structField.fieldType)%::FromCppToJsValue(cppValue.%structField.fieldName%));
+setResult = result->Set(
+	ctx,
+	Local<String>::New(
+		isolate,
+		%structDef.structName%Field::%structField.fieldName%FieldName
+	),
+	%cpp_scoped_type_name(structField.fieldType)%::FromCppToJsValue(
+		cppValue.%structField.fieldName%
+	)
+);
 
+if (!setResult.FromMaybe(false))
+{
+	// TODO: throw exception
+}
 >>
 
 struct_impl_from_js(structDef) ::= <<
