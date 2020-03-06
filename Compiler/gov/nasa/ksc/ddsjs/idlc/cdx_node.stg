@@ -420,7 +420,7 @@ void %structDef.structName%Field::Init(Local<Object> exports)
 	auto ctorFuncMaybe = ctorFuncTmpl->GetFunction(ctx);
 	if (ctorFuncMaybe.IsEmpty())
 	{
-		// TODO: Throw exception
+		// Pending exception or termination
 		return;
 	}
 	Maybe< bool > setResult = exports->Set(
@@ -428,9 +428,26 @@ void %structDef.structName%Field::Init(Local<Object> exports)
 		String::NewFromUtf8(isolate, "%structDef.structName%"),
 		ctorFuncMaybe.ToLocalChecked()
 	);
-	if (setResult.IsNothing() || !setResult.FromJust())
+	if (setResult.IsNothing())
 	{
-		// TODO: Throw exception
+		// Pending exception or termination
+		return;
+	}
+	
+	if (!setResult.FromJust())
+	{
+		stringstream errMsg;
+		errMsg
+			<< "Could not set constructor function for "
+			<< "%structDef.structName%Field.";
+		isolate->ThrowException(
+			Exception::TypeError(
+				String::NewFromUtf8(
+					isolate,
+					errMsg.str().c_str()
+				)
+			)
+		);
 		return;
 	}
 
@@ -539,6 +556,12 @@ impl_dds_topic_wrap_init(structDef) ::= <<
 void %structDef.structName%TopicWrap::Init(Local<Object> exports)
 {
 	Isolate *isolate = Isolate::GetCurrent();
+
+	if (nullptr == isolate)
+	{
+		return;
+	}
+
 	Local<Context> ctx = Local<Context>::New(isolate, isolate->GetCurrentContext());
 	HandleScope scope(isolate);
 	
@@ -554,8 +577,9 @@ void %structDef.structName%TopicWrap::Init(Local<Object> exports)
 	NODE_SET_PROTOTYPE_METHOD(tpl, "newDataReader", %structDef.structName%TopicWrap::NewDataReader);
 	NODE_SET_PROTOTYPE_METHOD(tpl, "newDataWriter", %structDef.structName%TopicWrap::NewDataWriter);
 	
-	%structDef.structName%TopicWrap::constructor.Reset(isolate, tpl->GetFunction());
-	exports->Set(ctx, String::NewFromUtf8(isolate, "%structDef.structName%Topic"), tpl->GetFunction());
+	auto ctorFunc = tpl->GetFunction(ctx).ToLocalChecked();
+	%structDef.structName%TopicWrap::constructor.Reset(isolate, ctorFunc);
+	exports->Set(ctx, String::NewFromUtf8(isolate, "%structDef.structName%Topic"), ctorFunc);
 }
 
 >>
@@ -791,9 +815,15 @@ union_impl_field_init(unionDef) ::= <<
 void %unionDef.unionName%Field::Init(Local<Object> exports)
 {
 	Isolate *isolate = Isolate::GetCurrent();
+	if (nullptr == isolate)
+	{
+		return;
+	}
+
+	Local< Context > ctx = isolate->GetCurrentContext();
 	exports->Set(isolate->GetCurrentContext(),
 		String::NewFromUtf8(isolate, "%unionDef.unionName%"),
-		FunctionTemplate::New(isolate, %unionDef.unionName%Field::New)->GetFunction());
+		FunctionTemplate::New(isolate, %unionDef.unionName%Field::New)->GetFunction(ctx).ToLocalChecked());
 	%unionDef.unionCases:union_impl_case_members(unionDef)%
 }
 
