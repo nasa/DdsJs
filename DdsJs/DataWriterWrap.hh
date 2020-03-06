@@ -156,8 +156,14 @@ public:
         NODE_SET_PROTOTYPE_METHOD(tpl, "unregisterInstance", DataWriterWrap::UnregisterInstance);
         NODE_SET_PROTOTYPE_METHOD(tpl, "dispose", DataWriterWrap::Dispose);
         
-        DataWriterWrap::constructor.Reset(isolate, tpl->GetFunction());
-        exports->Set(::v8::String::NewFromUtf8(isolate, dwName.c_str()), tpl->GetFunction());
+        auto ctorFunc = tpl->GetFunction(
+            isolate->GetCurrentContext()
+        ).ToLocalChecked();
+        DataWriterWrap::constructor.Reset(isolate, ctorFunc);
+        exports->Set(
+            ::v8::String::NewFromUtf8(isolate, dwName.c_str()),
+            ctorFunc
+        );
     }
 
 private:

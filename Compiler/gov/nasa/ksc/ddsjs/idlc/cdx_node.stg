@@ -187,10 +187,10 @@ void InitAll(Local<Object> exports)
 >>
 
 constant_expr_def(constDef) ::= <<
-moduleExports->ForceSet(isolate->GetCurrentContext(),
+moduleExports->DefineOwnProperty(isolate->GetCurrentContext(),
 	String::NewFromUtf8(isolate, "%constDef.identifier%"),
 	%const_value(constDef)%,
-	::v8::ReadOnly);
+	::v8::ReadOnly).Check();
 
 >>
 
@@ -269,10 +269,10 @@ void %enumDef.enumName%Field::Init(Local<Object> exports)
 >>
 
 enum_impl_init_constant(enumConst,enumDef) ::= <<
-enumObj->ForceSet(ctx,
+enumObj->DefineOwnProperty(ctx,
 	String::NewFromUtf8(isolate, "%enumConst.identifier%"),
 	Number::New(isolate, %cpp_scoped_name(enumDef.owningModule,enumConst.identifier)%),
-	::v8::ReadOnly);
+	::v8::ReadOnly).Check();
 
 >>
 
@@ -405,19 +405,33 @@ struct_impl_init(structDef) ::= <<
 void %structDef.structName%Field::Init(Local<Object> exports)
 {
 	Isolate *isolate = Isolate::GetCurrent();
+	Local< Context > ctx = isolate->GetCurrentContext();
 	
-	auto ctorFunc = FunctionTemplate::New(
+	if (nullptr == isolate)
+	{
+		return;
+	}
+
+	auto ctorFuncTmpl = FunctionTemplate::New(
 		isolate,
 		%structDef.structName%Field::New
 	);
-	Maybe< bool > setResult = exports->Set(
-		isolate->GetCurrentContext(),
-		String::NewFromUtf8(isolate, "%structDef.structName%"),
-		ctorFunc->GetFunction()
-	);
-	if (!setResult.FromMaybe(false))
+
+	auto ctorFuncMaybe = ctorFuncTmpl->GetFunction(ctx);
+	if (ctorFuncMaybe.IsEmpty())
 	{
 		// TODO: Throw exception
+		return;
+	}
+	Maybe< bool > setResult = exports->Set(
+		ctx,
+		String::NewFromUtf8(isolate, "%structDef.structName%"),
+		ctorFuncMaybe.ToLocalChecked()
+	);
+	if (setResult.IsNothing() || !setResult.FromJust())
+	{
+		// TODO: Throw exception
+		return;
 	}
 
 	%structDef.fields:{ aField | %structDef.structName%Field::%aField.fieldName%FieldName.Reset(isolate,

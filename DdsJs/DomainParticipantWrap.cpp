@@ -82,18 +82,14 @@ void DomainParticipantWrap::Init(Local<Object> exports)
     NODE_SET_PROTOTYPE_METHOD(ctorTmpl, "getInstanceHandle", DomainParticipantWrap::GetInstanceHandle);
     NODE_SET_PROTOTYPE_METHOD(ctorTmpl, "ignoreParticipant", DomainParticipantWrap::IgnoreParticipant);
 
-    DomainParticipantWrap::constructor.Reset(isolate, ctorTmpl->GetFunction());
+    auto ctorFun = ctorTmpl->GetFunction(isolate->GetCurrentContext()).ToLocalChecked();
+    DomainParticipantWrap::constructor.Reset(isolate, ctorFun);
     
-    Maybe< bool > setResult = exports->Set(
+    exports->Set(
         isolate->GetCurrentContext(),
         String::NewFromUtf8(isolate, "DomainParticipant"),
-        ctorTmpl->GetFunction()
-    );
-
-    if (!setResult.FromMaybe(false))
-    {
-        // TODO: Throw exception
-    }
+        ctorFun
+    ).Check();
 }
 
 
@@ -124,6 +120,11 @@ void DomainParticipantWrap::New(FunctionCallbackInfo<Value> const& args)
     Isolate *isolate = Isolate::GetCurrent();
     Local< Context > ctx = isolate->GetCurrentContext();
     HandleScope scope(isolate);
+
+    if (nullptr == isolate)
+    {
+        return;
+    }
 
     if (args.Length() < 1)
     {
@@ -178,8 +179,22 @@ void DomainParticipantWrap::New(FunctionCallbackInfo<Value> const& args)
                 return;
             }
         }
+        auto domainIdMaybe = args[0]->NumberValue(ctx);
+        if (domainIdMaybe.IsNothing())
+        {
+            isolate->ThrowException(
+                Exception::Error(
+                    String::NewFromUtf8(
+                        isolate, 
+                        "Could not create participant instance."
+                    )
+                )
+            );
+            return;
+        }
+        DomainId_t domainIdVal = static_cast< DomainId_t >(domainIdMaybe.FromJust());
         obj->m_theParticipant = DomainParticipantFactory::get_instance()->create_participant(
-            static_cast<DomainId_t>(args[0]->NumberValue()),
+            domainIdVal,
             dpQos,
             NULL,
             0
@@ -195,13 +210,21 @@ void DomainParticipantWrap::New(FunctionCallbackInfo<Value> const& args)
             ), 
             Number::New(
                 isolate, 
-                args[0]->NumberValue()
+                domainIdVal
             ), 
             ::v8::ReadOnly
         );
         if (!defineResult.FromMaybe(false))
         {
-            // TODO: Throw exception.
+            isolate->ThrowException(
+                Exception::Error(
+                    String::NewFromUtf8(
+                        isolate, 
+                        "Could not create participant instance."
+                    )
+                )
+            );
+            return;
         }
         args.GetReturnValue().Set(args.This());
     }
@@ -248,7 +271,7 @@ void DomainParticipantWrap::New(FunctionCallbackInfo<Value> const& args)
             return;
         }
         
-        args.GetReturnValue().Set(resultMaybe.FromMaybe(Local< Object >()));
+        args.GetReturnValue().Set(resultMaybe.ToLocalChecked());
     }
 }
 

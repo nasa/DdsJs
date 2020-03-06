@@ -444,13 +444,33 @@ struct FixedStringField : public UnboundedStringField
 	 */
 	static bool FromJsValueToCpp(v8::Local<v8::Value> jsVal, RefType cppValueRet)
 	{
-		if (!jsVal->IsString() || (jsVal->ToString()->Length() > StringSize))
+		v8::Isolate *isolate = v8::Isolate::GetCurrent();
+
+		if (nullptr == isolate)
 		{
 			return false;
 		}
-		v8::String::Utf8Value strValue(jsVal);
-		memset(cppValueRet, 0x00, StringSize);
-		strncpy(cppValueRet, *strValue, StringSize);
+
+		if (!jsVal->IsString())
+		{
+			return false;
+		}
+
+		auto strMaybe = jsVal->ToString(isolate->GetCurrentContext());
+		v8::Local< v8::String > theStr;
+		if (!strMaybe.ToLocal(&theStr))
+		{
+			return false;
+		}
+
+		auto strLen = theStr->Length();
+		if (strLen > StringSize)
+		{
+			return false;
+		}
+
+		memset(cppValueRet, 0x00, StringSize + 1);
+		theStr->WriteUtf8(isolate, cppValueRet, StringSize);
 
 		return true;
 	}

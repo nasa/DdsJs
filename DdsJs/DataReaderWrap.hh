@@ -101,10 +101,14 @@ public:
         NODE_SET_PROTOTYPE_METHOD(tpl, "getMatchedPublicationData", DataReaderWrap::GetMatchedPublicationData);
         NODE_SET_PROTOTYPE_METHOD(tpl, "getQos", DataReaderWrap::GetQos);
 
-        DataReaderWrap::constructor.Reset(isolate, tpl->GetFunction());
-
-        exports->Set(::v8::String::NewFromUtf8(isolate, drName.c_str()),
-            tpl->GetFunction());
+        auto ctorFunc = tpl->GetFunction(
+            isolate->GetCurrentContext()
+        ).ToLocalChecked();
+        DataReaderWrap::constructor.Reset(isolate, ctorFunc);
+        exports->Set(
+            ::v8::String::NewFromUtf8(isolate, drName.c_str()),
+            ctorFunc
+        );
     }
 
 protected:
@@ -157,17 +161,75 @@ protected:
     static void New(::v8::FunctionCallbackInfo< ::v8::Value > const& args)
     {
         ::v8::Isolate *isolate = ::v8::Isolate::GetCurrent();
+
+        if (nullptr == isolate)
+        {
+            return;
+        }
+
         ::v8::HandleScope scope(isolate);
         ::v8::Local< ::v8::Context > ctx = isolate->GetCurrentContext();
         ::std::stringstream errorMsg;
 
         if (args.Length() < 2)
         {
-            errorMsg << "Not enough arguments in " << TopicConfig::TopicName << "DataReader constructor call.";
-            isolate->ThrowException(::v8::Exception::TypeError(::v8::String::NewFromUtf8(isolate, errorMsg.str().c_str())));
+            errorMsg
+                << "Not enough arguments in "
+                << TopicConfig::TopicName
+                << "DataReader constructor call.";
+            isolate->ThrowException(
+                ::v8::Exception::TypeError(
+                    ::v8::String::NewFromUtf8(
+                        isolate,
+                        errorMsg.str().c_str()
+                    )
+                )
+            );
             return;
         }
 
+        auto pubMaybe = args[0]->ToObject(ctx);
+        auto topicMaybe = args[1]->ToObject(ctx);
+        if (pubMaybe.IsEmpty() || topicMaybe.IsEmpty())
+        {
+            // Pending exception or termination
+            return;
+        }
+
+        auto subObj = pubMaybe.ToLocalChecked();
+        if (nullptr == subObj->GetAlignedPointerFromInternalField(1))
+        {
+            errorMsg
+                << "Invalid subscriber object passed to "
+                << TopicConfig::TopicName
+                << "DataReader constructor call.";
+            isolate->ThrowException(
+                ::v8::Exception::Error(
+                    ::v8::String::NewFromUtf8(
+                        isolate,
+                        errorMsg.str().c_str()
+                    )
+                )
+            );
+            return;
+        }
+
+        auto topicObj = topicMaybe.ToLocalChecked();
+        if (nullptr == topicObj->GetAlignedPointerFromInternalField(1))
+        {
+            errorMsg
+                << "Invalid topic description object passed to "
+                << TopicConfig::TopicName
+                << "DataReader constructor call.";
+            isolate->ThrowException(
+                ::v8::Exception::Error(
+                    ::v8::String::NewFromUtf8(
+                        isolate,
+                        errorMsg.str().c_str()
+                    )
+                )
+            );
+        }
         if (args.IsConstructCall())
         {
             ::v8::Maybe< bool > setResult = args.This()->Set(
@@ -176,10 +238,31 @@ protected:
                     isolate,
                     DataReaderWrap::subscriberFieldName
                 ),
-                args[0]
+                subObj
             );
+            if (setResult.IsNothing())
+            {
+                // Pending exception or termination
+                return;
+            }
+            if (!setResult.FromJust())
+            {
+                errorMsg
+                    << "Could not set subscriber field in "
+                    << TopicConfig::TopicName
+                    << "DataReader constructor call.";
+                isolate->ThrowException(
+                    ::v8::Exception::Error(
+                        ::v8::String::NewFromUtf8(
+                            isolate,
+                            errorMsg.str().c_str()
+                        )
+                    )
+                );
+                return;
+            }
             ::DDS::Subscriber *sub = reinterpret_cast< ::DDS::Subscriber* >(
-                args[0]->ToObject()->GetAlignedPointerFromInternalField(1)
+                subObj->GetAlignedPointerFromInternalField(1)
             );
             setResult = args.This()->Set(
                 ctx,
@@ -187,10 +270,31 @@ protected:
                     isolate,
                     DataReaderWrap::topicFieldName
                 ),
-                args[1]
+                topicObj
             );
+            if (setResult.IsNothing())
+            {
+                // Pending exception or termination
+                return;
+            }
+            if (!setResult.FromJust())
+            {
+                errorMsg
+                    << "Could not set topic description field in "
+                    << TopicConfig::TopicName
+                    << "DataReader constructor call.";
+                isolate->ThrowException(
+                    ::v8::Exception::Error(
+                        ::v8::String::NewFromUtf8(
+                            isolate,
+                            errorMsg.str().c_str()
+                        )
+                    )
+                );
+                return;
+            }
             ::DDS::TopicDescription *topic = reinterpret_cast< ::DDS::TopicDescription* >(
-                args[1]->ToObject()->GetAlignedPointerFromInternalField(1)
+                topicObj->GetAlignedPointerFromInternalField(1)
             );
 
             DataReaderWrap *obj = new DataReaderWrap();
@@ -200,7 +304,13 @@ protected:
             sub->get_default_datareader_qos(&readerQos);
             if ((args.Length() > 2) && !args[2]->IsNull() && args[2]->IsObject())
             {
-                ::v8::Local< ::v8::Object > jsReaderQos(args[2]->ToObject(ctx).FromMaybe(::v8::Local< ::v8::Object >()));
+                auto qosMaybe = args[2]->ToObject(ctx);
+                if (qosMaybe.IsEmpty())
+                {
+                    // Pending exception or termination
+                    return;
+                }
+                ::v8::Local< ::v8::Object > jsReaderQos = qosMaybe.ToLocalChecked();
                 if (!::DDS::DataReaderQosField::FromJsValueToCpp(jsReaderQos, readerQos))
                 {
                     errorMsg << "Invalid QoS object passed in " << TopicConfig::TopicName << "DataReader constructor.";
@@ -501,13 +611,53 @@ protected:
     static void Take(::v8::FunctionCallbackInfo< ::v8::Value > const& args)
     {
         ::v8::Isolate *isolate = ::v8::Isolate::GetCurrent();
+
+        if (nullptr == isolate)
+        {
+            return;
+        }
+
+        ::v8::Local< ::v8::Context > ctx = isolate->GetCurrentContext();
         ::v8::HandleScope scope(isolate);
         ::std::stringstream errorMsg;
 
         if (args.Length() < 3)
         {
-            errorMsg << "Not enough arguments to " << TopicConfig::TopicName << "DataReader take() method call.";
-            isolate->ThrowException(::v8::Exception::TypeError(::v8::String::NewFromUtf8(isolate, errorMsg.str().c_str())));
+            errorMsg
+                << "Not enough arguments to "
+                << TopicConfig::TopicName
+                << "DataReader take() method call.";
+            isolate->ThrowException(
+                ::v8::Exception::Error(
+                    ::v8::String::NewFromUtf8(
+                        isolate,
+                        errorMsg.str().c_str()
+                    )
+                )
+            );
+            return;
+        }
+
+        if (!args[0]->IsNumber())
+        {
+            errorMsg
+                << "Sample count passed to "
+                << TopicConfig::TopicName
+                << "DataReader take() method call must be an integer.";
+            isolate->ThrowException(
+                ::v8::Exception::TypeError(
+                    ::v8::String::NewFromUtf8(
+                        isolate,
+                        errorMsg.str().c_str()
+                    )
+                )
+            );
+            return;
+        }
+        auto sampleCountMaybe = args[0]->IntegerValue(ctx);
+        if (sampleCountMaybe.IsNothing())
+        {
+            // Pending exception or termination
             return;
         }
 
@@ -519,7 +669,7 @@ protected:
         takeResult = obj->m_reader->take(
                 &samples,
                 &sampleInfos,
-                args[0]->IntegerValue(),
+                static_cast< unsigned >(sampleCountMaybe.FromJust()),
                 ::DDS::NOT_READ_SAMPLE_STATE,
                 ::DDS::ANY_VIEW_STATE,
                 ::DDS::ANY_INSTANCE_STATE);
@@ -556,7 +706,11 @@ protected:
         }
         else
         {
-            errorMsg << "Could not take samples of " << TopicConfig::TopicName << ":" << DDS_error(takeResult);
+            errorMsg
+                << "Could not take samples of "
+                << TopicConfig::TopicName
+                << ":"
+                << DDS_error(takeResult);
             argv[1] = ::v8::String::NewFromUtf8(isolate, errorMsg.str().c_str());
         }
         ::node::MakeCallback(isolate, isolate->GetCurrentContext()->Global(), "setImmediate", argc, argv);

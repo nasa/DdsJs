@@ -53,14 +53,27 @@ Local<Value> UnboundedStringField::FromCppToJsValue(UnboundedStringField::ConstR
 
 bool UnboundedStringField::FromJsValueToCpp(Local<Value> jsVal, UnboundedStringField::RefType cppValueRet)
 {
+    Isolate *isolate = Isolate::GetCurrent();
+
+    if (nullptr == isolate)
+    {
+        return false;
+    }
+
     if (!jsVal->IsString())
     {
         return false;
     }
 
-    String::Utf8Value strValue(jsVal);
-    cppValueRet = reinterpret_cast<char*>(calloc(strValue.length() + 1, sizeof(char)));
-    strncpy(cppValueRet, *strValue, strValue.length());
+    auto strMaybe = jsVal->ToString(isolate->GetCurrentContext());
+    Local< String > theStr;
+    if (!strMaybe.ToLocal(&theStr))
+    {
+        return false;
+    }
+
+    cppValueRet = reinterpret_cast< char* >(calloc(theStr->Length() + 1, sizeof(char)));
+    theStr->WriteUtf8(isolate, cppValueRet);
 
     return true;
 }

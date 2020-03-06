@@ -60,18 +60,14 @@ void SubscriberWrap::Init(Local<Object> exports)
 	NODE_SET_PROTOTYPE_METHOD(tpl, "createDataReader", SubscriberWrap::CreateDataReader);
 	NODE_SET_PROTOTYPE_METHOD(tpl, "getDefaultDataReaderQos", SubscriberWrap::GetDefaultDataReaderQos);
 	
-	SubscriberWrap::constructor.Reset(isolate, tpl->GetFunction());
-
-	Maybe< bool > setResult = exports->Set(
+    auto ctorFun = tpl->GetFunction(isolate->GetCurrentContext()).ToLocalChecked();
+    SubscriberWrap::constructor.Reset(isolate, ctorFun);
+    
+	exports->Set(
 		isolate->GetCurrentContext(),
 		String::NewFromUtf8(isolate, "Subscriber"),
-		tpl->GetFunction()
-	);
-
-	if (!setResult.FromMaybe(false))
-	{
-		// TODO: Throw exception
-	}
+		ctorFun
+	).Check();
 }
 
 

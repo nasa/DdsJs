@@ -63,6 +63,13 @@ namespace DdsJs {
 void CreateDomainParticipant(FunctionCallbackInfo<Value> const& args)
 {
 	Isolate *isolate = Isolate::GetCurrent();
+
+	if (nullptr == isolate)
+	{
+		return;
+	}
+
+	Local< Context > ctx = isolate->GetCurrentContext();
 	HandleScope scope(isolate);
 
 	if (args.Length() < 1)
@@ -82,7 +89,13 @@ void CreateDomainParticipant(FunctionCallbackInfo<Value> const& args)
 
 	Local< Function > ctor = Local< Function >::New(isolate, DomainParticipantWrap::constructor);
 
-	args.GetReturnValue().Set(ctor->NewInstance(argc, argv));
+	auto dpMaybe = ctor->NewInstance(ctx, argc, argv);
+	if (dpMaybe.IsEmpty())
+	{
+		// Pending exception or termination
+		return;
+	}
+	args.GetReturnValue().Set(dpMaybe.ToLocalChecked());
 }
 
 /**

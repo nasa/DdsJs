@@ -62,18 +62,14 @@ void PublisherWrap::Init(Local<Object> exports)
 	NODE_SET_PROTOTYPE_METHOD(tpl, "createDataWriter", PublisherWrap::CreateDataWriter);
 	NODE_SET_PROTOTYPE_METHOD(tpl, "getDefaultDataWriterQos", PublisherWrap::GetDefaultDataWriterQos);
 
-	PublisherWrap::constructor.Reset(isolate, tpl->GetFunction());
-
-	Maybe< bool > setResult = exports->Set(
+    auto ctorFun = tpl->GetFunction(isolate->GetCurrentContext()).ToLocalChecked();
+    PublisherWrap::constructor.Reset(isolate, ctorFun);
+    
+	exports->Set(
 		isolate->GetCurrentContext(),
 		String::NewFromUtf8(isolate, "Publisher"),
-		tpl->GetFunction()
-	);
-
-	if (!setResult.FromMaybe(false))
-	{
-		// TODO: Throw exception.
-	}
+		ctorFun
+	).Check();
 }
 
 
@@ -92,18 +88,64 @@ PublisherWrap::~PublisherWrap()
 void PublisherWrap::New(FunctionCallbackInfo<Value> const& args)
 {
 	Isolate *isolate = Isolate::GetCurrent();
+
+	if (nullptr == isolate)
+	{
+		return;
+	}
+
+	Local< Context > ctx = isolate->GetCurrentContext();
 	HandleScope scope(isolate);
 
 	if (args.Length() < 1)
 	{
-		isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Not enough arguments for Publisher constructor.")));
+		isolate->ThrowException(
+			Exception::TypeError(
+				String::NewFromUtf8(
+					isolate,
+					"Not enough arguments for Publisher constructor."
+				)
+			)
+		);
 		return;
 	}
 
-	if (!args[0]->IsObject() || (args[0]->ToObject()->InternalFieldCount() < 2) ||
-		(args[0]->ToObject()->GetAlignedPointerFromInternalField(1) == NULL))
+	if (!args[0]->IsObject())
 	{
-		isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Invalid participant object passed to Publisher constructor.")));
+		isolate->ThrowException(
+			Exception::TypeError(
+				String::NewFromUtf8(
+					isolate,
+					"No participant object passed to Publisher constructor."
+				)
+			)
+		);
+		return;
+	}
+
+	auto objectMaybe = args[0]->ToObject(ctx);
+	if (objectMaybe.IsEmpty())
+	{
+		// Pending exception must have held up the assignment
+		return;		
+	}
+
+	Local< Object > participObj = objectMaybe.ToLocalChecked();
+	if
+	(
+		(participObj->InternalFieldCount() < 2) ||
+		(nullptr == participObj->GetAlignedPointerFromInternalField(1))
+	)
+	{
+		isolate->ThrowException(
+			Exception::TypeError(
+				String::NewFromUtf8(
+					isolate,
+					"Invalid participant object passed to Publisher "
+					"constructor."
+				)
+			)
+		);
 		return;
 	}
 
@@ -112,13 +154,16 @@ void PublisherWrap::New(FunctionCallbackInfo<Value> const& args)
 		Maybe< bool > setResult = args.This()->Set(
 			isolate->GetCurrentContext(),
 			String::NewFromUtf8(isolate, "participant"),
-			args[0]
+			participObj
 		);
 		if (!setResult.FromMaybe(false))
 		{
-			// TODO: Throw exception.
+			// Pending exception/termination
+			return;
 		}
-		DomainParticipant *particip = reinterpret_cast<DomainParticipant*>(args[0]->ToObject()->GetAlignedPointerFromInternalField(1));
+		DomainParticipant *particip = reinterpret_cast< DomainParticipant* >(
+			participObj->GetAlignedPointerFromInternalField(1)
+		);
 		PublisherWrap *obj = new PublisherWrap();
         // --------------------------------------------------------------------
 		// At the moment, this DDS publisher wrapper does not support 
@@ -145,10 +190,17 @@ void PublisherWrap::New(FunctionCallbackInfo<Value> const& args)
 		MaybeLocal< Object > resultMaybe = cons->NewInstance(isolate->GetCurrentContext(), argc, argv);
 		if (resultMaybe.IsEmpty())
 		{
-			isolate->ThrowException(Exception::Error(String::NewFromUtf8(isolate,"Could not create instance of Publisher.")));
+			isolate->ThrowException(
+				Exception::Error(
+					String::NewFromUtf8(
+						isolate,
+						"Could not create instance of Publisher."
+					)
+				)
+			);
 			return;
 		}
-		args.GetReturnValue().Set(resultMaybe.FromMaybe(Local< Object >()));
+		args.GetReturnValue().Set(resultMaybe.ToLocalChecked());
 	}
 }
 
