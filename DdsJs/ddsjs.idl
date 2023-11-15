@@ -100,19 +100,26 @@ module DDS {
         long total_count_change;
     };
 
-    enum SampleRejectedStatusKind {
-        NOT_REJECTED,
-        REJECTED_BY_INSTANCE_LIMIT,
-        REJECTED_BY_SAMPLES_LIMIT,
-        REJECTED_BY_SAMPLES_PER_INSTANCE_LIMIT
-    };
-
-    struct SampleRejectedStatus {
-        long                         total_count;
-        long                         total_count_change;
-        SampleRejectedStatusKind     last_reason;
-        InstanceHandle_t             last_instance_handle;
-    };
+    // ------------------------------------------------------------------------
+    // Unfortunately, CoreDX v5 defines a bona-fide C++ enumeration for this,
+    // but does not use it in the corresponding SampleRejectedStatus structure,
+    // which happens to be a type alias to the DDS_SampleRejectedStatusKind
+    // C data structure. So we have to hand-write the conversion routines based
+    // on the CoreDX major version.
+    // enum SampleRejectedStatusKind {
+    //     NOT_REJECTED,
+    //     REJECTED_BY_INSTANCE_LIMIT,
+    //     REJECTED_BY_SAMPLES_LIMIT,
+    //     REJECTED_BY_SAMPLES_PER_INSTANCE_LIMIT
+    // };
+    // 
+    // struct SampleRejectedStatus {
+    //     long                         total_count;
+    //     long                         total_count_change;
+    //     SampleRejectedStatusKind     last_reason;
+    //     InstanceHandle_t             last_instance_handle;
+    // };
+    // ------------------------------------------------------------------------
 
     struct LivelinessLostStatus { 
         long                 total_count;

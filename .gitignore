@@ -1,4 +1,10 @@
-build
-examples/build
-examples/node_modules
-examples/package-lock.json
+/build
+/examples/build
+/examples/node_modules
+/examples/package-lock.json
+/.cache
+/Compiler/**/*.interp
+/.devcontainer/**/*.xz
+/.devcontainer/**/*.tar.gz
+/.devcontainer/**/*.jar
+/.devcontainer/**/*.tgz

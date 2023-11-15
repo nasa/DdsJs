@@ -1,4 +1,4 @@
-// Generated from DdsJsIdl.g4 by ANTLR 4.5.1
+// Generated from DdsJsIdl.g4 by ANTLR 4.9.1
 package gov.nasa.ksc.ddsjs.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class DdsJsIdlParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.5.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -36,33 +36,42 @@ public class DdsJsIdlParser extends Parser {
 		RULE_stringTypeDescription = 19, RULE_sizeDefinition = 20, RULE_primitiveTypeDescription = 21, 
 		RULE_intTypeDescription = 22, RULE_floatTypeDescription = 23, RULE_booleanTypeDescription = 24, 
 		RULE_integerValue = 25;
-	public static final String[] ruleNames = {
-		"translationUnit", "unitContents", "module", "moduleMember", "compilerDirective", 
-		"typeAlias", "typeDescription", "scopedName", "constantDefinition", "constantValue", 
-		"enumDefinition", "enumLiteral", "topicDefinition", "dataStructureDefinition", 
-		"valuetypeDefinition", "memberDefinition", "unionDefinition", "unionCaseDefinition", 
-		"sequenceTypeDescription", "stringTypeDescription", "sizeDefinition", 
-		"primitiveTypeDescription", "intTypeDescription", "floatTypeDescription", 
-		"booleanTypeDescription", "integerValue"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"translationUnit", "unitContents", "module", "moduleMember", "compilerDirective", 
+			"typeAlias", "typeDescription", "scopedName", "constantDefinition", "constantValue", 
+			"enumDefinition", "enumLiteral", "topicDefinition", "dataStructureDefinition", 
+			"valuetypeDefinition", "memberDefinition", "unionDefinition", "unionCaseDefinition", 
+			"sequenceTypeDescription", "stringTypeDescription", "sizeDefinition", 
+			"primitiveTypeDescription", "intTypeDescription", "floatTypeDescription", 
+			"booleanTypeDescription", "integerValue"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "'('", "')'", "'{'", "'='", "'}'", "';'", "'<'", "'>'", "'['", "']'", 
-		"','", "'::'", "':'", "'#include'", "'module'", "'typedef'", "'const'", 
-		"'enum'", "'octet'", "'unsigned'", "'short'", "'long'", "'float'", "'double'", 
-		"'string'", "'sequence'", "'struct'", "'valuetype'", "'union'", "'switch'", 
-		"'case'", "'boolean'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, "OPEN_BRACE", "ASSIGN_OP", "CLOSE_BRACE", "STAT_END", 
-		"OPEN_ANGLE", "CLOSE_ANGLE", "OPEN_SQUARE", "CLOSE_SQUARE", "COMMA_SEP", 
-		"SCOPE_OP", "COLON_SEP", "INCLUDE_CD", "MODULE_KW", "TYPEDEF_KW", "CONST_KW", 
-		"ENUM_KW", "OCTET_KW", "UNSIGNED_KW", "SHORT_KW", "LONG_KW", "FLOAT_KW", 
-		"DOUBLE_KW", "STRING_KW", "SEQUENCE_KW", "STRUCT_KW", "VALUETYPE_KW", 
-		"UNION_KW", "SWITCH_KW", "CASE_KW", "BOOLEAN_KW", "IDENTIFIER", "DECIMAL_VALUE", 
-		"HEXADECIMAL_VALUE", "OCTAL_VALUE", "BINARY_VALUE", "FLOAT_VALUE", "STRING_VALUE", 
-		"BOOLEAN_VALUE", "INCLUDE_FILESPEC", "SL_COMMENT", "ML_COMMENT", "WS"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'('", "')'", "'{'", "'='", "'}'", "';'", "'<'", "'>'", "'['", 
+			"']'", "','", "'::'", "':'", "'#include'", "'module'", "'typedef'", "'const'", 
+			"'enum'", "'octet'", "'unsigned'", "'short'", "'long'", "'float'", "'double'", 
+			"'string'", "'sequence'", "'struct'", "'valuetype'", "'union'", "'switch'", 
+			"'case'", "'boolean'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, null, null, "OPEN_BRACE", "ASSIGN_OP", "CLOSE_BRACE", "STAT_END", 
+			"OPEN_ANGLE", "CLOSE_ANGLE", "OPEN_SQUARE", "CLOSE_SQUARE", "COMMA_SEP", 
+			"SCOPE_OP", "COLON_SEP", "INCLUDE_CD", "MODULE_KW", "TYPEDEF_KW", "CONST_KW", 
+			"ENUM_KW", "OCTET_KW", "UNSIGNED_KW", "SHORT_KW", "LONG_KW", "FLOAT_KW", 
+			"DOUBLE_KW", "STRING_KW", "SEQUENCE_KW", "STRUCT_KW", "VALUETYPE_KW", 
+			"UNION_KW", "SWITCH_KW", "CASE_KW", "BOOLEAN_KW", "IDENTIFIER", "DECIMAL_VALUE", 
+			"HEXADECIMAL_VALUE", "OCTAL_VALUE", "BINARY_VALUE", "FLOAT_VALUE", "STRING_VALUE", 
+			"BOOLEAN_VALUE", "INCLUDE_FILESPEC", "SL_COMMENT", "ML_COMMENT", "WS"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -112,6 +121,7 @@ public class DdsJsIdlParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
 	public static class TranslationUnitContext extends ParserRuleContext {
 		public List<UnitContentsContext> unitContents() {
 			return getRuleContexts(UnitContentsContext.class);
@@ -193,6 +203,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 2, RULE_unitContents);
 		try {
 			setState(59);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case INCLUDE_CD:
 				enterOuterAlt(_localctx, 1);
@@ -226,12 +237,15 @@ public class DdsJsIdlParser extends Parser {
 	public static class ModuleContext extends ParserRuleContext {
 		public TerminalNode MODULE_KW() { return getToken(DdsJsIdlParser.MODULE_KW, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode OPEN_BRACE() { return getToken(DdsJsIdlParser.OPEN_BRACE, 0); }
+		public TerminalNode CLOSE_BRACE() { return getToken(DdsJsIdlParser.CLOSE_BRACE, 0); }
 		public List<ModuleMemberContext> moduleMember() {
 			return getRuleContexts(ModuleMemberContext.class);
 		}
 		public ModuleMemberContext moduleMember(int i) {
 			return getRuleContext(ModuleMemberContext.class,i);
 		}
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
 		public ModuleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -276,6 +290,7 @@ public class DdsJsIdlParser extends Parser {
 			setState(70);
 			match(CLOSE_BRACE);
 			setState(72);
+			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==STAT_END) {
 				{
@@ -335,6 +350,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 6, RULE_moduleMember);
 		try {
 			setState(80);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case STRUCT_KW:
 			case VALUETYPE_KW:
@@ -406,6 +422,7 @@ public class DdsJsIdlParser extends Parser {
 		}
 	}
 	public static class IncludeCompilerDirectiveContext extends CompilerDirectiveContext {
+		public TerminalNode INCLUDE_CD() { return getToken(DdsJsIdlParser.INCLUDE_CD, 0); }
 		public TerminalNode INCLUDE_FILESPEC() { return getToken(DdsJsIdlParser.INCLUDE_FILESPEC, 0); }
 		public IncludeCompilerDirectiveContext(CompilerDirectiveContext ctx) { copyFrom(ctx); }
 		@Override
@@ -459,7 +476,10 @@ public class DdsJsIdlParser extends Parser {
 			return getRuleContext(TypeDescriptionContext.class,0);
 		}
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode OPEN_SQUARE() { return getToken(DdsJsIdlParser.OPEN_SQUARE, 0); }
 		public TerminalNode DECIMAL_VALUE() { return getToken(DdsJsIdlParser.DECIMAL_VALUE, 0); }
+		public TerminalNode CLOSE_SQUARE() { return getToken(DdsJsIdlParser.CLOSE_SQUARE, 0); }
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
 		public ArrayTypedefContext(TypeAliasContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -476,6 +496,7 @@ public class DdsJsIdlParser extends Parser {
 			return getRuleContext(TypeDescriptionContext.class,0);
 		}
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
 		public NonArrayTypedefContext(TypeAliasContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -492,6 +513,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 10, RULE_typeAlias);
 		try {
 			setState(98);
+			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
 				_localctx = new NonArrayTypedefContext(_localctx);
@@ -613,6 +635,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 12, RULE_typeDescription);
 		try {
 			setState(104);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SEQUENCE_KW:
 				_localctx = new SequenceTypedefContext(_localctx);
@@ -684,6 +707,10 @@ public class DdsJsIdlParser extends Parser {
 		public TerminalNode IDENTIFIER(int i) {
 			return getToken(DdsJsIdlParser.IDENTIFIER, i);
 		}
+		public List<TerminalNode> SCOPE_OP() { return getTokens(DdsJsIdlParser.SCOPE_OP); }
+		public TerminalNode SCOPE_OP(int i) {
+			return getToken(DdsJsIdlParser.SCOPE_OP, i);
+		}
 		public RelativeScopedNameContext(ScopedNameContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -695,6 +722,10 @@ public class DdsJsIdlParser extends Parser {
 		}
 	}
 	public static class AbsoluteScopedNameContext extends ScopedNameContext {
+		public List<TerminalNode> SCOPE_OP() { return getTokens(DdsJsIdlParser.SCOPE_OP); }
+		public TerminalNode SCOPE_OP(int i) {
+			return getToken(DdsJsIdlParser.SCOPE_OP, i);
+		}
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
 		public ScopedNameContext scopedName() {
 			return getRuleContext(ScopedNameContext.class,0);
@@ -716,6 +747,7 @@ public class DdsJsIdlParser extends Parser {
 		int _la;
 		try {
 			setState(118);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case IDENTIFIER:
 				_localctx = new RelativeScopedNameContext(_localctx);
@@ -776,9 +808,11 @@ public class DdsJsIdlParser extends Parser {
 			return getRuleContext(TypeDescriptionContext.class,0);
 		}
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode ASSIGN_OP() { return getToken(DdsJsIdlParser.ASSIGN_OP, 0); }
 		public ConstantValueContext constantValue() {
 			return getRuleContext(ConstantValueContext.class,0);
 		}
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
 		public ConstantDefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -850,6 +884,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 18, RULE_constantValue);
 		try {
 			setState(131);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case DECIMAL_VALUE:
 			case HEXADECIMAL_VALUE:
@@ -900,11 +935,18 @@ public class DdsJsIdlParser extends Parser {
 	public static class EnumDefinitionContext extends ParserRuleContext {
 		public TerminalNode ENUM_KW() { return getToken(DdsJsIdlParser.ENUM_KW, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode OPEN_BRACE() { return getToken(DdsJsIdlParser.OPEN_BRACE, 0); }
 		public List<EnumLiteralContext> enumLiteral() {
 			return getRuleContexts(EnumLiteralContext.class);
 		}
 		public EnumLiteralContext enumLiteral(int i) {
 			return getRuleContext(EnumLiteralContext.class,i);
+		}
+		public TerminalNode CLOSE_BRACE() { return getToken(DdsJsIdlParser.CLOSE_BRACE, 0); }
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
+		public List<TerminalNode> COMMA_SEP() { return getTokens(DdsJsIdlParser.COMMA_SEP); }
+		public TerminalNode COMMA_SEP(int i) {
+			return getToken(DdsJsIdlParser.COMMA_SEP, i);
 		}
 		public EnumDefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -981,6 +1023,7 @@ public class DdsJsIdlParser extends Parser {
 	}
 	public static class ManualNumberedContext extends EnumLiteralContext {
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode ASSIGN_OP() { return getToken(DdsJsIdlParser.ASSIGN_OP, 0); }
 		public IntegerValueContext integerValue() {
 			return getRuleContext(IntegerValueContext.class,0);
 		}
@@ -1012,6 +1055,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 22, RULE_enumLiteral);
 		try {
 			setState(151);
+			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				_localctx = new ManualNumberedContext(_localctx);
@@ -1072,6 +1116,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 24, RULE_topicDefinition);
 		try {
 			setState(155);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case STRUCT_KW:
 				enterOuterAlt(_localctx, 1);
@@ -1105,6 +1150,9 @@ public class DdsJsIdlParser extends Parser {
 	public static class DataStructureDefinitionContext extends ParserRuleContext {
 		public TerminalNode STRUCT_KW() { return getToken(DdsJsIdlParser.STRUCT_KW, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode OPEN_BRACE() { return getToken(DdsJsIdlParser.OPEN_BRACE, 0); }
+		public TerminalNode CLOSE_BRACE() { return getToken(DdsJsIdlParser.CLOSE_BRACE, 0); }
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
 		public List<MemberDefinitionContext> memberDefinition() {
 			return getRuleContexts(MemberDefinitionContext.class);
 		}
@@ -1172,6 +1220,10 @@ public class DdsJsIdlParser extends Parser {
 	public static class ValuetypeDefinitionContext extends ParserRuleContext {
 		public TerminalNode VALUETYPE_KW() { return getToken(DdsJsIdlParser.VALUETYPE_KW, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode OPEN_BRACE() { return getToken(DdsJsIdlParser.OPEN_BRACE, 0); }
+		public TerminalNode CLOSE_BRACE() { return getToken(DdsJsIdlParser.CLOSE_BRACE, 0); }
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
+		public TerminalNode COLON_SEP() { return getToken(DdsJsIdlParser.COLON_SEP, 0); }
 		public ScopedNameContext scopedName() {
 			return getRuleContext(ScopedNameContext.class,0);
 		}
@@ -1207,6 +1259,7 @@ public class DdsJsIdlParser extends Parser {
 			setState(169);
 			match(IDENTIFIER);
 			setState(172);
+			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COLON_SEP) {
 				{
@@ -1266,7 +1319,10 @@ public class DdsJsIdlParser extends Parser {
 			return getRuleContext(TypeDescriptionContext.class,0);
 		}
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode OPEN_SQUARE() { return getToken(DdsJsIdlParser.OPEN_SQUARE, 0); }
 		public TerminalNode DECIMAL_VALUE() { return getToken(DdsJsIdlParser.DECIMAL_VALUE, 0); }
+		public TerminalNode CLOSE_SQUARE() { return getToken(DdsJsIdlParser.CLOSE_SQUARE, 0); }
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
 		public ArrayMemberDefinitionContext(MemberDefinitionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1282,6 +1338,7 @@ public class DdsJsIdlParser extends Parser {
 			return getRuleContext(TypeDescriptionContext.class,0);
 		}
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
 		public NonArrayMemberDefinitionContext(MemberDefinitionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1297,9 +1354,12 @@ public class DdsJsIdlParser extends Parser {
 			return getRuleContext(TypeDescriptionContext.class,0);
 		}
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode OPEN_SQUARE() { return getToken(DdsJsIdlParser.OPEN_SQUARE, 0); }
 		public ScopedNameContext scopedName() {
 			return getRuleContext(ScopedNameContext.class,0);
 		}
+		public TerminalNode CLOSE_SQUARE() { return getToken(DdsJsIdlParser.CLOSE_SQUARE, 0); }
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
 		public ConstDimArrayMemberDefinitionContext(MemberDefinitionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1316,6 +1376,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 30, RULE_memberDefinition);
 		try {
 			setState(201);
+			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 			case 1:
 				_localctx = new NonArrayMemberDefinitionContext(_localctx);
@@ -1385,6 +1446,9 @@ public class DdsJsIdlParser extends Parser {
 		public TypeDescriptionContext typeDescription() {
 			return getRuleContext(TypeDescriptionContext.class,0);
 		}
+		public TerminalNode OPEN_BRACE() { return getToken(DdsJsIdlParser.OPEN_BRACE, 0); }
+		public TerminalNode CLOSE_BRACE() { return getToken(DdsJsIdlParser.CLOSE_BRACE, 0); }
+		public TerminalNode STAT_END() { return getToken(DdsJsIdlParser.STAT_END, 0); }
 		public List<UnionCaseDefinitionContext> unionCaseDefinition() {
 			return getRuleContexts(UnionCaseDefinitionContext.class);
 		}
@@ -1460,6 +1524,7 @@ public class DdsJsIdlParser extends Parser {
 	public static class UnionCaseDefinitionContext extends ParserRuleContext {
 		public TerminalNode CASE_KW() { return getToken(DdsJsIdlParser.CASE_KW, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(DdsJsIdlParser.IDENTIFIER, 0); }
+		public TerminalNode COLON_SEP() { return getToken(DdsJsIdlParser.COLON_SEP, 0); }
 		public MemberDefinitionContext memberDefinition() {
 			return getRuleContext(MemberDefinitionContext.class,0);
 		}
@@ -1506,9 +1571,12 @@ public class DdsJsIdlParser extends Parser {
 
 	public static class SequenceTypeDescriptionContext extends ParserRuleContext {
 		public TerminalNode SEQUENCE_KW() { return getToken(DdsJsIdlParser.SEQUENCE_KW, 0); }
+		public TerminalNode OPEN_ANGLE() { return getToken(DdsJsIdlParser.OPEN_ANGLE, 0); }
 		public TypeDescriptionContext typeDescription() {
 			return getRuleContext(TypeDescriptionContext.class,0);
 		}
+		public TerminalNode CLOSE_ANGLE() { return getToken(DdsJsIdlParser.CLOSE_ANGLE, 0); }
+		public TerminalNode COMMA_SEP() { return getToken(DdsJsIdlParser.COMMA_SEP, 0); }
 		public SizeDefinitionContext sizeDefinition() {
 			return getRuleContext(SizeDefinitionContext.class,0);
 		}
@@ -1540,6 +1608,7 @@ public class DdsJsIdlParser extends Parser {
 			setState(225);
 			typeDescription();
 			setState(228);
+			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COMMA_SEP) {
 				{
@@ -1567,9 +1636,11 @@ public class DdsJsIdlParser extends Parser {
 
 	public static class StringTypeDescriptionContext extends ParserRuleContext {
 		public TerminalNode STRING_KW() { return getToken(DdsJsIdlParser.STRING_KW, 0); }
+		public TerminalNode OPEN_ANGLE() { return getToken(DdsJsIdlParser.OPEN_ANGLE, 0); }
 		public SizeDefinitionContext sizeDefinition() {
 			return getRuleContext(SizeDefinitionContext.class,0);
 		}
+		public TerminalNode CLOSE_ANGLE() { return getToken(DdsJsIdlParser.CLOSE_ANGLE, 0); }
 		public StringTypeDescriptionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1594,6 +1665,7 @@ public class DdsJsIdlParser extends Parser {
 			setState(232);
 			match(STRING_KW);
 			setState(237);
+			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==OPEN_ANGLE) {
 				{
@@ -1662,6 +1734,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 40, RULE_sizeDefinition);
 		try {
 			setState(241);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SCOPE_OP:
 			case IDENTIFIER:
@@ -1724,6 +1797,7 @@ public class DdsJsIdlParser extends Parser {
 		enterRule(_localctx, 42, RULE_primitiveTypeDescription);
 		try {
 			setState(246);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case OCTET_KW:
 			case UNSIGNED_KW:
@@ -1792,6 +1866,7 @@ public class DdsJsIdlParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(253);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case OCTET_KW:
 				{
@@ -1804,6 +1879,7 @@ public class DdsJsIdlParser extends Parser {
 			case LONG_KW:
 				{
 				setState(250);
+				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==UNSIGNED_KW) {
 					{
@@ -1816,7 +1892,10 @@ public class DdsJsIdlParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==SHORT_KW || _la==LONG_KW) ) {
 				_errHandler.recoverInline(this);
-				} else {
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
 					consume();
 				}
 				}
@@ -1865,7 +1944,10 @@ public class DdsJsIdlParser extends Parser {
 			_la = _input.LA(1);
 			if ( !(_la==FLOAT_KW || _la==DOUBLE_KW) ) {
 			_errHandler.recoverInline(this);
-			} else {
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
 				consume();
 			}
 			}
@@ -1948,7 +2030,10 @@ public class DdsJsIdlParser extends Parser {
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << DECIMAL_VALUE) | (1L << HEXADECIMAL_VALUE) | (1L << OCTAL_VALUE) | (1L << BINARY_VALUE))) != 0)) ) {
 			_errHandler.recoverInline(this);
-			} else {
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
 				consume();
 			}
 			}
@@ -1965,7 +2050,7 @@ public class DdsJsIdlParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3.\u0108\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3.\u0108\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -1986,42 +2071,42 @@ public class DdsJsIdlParser extends Parser {
 		"\26\5\26\u00f4\n\26\3\27\3\27\3\27\5\27\u00f9\n\27\3\30\3\30\5\30\u00fd"+
 		"\n\30\3\30\5\30\u0100\n\30\3\31\3\31\3\32\3\32\3\33\3\33\3\33\2\2\34\2"+
 		"\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2\5\3\2\27\30"+
-		"\3\2\31\32\3\2$\'\u010f\2\67\3\2\2\2\4=\3\2\2\2\6?\3\2\2\2\bR\3\2\2\2"+
-		"\nT\3\2\2\2\fd\3\2\2\2\16j\3\2\2\2\20x\3\2\2\2\22z\3\2\2\2\24\u0085\3"+
-		"\2\2\2\26\u0087\3\2\2\2\30\u0099\3\2\2\2\32\u009d\3\2\2\2\34\u009f\3\2"+
-		"\2\2\36\u00aa\3\2\2\2 \u00cb\3\2\2\2\"\u00cd\3\2\2\2$\u00dc\3\2\2\2&\u00e1"+
-		"\3\2\2\2(\u00ea\3\2\2\2*\u00f3\3\2\2\2,\u00f8\3\2\2\2.\u00ff\3\2\2\2\60"+
-		"\u0101\3\2\2\2\62\u0103\3\2\2\2\64\u0105\3\2\2\2\668\5\4\3\2\67\66\3\2"+
-		"\2\289\3\2\2\29\67\3\2\2\29:\3\2\2\2:\3\3\2\2\2;>\5\n\6\2<>\5\6\4\2=;"+
-		"\3\2\2\2=<\3\2\2\2>\5\3\2\2\2?@\7\21\2\2@A\7#\2\2AE\7\5\2\2BD\5\b\5\2"+
-		"CB\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2\2FH\3\2\2\2GE\3\2\2\2HJ\7\7\2\2"+
-		"IK\7\b\2\2JI\3\2\2\2JK\3\2\2\2K\7\3\2\2\2LS\5\32\16\2MS\5\f\7\2NS\5\22"+
-		"\n\2OS\5\26\f\2PS\5\"\22\2QS\5\6\4\2RL\3\2\2\2RM\3\2\2\2RN\3\2\2\2RO\3"+
-		"\2\2\2RP\3\2\2\2RQ\3\2\2\2S\t\3\2\2\2TU\7\20\2\2UV\7+\2\2V\13\3\2\2\2"+
-		"WX\7\22\2\2XY\5\16\b\2YZ\7#\2\2Z[\7\b\2\2[e\3\2\2\2\\]\7\22\2\2]^\5\16"+
-		"\b\2^_\7#\2\2_`\7\13\2\2`a\7$\2\2ab\7\f\2\2bc\7\b\2\2ce\3\2\2\2dW\3\2"+
-		"\2\2d\\\3\2\2\2e\r\3\2\2\2fk\5&\24\2gk\5(\25\2hk\5,\27\2ik\5\20\t\2jf"+
-		"\3\2\2\2jg\3\2\2\2jh\3\2\2\2ji\3\2\2\2k\17\3\2\2\2lq\7#\2\2mn\7\16\2\2"+
-		"np\7#\2\2om\3\2\2\2ps\3\2\2\2qo\3\2\2\2qr\3\2\2\2ry\3\2\2\2sq\3\2\2\2"+
-		"tu\7\16\2\2uv\7#\2\2vw\7\16\2\2wy\5\20\t\2xl\3\2\2\2xt\3\2\2\2y\21\3\2"+
-		"\2\2z{\7\23\2\2{|\5\16\b\2|}\7#\2\2}~\7\6\2\2~\177\5\24\13\2\177\u0080"+
-		"\7\b\2\2\u0080\23\3\2\2\2\u0081\u0086\5\64\33\2\u0082\u0086\7(\2\2\u0083"+
-		"\u0086\7)\2\2\u0084\u0086\7*\2\2\u0085\u0081\3\2\2\2\u0085\u0082\3\2\2"+
-		"\2\u0085\u0083\3\2\2\2\u0085\u0084\3\2\2\2\u0086\25\3\2\2\2\u0087\u0088"+
-		"\7\24\2\2\u0088\u0089\7#\2\2\u0089\u008a\7\5\2\2\u008a\u008f\5\30\r\2"+
-		"\u008b\u008c\7\r\2\2\u008c\u008e\5\30\r\2\u008d\u008b\3\2\2\2\u008e\u0091"+
-		"\3\2\2\2\u008f\u008d\3\2\2\2\u008f\u0090\3\2\2\2\u0090\u0092\3\2\2\2\u0091"+
-		"\u008f\3\2\2\2\u0092\u0093\7\7\2\2\u0093\u0094\7\b\2\2\u0094\27\3\2\2"+
-		"\2\u0095\u0096\7#\2\2\u0096\u0097\7\6\2\2\u0097\u009a\5\64\33\2\u0098"+
-		"\u009a\7#\2\2\u0099\u0095\3\2\2\2\u0099\u0098\3\2\2\2\u009a\31\3\2\2\2"+
-		"\u009b\u009e\5\34\17\2\u009c\u009e\5\36\20\2\u009d\u009b\3\2\2\2\u009d"+
-		"\u009c\3\2\2\2\u009e\33\3\2\2\2\u009f\u00a0\7\35\2\2\u00a0\u00a1\7#\2"+
-		"\2\u00a1\u00a3\7\5\2\2\u00a2\u00a4\5 \21\2\u00a3\u00a2\3\2\2\2\u00a4\u00a5"+
-		"\3\2\2\2\u00a5\u00a3\3\2\2\2\u00a5\u00a6\3\2\2\2\u00a6\u00a7\3\2\2\2\u00a7"+
-		"\u00a8\7\7\2\2\u00a8\u00a9\7\b\2\2\u00a9\35\3\2\2\2\u00aa\u00ab\7\36\2"+
-		"\2\u00ab\u00ae\7#\2\2\u00ac\u00ad\7\17\2\2\u00ad\u00af\5\20\t\2\u00ae"+
-		"\u00ac\3\2\2\2\u00ae\u00af\3\2\2\2\u00af\u00b0\3\2\2\2\u00b0\u00b2\7\5"+
-		"\2\2\u00b1\u00b3\5 \21\2\u00b2\u00b1\3\2\2\2\u00b3\u00b4\3\2\2\2\u00b4"+
+		"\3\2\31\32\3\2$\'\2\u010f\2\67\3\2\2\2\4=\3\2\2\2\6?\3\2\2\2\bR\3\2\2"+
+		"\2\nT\3\2\2\2\fd\3\2\2\2\16j\3\2\2\2\20x\3\2\2\2\22z\3\2\2\2\24\u0085"+
+		"\3\2\2\2\26\u0087\3\2\2\2\30\u0099\3\2\2\2\32\u009d\3\2\2\2\34\u009f\3"+
+		"\2\2\2\36\u00aa\3\2\2\2 \u00cb\3\2\2\2\"\u00cd\3\2\2\2$\u00dc\3\2\2\2"+
+		"&\u00e1\3\2\2\2(\u00ea\3\2\2\2*\u00f3\3\2\2\2,\u00f8\3\2\2\2.\u00ff\3"+
+		"\2\2\2\60\u0101\3\2\2\2\62\u0103\3\2\2\2\64\u0105\3\2\2\2\668\5\4\3\2"+
+		"\67\66\3\2\2\289\3\2\2\29\67\3\2\2\29:\3\2\2\2:\3\3\2\2\2;>\5\n\6\2<>"+
+		"\5\6\4\2=;\3\2\2\2=<\3\2\2\2>\5\3\2\2\2?@\7\21\2\2@A\7#\2\2AE\7\5\2\2"+
+		"BD\5\b\5\2CB\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2\2FH\3\2\2\2GE\3\2\2\2"+
+		"HJ\7\7\2\2IK\7\b\2\2JI\3\2\2\2JK\3\2\2\2K\7\3\2\2\2LS\5\32\16\2MS\5\f"+
+		"\7\2NS\5\22\n\2OS\5\26\f\2PS\5\"\22\2QS\5\6\4\2RL\3\2\2\2RM\3\2\2\2RN"+
+		"\3\2\2\2RO\3\2\2\2RP\3\2\2\2RQ\3\2\2\2S\t\3\2\2\2TU\7\20\2\2UV\7+\2\2"+
+		"V\13\3\2\2\2WX\7\22\2\2XY\5\16\b\2YZ\7#\2\2Z[\7\b\2\2[e\3\2\2\2\\]\7\22"+
+		"\2\2]^\5\16\b\2^_\7#\2\2_`\7\13\2\2`a\7$\2\2ab\7\f\2\2bc\7\b\2\2ce\3\2"+
+		"\2\2dW\3\2\2\2d\\\3\2\2\2e\r\3\2\2\2fk\5&\24\2gk\5(\25\2hk\5,\27\2ik\5"+
+		"\20\t\2jf\3\2\2\2jg\3\2\2\2jh\3\2\2\2ji\3\2\2\2k\17\3\2\2\2lq\7#\2\2m"+
+		"n\7\16\2\2np\7#\2\2om\3\2\2\2ps\3\2\2\2qo\3\2\2\2qr\3\2\2\2ry\3\2\2\2"+
+		"sq\3\2\2\2tu\7\16\2\2uv\7#\2\2vw\7\16\2\2wy\5\20\t\2xl\3\2\2\2xt\3\2\2"+
+		"\2y\21\3\2\2\2z{\7\23\2\2{|\5\16\b\2|}\7#\2\2}~\7\6\2\2~\177\5\24\13\2"+
+		"\177\u0080\7\b\2\2\u0080\23\3\2\2\2\u0081\u0086\5\64\33\2\u0082\u0086"+
+		"\7(\2\2\u0083\u0086\7)\2\2\u0084\u0086\7*\2\2\u0085\u0081\3\2\2\2\u0085"+
+		"\u0082\3\2\2\2\u0085\u0083\3\2\2\2\u0085\u0084\3\2\2\2\u0086\25\3\2\2"+
+		"\2\u0087\u0088\7\24\2\2\u0088\u0089\7#\2\2\u0089\u008a\7\5\2\2\u008a\u008f"+
+		"\5\30\r\2\u008b\u008c\7\r\2\2\u008c\u008e\5\30\r\2\u008d\u008b\3\2\2\2"+
+		"\u008e\u0091\3\2\2\2\u008f\u008d\3\2\2\2\u008f\u0090\3\2\2\2\u0090\u0092"+
+		"\3\2\2\2\u0091\u008f\3\2\2\2\u0092\u0093\7\7\2\2\u0093\u0094\7\b\2\2\u0094"+
+		"\27\3\2\2\2\u0095\u0096\7#\2\2\u0096\u0097\7\6\2\2\u0097\u009a\5\64\33"+
+		"\2\u0098\u009a\7#\2\2\u0099\u0095\3\2\2\2\u0099\u0098\3\2\2\2\u009a\31"+
+		"\3\2\2\2\u009b\u009e\5\34\17\2\u009c\u009e\5\36\20\2\u009d\u009b\3\2\2"+
+		"\2\u009d\u009c\3\2\2\2\u009e\33\3\2\2\2\u009f\u00a0\7\35\2\2\u00a0\u00a1"+
+		"\7#\2\2\u00a1\u00a3\7\5\2\2\u00a2\u00a4\5 \21\2\u00a3\u00a2\3\2\2\2\u00a4"+
+		"\u00a5\3\2\2\2\u00a5\u00a3\3\2\2\2\u00a5\u00a6\3\2\2\2\u00a6\u00a7\3\2"+
+		"\2\2\u00a7\u00a8\7\7\2\2\u00a8\u00a9\7\b\2\2\u00a9\35\3\2\2\2\u00aa\u00ab"+
+		"\7\36\2\2\u00ab\u00ae\7#\2\2\u00ac\u00ad\7\17\2\2\u00ad\u00af\5\20\t\2"+
+		"\u00ae\u00ac\3\2\2\2\u00ae\u00af\3\2\2\2\u00af\u00b0\3\2\2\2\u00b0\u00b2"+
+		"\7\5\2\2\u00b1\u00b3\5 \21\2\u00b2\u00b1\3\2\2\2\u00b3\u00b4\3\2\2\2\u00b4"+
 		"\u00b2\3\2\2\2\u00b4\u00b5\3\2\2\2\u00b5\u00b6\3\2\2\2\u00b6\u00b7\7\7"+
 		"\2\2\u00b7\u00b8\7\b\2\2\u00b8\37\3\2\2\2\u00b9\u00ba\5\16\b\2\u00ba\u00bb"+
 		"\7#\2\2\u00bb\u00bc\7\b\2\2\u00bc\u00cc\3\2\2\2\u00bd\u00be\5\16\b\2\u00be"+

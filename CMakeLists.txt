@@ -10,7 +10,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(
     DdsJs
-    VERSION 1.1.0
+    VERSION 1.2.1
     LANGUAGES
         CXX
         Java
@@ -49,6 +49,16 @@ find_package(${WITH_DDS} REQUIRED COMPONENTS ${DDS_PROVIDER_COMP})
 find_package(NodeJs REQUIRED)
 find_package(ANTLR4 REQUIRED)
 find_package(CommonsCLI REQUIRED)
+if (IS_SYMLINK ${COMMONS_CLI_JAR})
+    message(STATUS "Need to resolve CommonsCLI JAR symlink.")
+    file(READ_SYMLINK "${COMMONS_CLI_JAR}" COMMONS_CLI_JAR_RESOLVED)
+    if (NOT IS_ABSOLUTE "${COMMONS_CLI_JAR_RESOLVED}")
+        get_filename_component(COMMONS_CLI_JAR_DIR "${COMMONS_CLI_JAR}" DIRECTORY)
+        set(COMMONS_CLI_JAR_RESOLVED "${COMMONS_CLI_JAR_DIR}/${COMMONS_CLI_JAR_RESOLVED}")
+    endif()
+    set(COMMONS_CLI_JAR "${COMMONS_CLI_JAR_RESOLVED}" CACHE FILEPATH "Commons CLI JAR file" FORCE)
+    message(STATUS "CommonsCLI JAR symlink resolved to: ${COMMONS_CLI_JAR}")
+endif()
 find_package(ST REQUIRED)
 
 get_filename_component(ANTLR4_JAR_FILE ${ANTLR4_JAR} NAME)
@@ -279,6 +289,11 @@ list(APPEND DDSJS_RUNTIME_SOURCES
     "DdsJs/SubscriberWrap.cpp"
     "DdsJs/TypeUtility.cpp"
 )
+if (WITH_DDS STREQUAL "CoreDX")
+    list(APPEND DDSJS_RUNTIME_SOURCES
+        "DdsJs/coredx_missing.cpp"
+    )
+endif (WITH_DDS STREQUAL "CoreDX")
 add_custom_command(
     OUTPUT
         "${PROJECT_SOURCE_DIR}/DdsJs/ddsjs_base.cpp"
@@ -315,15 +330,15 @@ add_custom_command(
     WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/DdsJs"
     COMMENT "Generating DDS JS Base from IDL File"
 )
-add_library(DdsJsRuntime SHARED
+add_library(DdsJsRuntime STATIC
     ${DDSJS_RUNTIME_SOURCES}
 )
 add_dependencies(DdsJsRuntime ddsjs_compiler)
 target_include_directories(DdsJsRuntime
     PRIVATE
         "${PROJECT_SOURCE_DIR}/DdsJs"
+	"${NODEJS_INCLUDE_DIR}"
     PUBLIC
-        ${NODEJS_INCLUDE_DIR}
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
         $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
         $<INSTALL_INTERFACE:include>
@@ -341,8 +356,7 @@ target_compile_features(DdsJsRuntime
 set_target_properties(
     DdsJsRuntime
     PROPERTIES
-        SOVERSION "0"
-        VERSION ${PROJECT_VERSION}
+        POSITION_INDEPENDENT_CODE True
 )
 target_link_libraries(DdsJsRuntime ${WITH_DDS}::${DDS_PROVIDER_COMP})
 ## ----------------------------------------------------------------------------
@@ -351,7 +365,7 @@ target_link_libraries(DdsJsRuntime ${WITH_DDS}::${DDS_PROVIDER_COMP})
 install(
     TARGETS DdsJsRuntime
     EXPORT DdsJsTargets
-    COMPONENT Bin
+    COMPONENT Dev
     LIBRARY DESTINATION "lib"
     INCLUDES DESTINATION "include"
 )
@@ -455,7 +469,7 @@ install(
 
 string(TOLOWER ${PROJECT_NAME} CPACK_PACKAGE_NAME)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${CPACK_PACKAGE_NAME} - Compiler and runtime to integrate DDS into NodeJS")
-set(CPACK_PACKAGE_VENDOR "UBR3-KSC-NASA")
+set(CPACK_PACKAGE_VENDOR "UB-E-KSC-NASA")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})

@@ -8,6 +8,8 @@
 #include <sstream>
 #include <node.h>
 
+#include <DdsJs/dds_provider.h>
+
 #include "ddsjs.hh"
 #include "DomainParticipantWrap.hh"
 #include "PublisherWrap.hh"
@@ -32,22 +34,6 @@ using DDS::DomainParticipantQos;
 using DDS::DomainParticipantFactory;
 using DDS::ReturnCode_t;
 using DDS::DomainParticipantFactoryQos;
-
-namespace DDS {
-
-/*
- * Inclusion of C-based constant values in the DDS C++ namespace.
- */
-const SampleRejectedStatusKind NOT_REJECTED = DDS_NOT_REJECTED;
-const SampleRejectedStatusKind REJECTED_BY_INSTANCE_LIMIT = DDS_REJECTED_BY_INSTANCE_LIMIT;
-const SampleRejectedStatusKind REJECTED_BY_SAMPLES_LIMIT = DDS_REJECTED_BY_SAMPLES_LIMIT;
-const SampleRejectedStatusKind REJECTED_BY_SAMPLES_PER_INSTANCE_LIMIT = DDS_REJECTED_BY_SAMPLES_PER_INSTANCE_LIMIT;
-const ReturnCode_t RETCODE_ILLEGAL_OPERATION = 12;
-const int TIME_INVALID_SEC = -1;
-const unsigned int TIME_INVALID_NSEC = 0xffffffff;
-const QosPolicyId_t INVALID_QOS_POLICY_ID = 0;
-
-} // end namespace DDS
 
 namespace DdsJs {
 
@@ -189,6 +175,9 @@ void InitAll(Local<Object> exports)
 	Local< String > ddsFieldName = String::NewFromUtf8(isolate, "DDS");
 	
 	::DDS::InitAll(exports);
+#if (DDS_PROVIDER == DDS_PROVIDER_COREDX)
+    ::DDS::CoreDxMissingInitAll(exports);
+#endif /* defined(DDS_PROVIDER_COREDX) */
 	if ((fieldMaybe = exports->Get(ctx, ddsFieldName)).IsEmpty())
 	{
 		isolate->ThrowException(Exception::Error(String::NewFromUtf8(isolate, "Could not initialize DDS JS")));
