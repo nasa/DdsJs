@@ -75,10 +75,10 @@ version 1.2, and using CoreDX DDS, with all JARs installed in `/usr/local/lib`, 
 following command (assuming the other prerequisites are met, and the command is being run from the build directory):
 
     cmake -DCMAKE_BUILD_TYPE=Release \
-          -DANTLR_VERSION=4.5 \
-          -DCOMMONS_CLI_VERSION=1.2 \
-          -DST_VERSION=4.0.8 \
-          -DNODEJS_VERSION=4.2.4 \
+          -DANTLR_VERSION=<ANTLR Version> \
+          -DCOMMONS_CLI_VERSION=<Commons CLI Version> \
+          -DST_VERSION=<StringTemplate Version> \
+          -DNODEJS_VERSION=<NodeJS Version> \
           -DWITH_DDS=CoreDX \
           ..
 
@@ -89,10 +89,10 @@ As of this writing, **DDS.js** works with the following package versions:
 
 | Package  | Version  |
 | -------- | -------- |
-| ANTLR  | 4.5.1  |
-| Commons CLI  | 1.3.1  |
+| ANTLR  | 4.9.1  |
+| Commons CLI  | 1.4  |
 | StringTemplate  | 4.0.8  |
-| NodeJS  | 8.11.4  |
+| NodeJS  | 12.19.0  |
 
 ## Building
 
