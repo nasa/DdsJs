@@ -10,7 +10,15 @@ adapting layer.
 
 ## Prerequisites
 
-1. Node.js (http://www.nodejs.org). Any NodeJS version starting with major/minor version 12.19.
+1. Node.js (http://www.nodejs.org). Any NodeJS version starting with major version 16.
+
+> [!NOTE]
+> Although add-ons produced by this development kit are able to run under older
+> versions of NodeJS, it requires at least NodeJS v16 to build. The add-ons it
+> produces require Node-API version 6 or greater. Refer to the
+> [Node-API Version Matrix](https://nodejs.org/docs/latest/api/n-api.html#node-api-version-matrix)
+> for information regarding what versions of the NodeJS runtime are able to use
+> add-ons created using **DDS.js**.
 
 ## Packaging
 
@@ -249,7 +257,7 @@ dependency. The example also includes three (3) development time dependencies:
 ### Example Main Entry Point
 
 The example's main entry point in the `index.js` file implements logic that
-verifies the caller is using a proper version of NodeJS (based on the N-API
+verifies the caller is using a proper version of NodeJS (based on the Node-API
 version offered by the calling NodeJS runtime), and if it does it loads and
 returns the top-level references of the C++ add-on.
 
@@ -392,8 +400,8 @@ command is issued.
 
     npm install
 
-**CMake-js** can then download the required **NodeJs** and **N-API** supporting
-libraries and headers:
+**CMake-js** can then download the required **NodeJs** and **Node-API**
+supporting libraries and headers:
 
     npm run cmake-js -- -r node -v <target NodeJS version> install
 
