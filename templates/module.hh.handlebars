@@ -1,0 +1,39 @@
+/**
+ * \file {{headerFile.headerFileName}}
+ * \brief Contains the definition of the \c {{name}} class.
+ * \note Automatically-generated code.
+ * \date {{headerFile.createDate}}
+ */
+
+#ifndef {{headerFile.includeGuard}}
+#define {{headerFile.includeGuard}}
+
+{{#if providerHeader}}
+//
+// DDS Provider Header
+#include <{{providerHeader}}>
+{{/if}}
+
+//
+// Library Headers
+#include <napi.h>
+#include <DdsJs/ddsjs.hh>
+
+{{#each namespaceStack}}
+namespace {{this}}
+{
+
+{{/each}}
+class {{name}}
+{
+public:
+    static ::Napi::Object Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg);
+};
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{this}}
+
+{{/itemsInReverse}}
+#endif /* !{{headerFile.includeGuard}} */
+
+// vim: set ts=4 sw=4 expandtab:

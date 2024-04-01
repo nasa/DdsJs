@@ -1,0 +1,486 @@
+/**
+ * @brief Contains the type definitions for the `{{moduleName}}` module.
+ * @note Automatically-generated code.
+ * @date {{createDate}}
+ */
+
+export declare namespace DDS {
+
+  // ==========================================================================
+  // ██████╗  █████╗ ███████╗██╗ ██████╗███████╗
+  // ██╔══██╗██╔══██╗██╔════╝██║██╔════╝██╔════╝
+  // ██████╔╝███████║███████╗██║██║     ███████╗
+  // ██╔══██╗██╔══██║╚════██║██║██║     ╚════██║
+  // ██████╔╝██║  ██║███████║██║╚██████╗███████║
+  // ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝ ╚═════╝╚══════╝
+  // ==========================================================================
+  type InstanceHandle = BigInt;
+
+  type QosPolicyId = number;
+
+  class BuiltinTopicKey {
+    value: number[];
+  }
+
+  type DomainId = number;
+
+  class Duration { 
+    sec: number;
+    nanosec: number;
+  }
+
+  type InstanceStateKind = number;
+
+  class QosPolicyCount {
+    policy_id: QosPolicyId;
+    count: number;
+  }
+
+  type SampleStateKind = number;
+
+  type StatusMask = number;
+
+  class Time { 
+    sec: number;
+    nanosec: number;
+  }
+
+  type ViewStateKind = number;
+
+  // ==========================================================================
+  //  ██████╗  ██████╗ ███████╗
+  // ██╔═══██╗██╔═══██╗██╔════╝
+  // ██║   ██║██║   ██║███████╗
+  // ██║▄▄ ██║██║   ██║╚════██║
+  // ╚██████╔╝╚██████╔╝███████║
+  //  ╚══▀▀═╝  ╚═════╝ ╚══════╝
+  // ==========================================================================
+  class DeadlineQosPolicy {
+    period: Duration;
+  }
+
+  class LatencyBudgetQosPolicy {
+    period: Duration;
+  }
+
+  const DestinationOrderQosPolicyKind: {
+    readonly BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS: 0;
+    readonly BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS: 1;
+  };
+
+  type DestinationOrderQosPolicyKindMnemonicValue = typeof DestinationOrderQosPolicyKind[keyof typeof DestinationOrderQosPolicyKind];
+
+  class DestinationOrderQosPolicy {
+    kind: DestinationOrderQosPolicyKindMnemonicValue;
+  }
+
+  const DurabilityQosPolicyKind: {
+    readonly VOLATILE_DURABILITY_QOS: 0;
+    readonly TRANSIENT_LOCAL_DURABILITY_QOS: 1;
+    readonly TRANSIENT_DURABILITY_QOS: 2;
+    readonly PERSISTENT_DURABILITY_QOS: 3;
+  };
+
+  type DurabilityQosPolicyKindMnemonicValue = typeof DurabilityQosPolicyKind[keyof typeof DurabilityQosPolicyKind];
+
+  class DurabilityQosPolicy {
+    kind: DurabilityQosPolicyKindMnemonicValue;
+  }
+
+  class GroupDataQosPolicy {
+    value: number[];
+  }
+
+  const HistoryQosPolicyKind: {
+    readonly KEEP_LAST_HISTORY_QOS: 0;
+    readonly KEEP_ALL_HISTORY_QOS: 1;
+  }
+
+  type HistoryQosPolicyKindMnemonicValue = typeof HistoryQosPolicyKind[keyof typeof HistoryQosPolicyKind];
+
+  class HistoryQosPolicy {
+    kind: HistoryQosPolicyKindMnemonicValue;
+    depth: number;
+  }
+
+  class DurabilityServiceQosPolicy {
+    service_cleanup_delay: Duration;
+    history_kind: HistoryQosPolicyKindMnemonicValue;
+    history_depth: number;
+    max_samples: number;
+    max_instances: number;
+    max_samples_per_instance: number;
+  }
+
+  class EntityFactoryQosPolicy {
+    autoenable_created_entities: boolean;
+  }
+
+  class LifespanQosPolicy {
+    duration: Duration;
+  }
+
+  const LivelinessQosPolicyKind: {
+    readonly AUTOMATIC_LIVELINESS_QOS: 0;
+    readonly MANUAL_BY_PARTICIPANT_LIVELINESS_QOS: 1;
+    readonly MANUAL_BY_TOPIC_LIVELINESS_QOS: 2;
+  };
+
+  type LivelinessQosPolicyKindMnemonicValue = typeof LivelinessQosPolicyKind[keyof typeof LivelinessQosPolicyKind];
+
+  class LivelinessQosPolicy {
+    kind: LivelinessQosPolicyKindMnemonicValue;
+    lease_duration: Duration;
+  }
+
+  const OwnershipQosPolicyKind: {
+    readonly SHARED_OWNERSHIP_QOS: 0;
+    readonly EXCLUSIVE_OWNERSHIP_QOS: 1;
+  };
+  
+  type OwnershipQosPolicyKindMnemonicValue = typeof OwnershipQosPolicyKind[keyof typeof OwnershipQosPolicyKind];
+
+  class OwnershipQosPolicy {
+    kind: OwnershipQosPolicyKindMnemonicValue;
+  }
+
+  class OwnershipStrengthQosPolicy {
+    value: number;
+  }
+
+  class PartitionQosPolicy {
+    name: string[];
+  }
+
+  const PresentationQosPolicyAccessScopeKind: {
+    readonly INSTANCE_PRESENTATION_QOS: 0;
+    readonly TOPIC_PRESENTATION_QOS: 1;
+    readonly GROUP_PRESENTATION_QOS: 2;
+  };
+  
+  type PresentationQosPolicyAccessScopeKindMnemonicValue = typeof PresentationQosPolicyAccessScopeKind[keyof typeof PresentationQosPolicyAccessScopeKind];
+
+  class PresentationQosPolicy {
+    access_scope: PresentationQosPolicyAccessScopeKindMnemonicValue;
+    coherent_access: boolean;
+    ordered_access: boolean;
+  }
+
+  class ReaderDataLifecycleQosPolicy {
+    autopurge_nowriter_samples_delay: Duration;
+    autopurge_disposed_samples_delay: Duration;
+  }
+
+  const ReliabilityQosPolicyKind: {
+    readonly BEST_EFFORT_RELIABILITY_QOS: 0;
+    readonly RELIABLE_RELIABILITY_QOS: 1;
+  };
+  
+  type ReliabilityQosPolicyKindMnemonicValue = typeof ReliabilityQosPolicyKind[keyof typeof ReliabilityQosPolicyKind];
+
+  class ReliabilityQosPolicy {
+    kind: ReliabilityQosPolicyKindMnemonicValue;
+    max_blocking_time: Duration;
+  }
+
+  class ResourceLimitsQosPolicy {
+    max_samples: number;
+    max_instances: number;
+    max_samples_per_instance: number;
+  }
+
+  class TimeBasedFilterQosPolicy {
+    minimum_separation: Duration;
+  }
+
+  class TopicDataQosPolicy {
+    value: number[];
+  }
+
+  class TransportPriorityQosPolicy {
+    value: number;
+  }
+
+  class UserDataQosPolicy {
+    value: number[];
+  }
+
+  class WriterDataLifecycleQosPolicy {
+    autodispose_unregistered_instances: boolean;
+  }
+
+  class DataReaderQos {
+    durability: DurabilityQosPolicy;
+    deadline: DeadlineQosPolicy;
+    latency_budget: LatencyBudgetQosPolicy;
+    liveliness: LivelinessQosPolicy;
+    reliability: ReliabilityQosPolicy;
+    destination_order: DestinationOrderQosPolicy;
+    history: HistoryQosPolicy;
+    resource_limits: ResourceLimitsQosPolicy;
+    user_data: UserDataQosPolicy;
+    ownership: OwnershipQosPolicy;
+    time_based_filter: TimeBasedFilterQosPolicy;
+    reader_data_lifecycle: ReaderDataLifecycleQosPolicy;
+  }
+
+  class DataWriterQos {
+    durability: DurabilityQosPolicy;
+    durability_service: DurabilityServiceQosPolicy;
+    deadline: DeadlineQosPolicy;
+    latency_budget: LatencyBudgetQosPolicy;
+    liveliness: LivelinessQosPolicy;
+    reliability: ReliabilityQosPolicy;
+    destination_order: DestinationOrderQosPolicy;
+    history: HistoryQosPolicy;
+    resource_limits: ResourceLimitsQosPolicy;
+    transport_priority: TransportPriorityQosPolicy;
+    lifespan: LifespanQosPolicy;
+    user_data: UserDataQosPolicy;
+    ownership: OwnershipQosPolicy;
+    ownership_strength: OwnershipStrengthQosPolicy;
+    writer_data_lifecycle: WriterDataLifecycleQosPolicy;
+  }
+
+  class DomainParticipantFactoryQos {
+    entity_factory: EntityFactoryQosPolicy;
+  }
+
+  class DomainParticipantQos {
+    user_data: UserDataQosPolicy;
+    entity_factory: EntityFactoryQosPolicy;
+  }
+
+  class PublisherQos {
+    presentation: PresentationQosPolicy;
+    partition: PartitionQosPolicy;
+    group_data: GroupDataQosPolicy;
+    entity_factory: EntityFactoryQosPolicy;
+  }
+
+  class SubscriberQos {
+    presentation: PresentationQosPolicy;
+    partition: PartitionQosPolicy;
+    group_data: GroupDataQosPolicy;
+    entity_factory: EntityFactoryQosPolicy;
+  }
+
+  class TopicQos {
+    topic_data: TopicDataQosPolicy;
+    durability: DurabilityQosPolicy;
+    durability_service: DurabilityServiceQosPolicy;
+    deadline: DeadlineQosPolicy;
+    latency_budget: LatencyBudgetQosPolicy;
+    liveliness: LivelinessQosPolicy;
+    reliability: ReliabilityQosPolicy;
+    destination_order: DestinationOrderQosPolicy;
+    history: HistoryQosPolicy;
+    resource_limits: ResourceLimitsQosPolicy;
+    transport_priority: TransportPriorityQosPolicy;
+    lifespan: LifespanQosPolicy;
+    ownership: OwnershipQosPolicy;
+  }
+
+  // ==========================================================================
+  // ███████╗████████╗ █████╗ ████████╗██╗   ██╗███████╗
+  // ██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██║   ██║██╔════╝
+  // ███████╗   ██║   ███████║   ██║   ██║   ██║███████╗
+  // ╚════██║   ██║   ██╔══██║   ██║   ██║   ██║╚════██║
+  // ███████║   ██║   ██║  ██║   ██║   ╚██████╔╝███████║
+  // ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
+  // ==========================================================================
+  class LivelinessChangedStatus {
+    alive_count: number;
+    not_alive_count: number;
+    alive_count_change: number;
+    not_alive_count_change: number;
+    last_publication_handle: InstanceHandle;
+  }
+
+  class RequestedIncompatibleQosStatus {
+    total_count: number;
+    total_count_change: number;
+    last_policy_id: QosPolicyId;
+    policies: QosPolicyCount[];
+  }
+
+  class SampleLostStatus {
+    total_count: number;
+    total_count_change: number;
+  }
+
+  const SampleRejectedStatusKind : {
+    readonly NOT_REJECTED: 0;
+    readonly REJECTED_BY_INSTANCE_LIMIT: 1;
+    readonly REJECTED_BY_SAMPLES_LIMIT: 2;
+    readonly REJECTED_BY_SAMPLES_PER_INSTANCE_LIMIT: 3;
+  };
+  
+  type SampleRejectedStatusKindMnemonicValue = typeof SampleRejectedStatusKind[keyof typeof SampleRejectedStatusKind];
+
+  class SampleRejectedStatus {
+    total_count: number;
+    total_count_change: number;
+    last_reason: SampleRejectedStatusKindMnemonicValue;
+    last_instance_handle: InstanceHandle;
+  }
+
+  class SubscriptionMatchedStatus {
+    total_count: number;
+    total_count_change: number;
+    current_count: number;
+    current_count_change: number;
+    last_publication_handle: InstanceHandle;
+  }
+
+  // ==========================================================================
+  // ██████╗ ██╗   ██╗██╗██╗  ████████╗   ██╗███╗   ██╗
+  // ██╔══██╗██║   ██║██║██║  ╚══██╔══╝   ██║████╗  ██║
+  // ██████╔╝██║   ██║██║██║     ██║█████╗██║██╔██╗ ██║
+  // ██╔══██╗██║   ██║██║██║     ██║╚════╝██║██║╚██╗██║
+  // ██████╔╝╚██████╔╝██║███████╗██║      ██║██║ ╚████║
+  // ╚═════╝  ╚═════╝ ╚═╝╚══════╝╚═╝      ╚═╝╚═╝  ╚═══╝
+  // ==========================================================================
+  class PublicationBuiltinTopicData {
+    key: BuiltinTopicKey;
+    participant_key: BuiltinTopicKey;
+    topic_name: string;
+    type_name: string;
+    durability: DurabilityQosPolicy;
+    durability_service: DurabilityServiceQosPolicy;
+    deadline: DeadlineQosPolicy;
+    latency_budget: LatencyBudgetQosPolicy;
+    liveliness: LivelinessQosPolicy;
+    reliability: ReliabilityQosPolicy;
+    lifespan: LifespanQosPolicy;
+    user_data: UserDataQosPolicy;
+    ownership: OwnershipQosPolicy;
+    ownership_strength: OwnershipStrengthQosPolicy;
+    destination_order: DestinationOrderQosPolicy;
+    presentation: PresentationQosPolicy;
+    partition: PartitionQosPolicy;
+    topic_data: TopicDataQosPolicy;
+    group_data: GroupDataQosPolicy;
+  }
+
+  class SampleInfo {
+    sample_state: SampleStateKind;
+    view_state: ViewStateKind;
+    instance_state: InstanceStateKind;
+    source_timestamp: Time;
+    instance_handle: InstanceHandle;
+    publication_handle: InstanceHandle;
+    disposed_generation_count: number;
+    no_writers_generation_count: number;
+    sample_rank: number;
+    generation_rank: number;
+    absolute_generation_rank: number;
+    valid_data: boolean;
+  }
+
+  class SubscriptionBuiltinTopicData {
+    key: BuiltinTopicKey;
+    participant_key: BuiltinTopicKey;
+    topic_name: string;
+    type_name: string;
+    durability: DurabilityQosPolicy;
+    deadline: DeadlineQosPolicy;
+    latency_budget: LatencyBudgetQosPolicy;
+    liveliness: LivelinessQosPolicy;
+    reliability: ReliabilityQosPolicy;
+    ownership: OwnershipQosPolicy;
+    destination_order: DestinationOrderQosPolicy;
+    user_data: UserDataQosPolicy;
+    time_based_filter: TimeBasedFilterQosPolicy;
+    presentation: PresentationQosPolicy;
+    partition: PartitionQosPolicy;
+    topic_data: TopicDataQosPolicy;
+    group_data: GroupDataQosPolicy;
+  }
+
+  // ==========================================================================
+  // ███████╗███╗   ██╗████████╗██╗████████╗██╗███████╗███████╗
+  // ██╔════╝████╗  ██║╚══██╔══╝██║╚══██╔══╝██║██╔════╝██╔════╝
+  // █████╗  ██╔██╗ ██║   ██║   ██║   ██║   ██║█████╗  ███████╗
+  // ██╔══╝  ██║╚██╗██║   ██║   ██║   ██║   ██║██╔══╝  ╚════██║
+  // ███████╗██║ ╚████║   ██║   ██║   ██║   ██║███████╗███████║
+  // ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝   ╚═╝   ╚═╝╚══════╝╚══════╝
+  // ==========================================================================
+  class Topic {
+    enable(): void;
+  }
+
+  interface DataReader {
+    getLivelinessChangedStatus(): DDS.LivelinessChangedStatus;
+    getMatchedPublicationData(pubHandle: DDS.InstanceHandle): DDS.PublicationBuiltinTopicData;
+    getMatchedPublications(): DDS.InstanceHandle[];
+    getRequestedIncompatibleQosStatus(): DDS.RequestedIncompatibleQosStatus;
+    getSampleLostStatus(): DDS.SampleLostStatus;
+    getSampleRejectedStatus(): DDS.SampleRejectedStatus;
+    getStatusChanges(): DDS.StatusMask;
+    getSubscriptionMatchedStatus(): DDS.SubscriptionMatchedStatus;
+    getQos(): DDS.DataReaderQos;
+  }
+
+  interface DataWriter {
+    getMatchedSubscriptionData(handle: DDS.InstanceHandle): DDS.SubscriptionBuiltinTopicData;
+    getMatchedSubscriptions(): DDS.InstanceHandle[];
+    getStatusChanges(): DDS.StatusMask;
+  }
+
+  class Publisher {
+    beginCoherentChanges(): void
+    copyFromTopicQos(source: TopicQos): DataWriterQos;
+    createDataWriter(topic: Topic, dwQos?: DataWriterQos): DataWriter;
+    deleteContainedEntities(): void;
+    deleteDataWriter(writer: DataWriter): void;
+    enable(): void;
+    endCoherentChanges(): void;
+    getDefaultDataWriterQos(): DataWriterQos;
+    getInstanceHandle(): InstanceHandle;
+    getParticipant(): DomainParticipant;
+    getQos(): PublisherQos;
+    getStatusChanges(): StatusMask;
+    lookupDataWriter(): void;
+    resumePublications(): void;
+    setDefaultDataWriterQos(qos: DataWriterQos): void;
+    setQos(qos: PublisherQos): void;
+    suspendPublications(): void
+  }
+
+  class Subscriber {
+    copyFromTopicQos(source: TopicQos): DataReaderQos;
+    createDataReader(topic: Topic, drQos?: DataReaderQos): DataReader;
+    deleteContainedEntities(): void;
+    deleteDataReader(reader: DataReader): void;
+    enable(): void;
+    getDefaultDataReaderQos(): DataReaderQos;
+    getInstanceHandle(): InstanceHandle;
+    getParticipant(): DomainParticipant;
+    getQos(): SubscriberQos;
+    getStatusChanges(): StatusMask;
+    lookupDataReader(): void;
+    setDefaultDataReaderQos(qos: DataReaderQos): void;
+    setQos(qos: SubscriberQos): void;
+  }
+
+  class DomainParticipant {
+    createPublisher(pubQos?: PublisherQos): Publisher;
+    createSubscriber(subQos?: SubscriberQos): Subscriber;
+    createTopic(topicName: string, typeName: string): Topic;
+    getDefaultPublisherQos(): PublisherQos;
+  }
+
+  function createDomainParticipant(domainId: DomainId): DomainParticipant;
+}
+
+{{#each moduleTrees}}
+export declare namespace {{name}} {
+{{#each nsContent}}
+{{> (lookup . "nsPartialName")}}
+
+{{/each}}
+}
+
+{{/each}}
+// vim: set ts=2 sw=2 expandtab:

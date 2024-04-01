@@ -1,0 +1,6 @@
+namespace {{name}} {
+  {{#each nsContent}}
+  {{> (lookup . "nsPartialName")}}
+
+  {{/each}}
+}

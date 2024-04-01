@@ -1,191 +1,386 @@
+# DEPRECATION NOTICE
+
+Given the release of the [Web-Enabled DDS 1.0](http://www.omg.org/spec/DDS-WEB)
+specification by the Object Management Group, the last development act scheduled
+for this package will be migrating the code to `node-addon-api`. New development
+will concentrate on creating a standards-compliant service instead of an API
+adapting layer.
+
 # Building and Packaging
 
 ## Prerequisites
 
-1. ANTLR (http://www.antlr.org/) version 4.4 or higher. Note location of ANTLR JAR file.
-2. StringTemplate (http://www.stringtemplate.org) version 4.0 or higher. Note location of StringTemplate JAR file.
-3. CommonsCLI (http://commons.apache.org/proper/commons-cli/). Version 1.2 or higher. Note location of commons-cli 
-   JAR file.
-4. CMake (http://www.cmake.org). Version 3.11.0 or higher. A version may be provided by Linux distributions.
-5. Node.js (http://www.nodejs.org). Any NodeJS version belonging to major version 8. Note the actual version number.
-6. `cmake-js` (installed via NPM).
-7. A properly-licensed DDS provider distribution. Currently, only CoreDX (http://www.twinoaks.com). Version 4.2.0 or higher is supported.
-8. Java Development Kit (http://java.oracle.com). Version 1.8 or higher. OpenJDK may also work if provided by your
-   Linux distribution.
-
-## Build Preparation
-
-**DDS.js** requires that the files required to build Node.js native add-ons be already installed. This can be done
-by first installing `cmake-js`, then letting it install the build files:
-
-    npm install -g cmake-js
-    cmake-js install
-
-## Preferred Location of JAR Dependencies
-
-The **DDS.js** build files prefer that the JAR files it depends on (ANTLR, StringTemplate, and CommonsCLI) be 
-installed in the `/usr/local/lib` directory. They may be installed in other locations, but doing so may make configuring the build system more difficult.
-
-## DDS Environment Settings
-
-### CoreDX
-
-The **DDS.js** build files expect the following CoreDX-related environment variables be properly configured:
-
-*  `COREDX_TOP`: Should point to the top-level installation directory of CoreDX
-*  `COREDX_TARGET`: Should indicate the platform specification of the target on which **DDS.js** will run. Usually
-   this is the same as the platform building the software.
-
-### OpenSplice
-
-TBD
-
-### OpenDDS
-
-TBD
-
-## Build Configuration
-
-The recommended way to build **DDS.js** is to create a build directory inside the top-level source directory (i.e., a "build tree") and perform the build from that directory.
-
-    cd <top-level>
-    mkdir build
-    cd build
-    
-**DDS.js** uses CMake as its build system. The command line parameters passed to CMake provide information regarding
-where to find all the prerequisites. The available command line parameters are:
-
-*  `-DANTLR_VERSION=<ver>`: Version number of the ANTLR v4 JAR file. Should be evident from the JAR file name. This
-   option may only be used if the ANTLR JAR file is installed in `/usr/local/lib`.
-*  `-DCOMMONS_CLI_VERSION=<ver>`: Version number of the Commons-CLI JAR file. Should be evident from the JAR file 
-   name. This option may only be used if the Commons-CLI JAR file is installed in `/usr/local/lib`, or if the 
-   location of the JAR file is specified via `COMMONS_CLI_HOME`.
-*  `-DCOMMONS_CLI_HOME=<dir>`: Location of the Commons-CLI JAR file. Not necessary if the JAR file is installed in
-   `/usr/local/lib`.
-*  `-DST_VERSION=<ver>`: Version number of the StringTemplate JAR file. Should be evident from the JAR file name.
-   This option may only be used if the StringTemplate JAR file is installed in `/usr/local/lib`.
-*  `-DNODEJS_VERSION=<ver>`: Version number of Node.js being used.
-*  `-DWITH_DDS=<provider>`: Configure **DDS.js** to use a particular DDS provider. Currently, only `CoreDX` is supported.
-*  `-DCMAKE_BUILD_TYPE=(Debug|Release)`: Type of build. Labels are self-explanatory.
-*  `-DCMAKE_INSTALL_PREFIX=<directory>`: Directory where **DDS.js** will be installed. On user builds, it defaults to
-   `${HOME}/Install`. Production builds usually are rooted in `/opt`.
-
-For example, to configure the **DDS.js** build with ANTLR version 4.5, StringTemplate version 4.0.8, Commons-CLI
-version 1.2, and using CoreDX DDS, with all JARs installed in `/usr/local/lib`, and Node.js version 4.2.4, one would issue the
-following command (assuming the other prerequisites are met, and the command is being run from the build directory):
-
-    cmake -DCMAKE_BUILD_TYPE=Release \
-          -DANTLR_VERSION=<ANTLR Version> \
-          -DCOMMONS_CLI_VERSION=<Commons CLI Version> \
-          -DST_VERSION=<StringTemplate Version> \
-          -DNODEJS_VERSION=<NodeJS Version> \
-          -DWITH_DDS=CoreDX \
-          ..
-
-The last argument (`..`; parent directory reference) is important, as it tells CMake where to find the 
-`CMakeLists.txt` file.
-
-As of this writing, **DDS.js** works with the following package versions:
-
-| Package  | Version  |
-| -------- | -------- |
-| ANTLR  | 4.9.1  |
-| Commons CLI  | 1.4  |
-| StringTemplate  | 4.0.8  |
-| NodeJS  | 12.19.0  |
-
-## Building
-
-After CMake successfully completes the build environment configuration, building **DDS.js** may be done by
-simply issuing a `make`.
+1. Node.js (http://www.nodejs.org). Any NodeJS version starting with major/minor version 12.19.
 
 ## Packaging
 
-Once the build is complete, CMake may be used to create installable packages. On Intel/Linux systems, the follwing
-command produces two (2) installable DEB archives. On other Linux systems, it produces two (2) TAR-GZ archives:
+The **DDS.js** repository does not, in and of itself, compile or build native
+code. Instead, the repository is designed to produce an NPM package called
+`dds-js-devkit` that can then be used as a development dependency in any project
+meant to create a NodeJS add-on from DDS IDL. The NPM package brings with it the
+runtime source code required to produce a fully-functional NodeJS native add-on.
 
-    make package
+After checking out a fresh clone of the repository, the packaging dependencies
+may be acquired by installing the dependencies listed in the `package.json`
+file:
 
-This default behavior can be circumvented by calling the CPack tool (part of CMake) directly with a package generator specification. For example, to generate TAR-GZ archives even in Intel/Linux systems, the following command must be run from the build tree:
+    npm install
 
-    cpack -G TGZ
+Once all the packaging dependencies are available, creating a distributable NPM
+package is done the usual way:
 
-The resulting archives will bear in their name the **DDS.js** package name, version, target operating system, target
-system processor, and whether the archive contains runtime files or files used for development. For example, a
-set of TAR-GZ archives built for a Linux x86-64 host would look like this:
+    npm pack
 
-*  `ddsjs-1.0.0-Linux-x86_64-Bin.tar.gz`: Archive containing the shared libraries that are needed at runtime.
-*  `ddsjs-1.0.0-Linux-x86_64-Dev.tar.gz`: Archive containing header files and build scripts that are needed when
-   building a NodeJS add-on with **DDS.js**.
-
-A set of DEB archives would look as follows (when using CoreDX as the DDS provider):
-
-*  `ddsjs-coredx-bin_1.0.0-custom_amd64.deb`: Archive containing the shared libraries that are needed at runtime.
-*  `ddsjs-coredx-dev_1.0.0-custom_amd64.deb`: Archive containing header files and build scripts that are needed when
-   building a NodeJS add-on with **DDS.js**.
-
-
-## Installation
-
-When installing from TAR-GZ archives, simply unpacking then on a target directory will create a
-directory for **DDS.js** and unpack all the files in their appropriate location. When `CMAKE_INSTALL_PREFIX` specified
-a global location, it is expected that the archive be unpacked at the root of the file system:
-
-    tar -C / -zxvf ddsjs-1.0.0-Linux-x86_64-Bin.tar.gz
-
-By default, `CMAKE_INSTALL_PREFIX` is configured to be `/opt/ASTRA`.
-
-## Post-installation
-
-**DDS.js** must have the shared libraries in its "Bin" package be registered with the system's dynamic linker. On Linux
-systems, this usually involves adding an entry to the `/etc/ld.so.conf` file pointing to the directory where the
-shared libraries were installed.
+The above command will produce an NPM archive in the repository top-level called
+`dds-js-devkit-<version>.tgz` where `<version>` is the **DDS.js** version as of
+this writing.
 
 # Using DDS.js
 
-## Workspace Preparation
+The distributable `dds-js-devkit` package is meant to be used as a development
+dependency in an NPM project.
 
-The DDS.js package works best when used in conjunction with the CMake.js
-(https://www.npmjs.com/package/cmake-js) NPM package. A typical DDS.js enabled
-add-on would have the following files in its project root directory:
+    npm install --save-dev <folder>/dds-js-devkit-<version>.tgz
 
-*  `CMakeLists.txt`: CMake file containing the build instructions for the
-   add-on.
-*  `package.json`: JSON file that describes the NodeJS add-on.
-*  `index.js`: Top-level, or "main", JavaScript file for the add-on.
-*  **IDL File**: The DDS IDL file describing the data types to use in the
-   add-on.
+Where `<folder>` is the folder containing the distributable package and
+`<version>` is the **DDS.js** version identifier.
 
-In order for users of the add-on to be able to re-compile the source files, the
-`package.json` file must contain an `install` script fragment that calls
-`cmake-js compile`, as well as contain dependencies on `cmake-js` and (highly
-recommended) `bindings`.
+The assumption is the destination NPM project implements an interface layer
+between NodeJS code and a DDS domain, as prescribed by definitions specified in
+an IDL file. The `examples` folder in the **DDS.js** repository shows one way to
+produce such an add-on, although it is not the only way the `dds-js-devkit`
+package may be used.
 
-Refer to the `examples` directory in the source distribution in order to glean
-what the typical Node.js add-on package source tree should look like. In it,
-there is a very simple IDL file that will serve as the basis for the examples
-that follow:
+The package brings with it the following top-level items:
 
-    module HostMonitor {
+1. The native run-time code implementing the standard DDS API.
+2. A compiler that produces native C++ code, based on the [node-addon-api library](https://github.com/nodejs/node-addon-api),
+   according to definitions present in an IDL file.
+3. A compiler that produces TypeScript ambient type definitions (i.e., a
+   `.d.ts` file) according to the definitions present in an IDL file.
 
-    typedef string<256> HostNameType;
+The basic anatomy of a NodeJS project leveraging `dds-js-devkit` to produce a
+DDS interfacing add-on would include the following top-level items in addition
+to the standard NodeJS project content:
 
-    struct OverallInformation {
-        HostNameType hostName;
-        float cpuUtilization;
-        float memoryUtilization;
-    };
+1. The IDL file (or files, if there are inter-dependencies) that describes the
+   DDS domain traffic.
+2. A `CMakeLists.txt` file that includes the build plan for the add-on's native
+   C++ code.
+3. A JavaScript entry point file (i.e., `index.js`) that implements the loading
+   and serving of the native add-on content.
 
-    };
+## Generating Native Code From IDL
 
-An excellent idea for exploring **DDS.js** is to copy the contents of the 
-`examples` directory onto a different location, thus any experimentation does
-not affect the **DDS.js** source area.
+The `dds-js-devkit` package brings with it a compiler, called `ddsjs-idl`, that
+can produce C++ code based on IDL definitions. After installation in the target
+NPM project, the compiler may be invoked as follows:
 
-## Building Node.js Add-on
+    npx ddsjs-idl --help
 
-After the aforementioned files are created, the command `cmake-js build` should
-build the add-on.
+Which results in the following help content, describing how the compiler may be
+invoked.
+
+```
+ddsjs-idl [processing flags...] IDL source file
+
+Positionals:
+  input-file  Path to the IDL file to process                           [string]
+
+Options:
+      --version          Show version number                           [boolean]
+  -I, --include          Directory to add to include file path.         [string]
+  -o, --outdir           Path where C++ output files will go (default: .).
+                                                                        [string]
+  -p, --cpp-exe          Name of the C/C++ pre-processor to use (default: cpp).
+                                                                        [string]
+  -r, --provider-header  Path to header file including all DDS provider
+                         generated headers.                  [string] [required]
+  -d, --dds-provider     Identifier for the DDS provider to use.        [string]
+  -b, --build-system     Build system that will be used [cmake-js] (default:
+                         none).                                         [string]
+  -h, --help             Show help                                     [boolean]
+```
+
+## Generating TypeScript Ambient Definitions
+
+The `dds-js-devkit` package also brings a compiler that produces TypeScript
+ambient type definitions describing the content of the native add-on it would
+produce based on an IDL file as input:
+
+    npx ddsjs-idl-types --help
+
+Which results in the following help content, describing how the compiler may be
+invoked
+
+```
+ddsjs-idl-types <input-file>
+
+Generate TypeScript type descriptions from IDL file.
+
+Positionals:
+  input-file  Path to the IDL file to process.                          [string]
+
+Options:
+      --help         Show help                                         [boolean]
+      --version      Show version number                               [boolean]
+  -p, --cpp-exec     Name of the C/C++ pre-processor to use.
+                                                       [string] [default: "cpp"]
+  -I, --include      Directory to add to include file path.             [string]
+  -m, --module-name  Name of the top-level module to use in .d.ts file. [string]
+  -o, --output-file  Name of the output .d.ts file.                     [string]
+```
+
+## NPM Scripts in Target Project
+
+Although not strictly necessary, it is quite beneficial to leverage the script
+functionality of NPM to automate the native code generation for the add-on. In
+the `package.json` file under the `examples` folder, there are some suggestions
+as to how this may be done. Of note are the `addon-src-gen` and `addon-type-gen`
+NPM scripts:
+
+```json
+{
+    "scripts": {
+        "addon-src-gen": "ddsjs-idl -o native/addon -r HostMonitorAmalgam.hh -d ${npm_config_with_dds} -b cmake-js HostMonitor.idl",
+        "addon-type-gen": "ddsjs-idl-types -m ${npm_package_name} -o ${npm_config_local_prefix}/index.d.ts HostMonitor.idl"
+    }
+}
+```
+
+The above example for `addon-src-gen` shows that the NPM script invokes the
+`ddsjs-idl` compiler, accepting the file `HostMonitor.idl` as input, emitting
+native code to the `native/addon` directory, targeting the DDS provider
+specified in the NPM configuration environment variable `npm_config_with_dds`,
+and emitting CMake.js build environment helper scripts. Re-generating native
+code is then as simple as invoking `npm run`:
+
+    npm --with-dds=<DDS Provider> run addon-src-gen
+
+The above example for `addon-type-gen` shows that the NPM script invokes the
+`ddsjs-idl-types` compiler, accepting the same `HostMonitor.idl` file as input,
+emitting the type definitions to the `index.d.ts` file in the project's root
+folder. Re-generating the ambient type definitions can then be done by invoking
+`npm run` accordingly:
+
+    npm --with-dds=<DDS Provider> run addon-type-gen
+
+Where `<DDS Provider>` is the name of the DDS provider to target. As of this
+writing, only [CoreDX from Twin Oaks Computing](https://www.twinoakscomputing.com/coredx) 
+is supported. The DDS provider may also be specified via other
+[NPM configuration vectors](https://docs.npmjs.com/cli/v10/using-npm/config).
+
+## Building Native Code
+
+Emitting of the code is only part of the work required to produce the
+DDS IDL-based NodeJS add-on. The native code must also be compiled and combined
+into the single `.node` shared object that NodeJS can import. There are a few
+ways to accomplish this part, be it using [node-gyp](https://github.com/nodejs/node-gyp)
+or [CMake.js](https://github.com/cmake-js/cmake-js). The `example` folder shows
+a way of building the native code using **CMake.js** in the `CMakeLists.txt`
+file.
+
+> [!NOTE]
+> The example provided assumes the pre-built `.node` archive is included in the
+> distributable package. That is also not required and is left at the discretion
+> of the add-on author.
+
+## Top-Level Import Script
+
+The `example` folder also shows a top-level `index.js` file that hides the
+underlying details of how the `.node` add-on is imported. This is also not
+required, but it is strongly recommended. The `index.js` script leverages the
+[node-bindings](https://github.com/TooTallNate/node-bindings) package to import
+the `.node` add-on.
+
+# Using the DDS.js Built Add-on
+
+With the NPM package containing the **DDS.js** built add-on installed on the
+target application, the API provided by said add-on can be used as any other
+Node.js module. An example of a very simple application that subscribes to 
+samples of the `HostMonitor.OverallInformation` message published under a topic
+called `HostInformation` is available for study under `examples/oi_test_sub.js`.
+An example of a very simple application that publishes samples of the
+`HostMonitor.OverallInformation` message under the topic called
+`HostInformation` is available for study under the `examples/oi_test_pub.js`.
+
+## Example Application Discussion
+
+The module produced by **DDS.js** will contain at least *two* namespaces within
+it. The first namespace, called `DDS`, will contain the standard DDS calls and
+definitions (such as QoS structures). The other namespaces correspond to any
+top-level IDL modules found in the input file, of which there must be at least
+one. In the example code, the IDL defines two (2) top-level modules:
+`HostMonitor` and `NetworkMonitor`.
+
+The primary function of the examples folder is to produce a NodeJS module that
+can then be added as a dependency into another application. There are two (2)
+scripts that provide minimal code for example applications:
+
+* `oi_test_pub.js` - Implements a `HostMonitor.OverallInformation` data writer
+  that produces samples.
+* `oi_test_sub.js` - Implements a `HostMonitor.OverallInformation` data reader
+  that consumes samples.
+
+> [!WARNING]
+> The above-referenced example shows that all of the DDS supporting object
+> instances (`DomainParticipant`, `Subscriber`, `Publisher`, `Topic`, etc.)
+> remain "in scope" for the lifetime of the application. This is **extremely**
+> important to keep in mind for application developers. If those supporting
+> instances are not kept in scope, the NodeJS garbage collector may consider
+> them eligible for collection and the application will stop working once that
+> happens.
+
+The example module leverages the
+[`bindings` NodeJS package](https://www.npmjs.com/package/bindings) for loading
+the `.node` file, but this is not strictly required.
+
+## Application Migration
+
+The module produced using this version of **DDS.js** does exhibit some breaking
+API changes when compared against modules produced with version 1.
+
+### Creating Topics
+
+In **DDS.js** version 1, the code emitter produced factory helpers that could be
+used to create DDS topic instances. The topic factories were based off the names
+of data structures in the IDL. These factories obviated the need for DDS type
+support entities, so those were not available from JavaScript. **DDS.js**
+version 2 and forward more closely emulates the standard DDS API which includes
+type support classes and requires the registration of data structure types prior
+to creating topic instances. For example, based off the `HostMonitor.idl`
+file in the `examples` folder, creating a topic that uses the
+`HostMonitor.OverallInformation` data structure would be done as follows:
+
+```javascript
+let participant = DDS.createDomainParticipant(0);
+let oiTopic = participant.createTopic(HostMonitor.OverallInformationTopic);
+```
+
+Modules created using **DDS.js** version 2 and later would need to create the
+topic as follows:
+
+```javascript
+let participant = DDS.createDomainParticipant(0);
+let oiTs = new HostMonitor.OverallInformationTypeSupport();
+oiTs.registerType(participant);
+let topicName = "HostInformation";
+let oiTopic = participant.createTopic(topicName, oiTs.getTypeName());
+```
+
+The reason for this breaking API change has to do with the flexibility it
+affords application software developers in comparison to the prior **DDS.js**
+implementation. In version 1, the topic factory classes assumed that the name
+of the topic was identical to the name of the data type the topic used. Version
+2 and later give developers the ability to create topics with names that are
+independent from the data types the topic samples use, closely mimicking
+standard DDS.
+
+### Taking Samples
+
+In **DDS.js** version 1, the `take()` call on generated data readers exhibited
+a signature that required three (3) parameters:
+
+* The maximum number of samples to accept.
+* The maximum delay to wait for samples, expressed in seconds.
+* The callback to invoke once the `take()` call was complete.
+
+The result of the `take()` call was in the callback, which was required to
+accept three (3) parameters:
+
+* An error object, if an error occured.
+* An array of either samples or `null` values.
+* An array of `DDS.SampleInfo` instances.
+
+Version 2 of **DDS.js** modifies both the `take()` call input parameters and the
+mechanic via which samples are returned. In version 2, the `take()` call only
+accepts one argument:
+
+* The maximum number of samples to accept.
+
+The call returns a list of sample/sample info tuples, with each tuple complying
+with the following interface:
+
+```typescript
+interface TakeResultTuple< SampleType > {
+    sample: SampleType | null,
+    sampleInfo: DDS.SampleInfo
+}
+```
+
+If an error occurs during the `take()` operation, the call raises an exception.
+
+The reason for this API change was primarily motivated by the desire to simplify
+the `take()` call interface. The use of a callback for the results may not be
+the best choice for all application developers. This approach grants developers
+the ability to either use the call in its natural, synchronous manner, or wrap
+the `take()` operation into a JS `Promise` or even
+[RxJS Observable](https://rxjs.dev/). There was also a desire to better
+correlate samples with their corresponding sample information ancillary.
+Although the standard DDS API uses correlated arrays, an array of tuples better
+establishes the relationship.
+
+# DDS.js Developing and Maintenance
+
+In order to maintain or alter the IDL grammar and/or the runtime native code,
+it is necessary to establish a valid environment.
+
+1. ANTLR (http://www.antlr.org/) version 4.9.1 or higher. Note location of ANTLR JAR file.
+2. CMake (http://www.cmake.org) version 3.12.0 or higher. A version may be provided by Linux distributions.
+3. A properly-licensed DDS provider distribution. Currently, only CoreDX (http://www.twinoaks.com). Version 5.6.0 or higher is supported.
+4. OpenJDK version 14 or higher (for grammar developing only; not needed for package build). Oracle Java may also work.
+
+### Maintenance Pre-Requisites
+
+After checking out the source code repository, prepare the environment using the
+`npm install` command. The `package.json` file included in the repository
+specifies any build-time dependencies required and downloads them when the
+command is issued.
+
+    npm install
+
+**CMake-js** can then download the required **NodeJs** and **N-API** supporting
+libraries and headers:
+
+    npm run cmake-js -- -r node -v <target NodeJS version> install
+
+Where `<target NodeJS version>` is the NodeJS version that you're targeting for
+your DDS modules. Note that the NodeJS version targeted need not be the same as
+the NodeJS version used to build this package. Use of the package, however, will
+require that selected NodeJS version.
+
+### IDL Grammar Maintenance
+
+When modifying the IDL language grammar, it will be necessary to re-generate
+the TypeScript code that makes up the lexer and parser. The `package.json` file
+contains a script that does this grammar compilation and deposits the files to
+the appropriate folder, as long as it is provided the location of the ANTLR JAR
+file. The name of the grammar re-compilation NPM script is `compile-grammar`,
+and to run it using `npm run` the location of the ANTLR JAR must be specified in
+the command line using `--antlr4-jar`:
+
+    npm --antlr4-jar=<location of ANTLR JAR file> run compile-grammar
+
+Any modifications to the IDL grammar may also require changes to the set of
+visitor classes located in the `src/parser/visitors` folder. Refer to
+[The Definitive ANTLR 4 Reference](https://pragprog.com/titles/tpantlr2/the-definitive-antlr-4-reference/)
+for more information regarding writing parsers using the visitor pattern.
+
+### Native Code Maintenance
+
+When modifying the native code that makes the runtime, under the `DdsJs`
+directory, it is possible to "sanity check" the code modifications without
+having to package and deploy the `dds-js-devkit` NPM package onto a test
+package. The `package.json` file for **DDS.js** brings a script called
+`dbgbuild` that, when invoked, creates a static library with the runtime code
+compiled. The static library is not meant for any use, but rather serves as a
+target of convenience for this code validation.
+
+> [!NOTE]
+> Some of the **DDS.js** runtime code is template-only, such as the `DataReader`
+> and `DataWriter` wrappers, and cannot be fully validated with the `dbgbuild`
+> convenience NPM script. To validate this code, embedding into a test project
+> is required.
 
 ## Distributing the Add-on
 
@@ -194,104 +389,6 @@ packaged for distribution using the `npm pack` command (run from the source
 tree). The aforementioned command will produce a `*.tgz` archive that can then
 be installed onto the target application as a Node.js module. The `Bin`-variants
 of **DDS.js** must also be distributed with the add-on.
-
-# Using the DDS.js Built Add-on
-
-With the NPM package containing the **DDS.js** built add-on installed on the
-target application, the API provided by said add-on can be used as any other
-Node.js module. Following is a sample Node.js "console" application that
-subscribes to the `OverallInformation` samples defined in the example module's
-`HostMonitor.idl` file:
-
-    const DDS = require("dds-hostmonitor").DDS;
-    const HostMonitor = require("dds-hostmonitor").HostMonitor;
-
-    var particip = DDS.createDomainParticipant(
-        /* Domain ID */0
-    );
-
-    var subscriber = particip.createSubscriber();
-
-    var overallInfoTopic = particip.createTopic(
-        HostMonitor.OverallInformationTopic
-    );
-
-    var overallInfoReader = subscriber.createDataReader(
-        overallInfoTopic
-    );
-
-    /* Callable that receives samples from "take()" */
-    var printSamples = (error, samples, sampleInfos) => {
-        if (error) {
-            console.out("ERROR in take(): " + error);
-        } else {
-            console.out(JSON.stringify(samples));
-        }
-    };
-
-    /* Do a "take()" every 1000 milliseconds */
-    var timerObj = setInterval(
-        () => {
-            overallInfoReader.take(
-                /* Max sample count */ 100,
-                /* Unused */ 0,
-                /* Callback */ printSamples
-            );
-        },
-        1000
-    );
-
-    process.on("SIGINT", () => {
-        /* Cleanup after detecting Ctrl+C */
-        clearInterval(timerObj);
-        timerObj = null;
-        particip.deleteContainedEntities();
-        overallInfoReader = null;
-        overallInfoTopic = null;
-        subscriber = null;
-        particip = null;
-    });
-
-Inclusion of the **DDS.js** module is by the name given in `package.json`. The
-lone JS file in the example directory, `index.js`, basically relays the
-inclusion to the module via the `bindings` package. The aforementioned file can
-contain additional content at the developer's discretion.
-
-The module produced by **DDS.js** will contain *two* namespaces within it. The
-first namespace, called `DDS`, will contain the standard DDS calls and
-definitions (such as QoS structures). The only use of this namespace in the
-previous code appears when creating the DDS Domain Participant with
-`DDS.createDomainParticipant()`. The call is required to specify the DDS domain
-ID as the first argument. The second argument is optional and, if specified,
-must be an instance of the `DDS.DomainParticipantQos`. The recommended way to
-acquire an instance of this structure is to call
-`DDS.getDefaultParticipantQos()`. The fields in the returned object reflect
-those of the QoS structure defined in standard DDS.
-
-From the participant spawn several of the standard objects. In this simple
-example, the participant is used to create a `Subscriber` instance via the
-`createSubscriber()` method in the returned participant object. The participant
-object also creates the topic, but creation of IDL-specific topics requires a
-discussion of the other produced namespace.
-
-The second namespace in the module will take its name directly from the
-top-level IDL module name in the provided source IDL file. In this case, the
-top-level module is called `HostMonitor`, thus the produced namespace uses the
-same name. This module contains definitions for all of the data structures and
-topics defined in the IDL file. In this case, only one structure/topic called
-`OverallInformation` is defined. In order to create a topic instance, a helper
-object that follows the pattern `<TopicName>Topic` is created for every topic
-worthy data structure found in the IDL file. For `OverallInformation`, thus, the
-name of the helper object is `OverallInformationTopic`. Passing this helper to
-the DDS participant's `createTopic()` call takes care of both topic creation and
-type registration. The default type name is used when registering the type
-(by specifying `nullptr` in the underlying `register_type()` C++ call).
-
-The sample code should run, attempting to `take()` samples every second, and
-printing whatever it received. At the time of this writing, **DDS.js** does not
-support event-driven sample ingest, such as those that could be defined via
-either a `WaitSet` or via callbacks. The code should stop upon receiving a
-`SIGINT` event, usually via `Ctrl+C`.
 
 # Bindings Reference
 
@@ -314,7 +411,6 @@ transformed to *camel case* in order to better abide by JavaScript conventions.
 | `DomainParticipant.getDiscoveredParticipants()`  | `DomainParticipant::get_discovered_participants()`  |
 | `DomainParticipant.getDiscoveredParticipantData()`  | `DomainParticipant::get_discovered_participant_data()`  |
 | `DomainParticipant.deleteContainedEntities()`  | `DomainParticipant::delete_contained_entities()`  |
-| `DomainParticipant.addTransport()`  | `DomainParticipant::add_transport()`<sup>*</sup>  |
 | `Subscriber.createDataReader()`  | `Subscriber::create_datareader()`  |
 | `Subscriber.getDefaultDataReaderQos()`  | `Subsriber::get_default_datareader_qos()`  |
 | `Publisher.createDataWriter()`  | `Publisher::create_datawriter()`  |
@@ -335,8 +431,6 @@ transformed to *camel case* in order to better abide by JavaScript conventions.
 | `DataWriter.registerInstance()`  | `DataWriter::register_instance()`  |
 | `DataWriter.unregisterInstance()`  | `DataWriter::unregister_instance()`  |
 | `DataWriter.dispose()`  | `DataWriter::dispose()`  |
-
-<sup>*</sup> Denotes a feature only available with **CoreDX**.
 
 As far as the IDL productions fed through to **DDS.js**, no name alterations are
 done. The data types specified in the productions are mapped as follows:
@@ -359,7 +453,7 @@ observing any hierarchy specified in the source IDL.
 
 # Applicable Licenses
 
-## ANTLR and StringTemplate
+## ANTLR
 
 _[The BSD License]_
 Copyright (c) 2012 Terence Parr and Sam Harwell
@@ -370,3 +464,4 @@ All rights reserved.
 *  Neither the name of the author nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+

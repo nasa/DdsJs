@@ -1,6 +1,10 @@
 module HostMonitor {
 
-typedef string<256> HostNameType;
+const unsigned long HOST_NAME_MAX_LEN = 256;
+
+const unsigned long long BIG_INTEGER = 1224;
+
+typedef string<HOST_NAME_MAX_LEN> HostNameType;
 
 struct OverallInformation {
 	HostNameType hostName;
@@ -8,5 +12,44 @@ struct OverallInformation {
 	float memoryUtilization;
 };
 
+typedef sequence< OverallInformation > InfoBundle;
+
+enum Status {
+    HOST_ONLINE,
+    HOST_OFFLINE
 };
 
+enum UnionValueType
+{
+    VAL_SINGLE,
+    VAL_INT
+};
+union ExampleUnion switch (UnionValueType)
+{
+    case VAL_SINGLE:
+        float singleVal;
+    case VAL_INT:
+        long intVal;
+};
+
+module LogTransfer {
+
+typedef string< 1024 > LogMessageType;
+
+struct LogEntry {
+    double timestamp;
+    LogMessageType logMessage;
+};
+
+};
+
+};
+
+module NetworkMonitor {
+
+struct UtilizationInformation {
+    float upstreamKbps;
+    float downstreamKbps;
+};
+
+};

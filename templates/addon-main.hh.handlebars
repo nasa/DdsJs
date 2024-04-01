@@ -1,0 +1,27 @@
+/**
+ * \file {{headerFile.headerFileName}}
+ * \brief Contains the definition of the \c {{name}} class.
+ * \note Automatically-generated code.
+ * \date {{headerFile.createDate}}
+ */
+
+#ifndef {{headerFile.includeGuard}}
+#define {{headerFile.includeGuard}}
+
+//
+// Library Headers
+#include <napi.h>
+#include <DdsJs/ddsjs.hh>
+
+
+class {{name}} : public ::Napi::Addon< {{name}} >, public ::DdsJs::ConstructorRegistry
+{
+public:
+    {{name}}(::Napi::Env env, ::Napi::Object exports);
+
+    virtual ~{{name}}() = default;
+};
+
+#endif /* !{{headerFile.includeGuard}} */
+
+// vim: set ts=4 sw=4 expandtab:

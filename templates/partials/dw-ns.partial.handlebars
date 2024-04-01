@@ -1,0 +1,6 @@
+class {{name}} implements DDS.DataWriter {
+  getMatchedSubscriptionData(handle: DDS.InstanceHandle): DDS.SubscriptionBuiltinTopicData;
+  getMatchedSubscriptions(): DDS.InstanceHandle[];
+  getStatusChanges(): DDS.StatusMask;
+  write(sample: {{writerFor}}): void;
+}

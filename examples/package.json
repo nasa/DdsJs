@@ -1,14 +1,26 @@
 {
-    "name": "dds-hostmonitor",
+    "name": "host-monitor-addon",
     "version": "1.0.0",
     "description": "Sample DDS.js NodeJS extension.",
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "install": "cmake-js compile"
+        "addon-src-gen": "ddsjs-idl -o native/addon -r HostMonitorAmalgam.hh -d ${npm_config_with_dds} -b cmake-js HostMonitor.idl",
+        "addon-type-gen": "ddsjs-idl-types -m ${npm_package_name} -o ${npm_config_local_prefix}/index.d.ts HostMonitor.idl",
+        "native-build": "cmake-js -C --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON rebuild",
+        "native-configure": "cmake-js -C --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON reconfigure"
     },
     "dependencies": {
-        "bindings": "^1.3.0",
-        "cmake-js": "^3.7.3"
-    }
+        "bindings": "^1.3.0"
+    },
+    "devDependencies": {
+        "cmake-js": "^7.3.0",
+        "dds-js-devkit": "file:../dds-js-devkit-2.0.1.tgz",
+        "node-addon-api": "^7.1.0"
+    },
+    "files": [
+        "HostMonitor.idl",
+        "index.js",
+        "build/**/*.node"
+    ]
 }

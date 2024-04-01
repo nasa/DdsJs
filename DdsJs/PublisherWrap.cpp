@@ -1,285 +1,360 @@
 /**
  * \file PublisherWrap.cpp
- * \brief Contains the implementation of the \c PublisherWrap class.
- * \date 2014-10-21 15:55:15
- * \author Rolando J. Nieves
+ * \brief Contains the implementation for the \c PublisherWrap class.
+ * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
+ * \date 2024-02-02 14:01:06
  */
+
 #include <sstream>
 
+#include <DdsJs/DataWriterQos.hh>
+#include <DdsJs/DataWriterWrap.hh>
+#include <DdsJs/PublisherQos.hh>
+#include <DdsJs/TopicQos.hh>
+#include <DdsJs/TopicWrap.hh>
+#include <DdsJs/dds_error_util.hh>
+
 #include "PublisherWrap.hh"
-#include "ddsjs_base.hh"
 
-using std::stringstream;
-using v8::Persistent;
-using v8::Function;
-using v8::Handle;
-using v8::Object;
-using v8::Local;
-using v8::FunctionTemplate;
-using v8::String;
-using v8::Value;
-using v8::HandleScope;
-using v8::Undefined;
-using v8::Null;
-using v8::Context;
-using v8::Isolate;
-using v8::FunctionCallbackInfo;
-using v8::Exception;
-using v8::MaybeLocal;
-using v8::Maybe;
-using node::ObjectWrap;
-using DDS::DomainParticipant;
-using DDS::ReturnCode_t;
-using DDS::DataWriterQos;
 
-namespace DdsJs
+namespace DdsJs {
+
+const char *PublisherWrap::MODNAME = "DDS";
+
+const char *PublisherWrap::NAME = "Publisher";
+
+
+Napi::Value
+PublisherWrap::BeginCoherentChanges(Napi::CallbackInfo const& info)
 {
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "beginCoherentChanges")->begin_coherent_changes();
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "beginCoherentChanges", retcode);
+    }
 
-Persistent<Function> PublisherWrap::constructor;
-
-void PublisherWrap::Init(Local<Object> exports)
-{
-	Isolate *isolate = Isolate::GetCurrent();
-	
-	// Prepare constructor template
-	Local<FunctionTemplate> tpl = FunctionTemplate::New(isolate, PublisherWrap::New);
-	tpl->SetClassName(String::NewFromUtf8(isolate, "Publisher"));
-	tpl->InstanceTemplate()->SetInternalFieldCount(2);
-	
-	/**
-	 * \c Publisher instances created by this class are given a prototype that
-	 * points to the \c Participant instance that owns them. This property
-	 * is called \c participant.
-	 */
-	// tpl->InstanceTemplate()->Set(String::NewFromUtf8(isolate, "participant"), Null(isolate));
-	
-	/**
-	 * The list of methods included in the JavaScript object prototype are
-	 * derived from an appropriate counterpart in \c DDS::Publisher:
-	 * - \c createDataWriter() - \c DDS::Publisher::create_datawriter()
-	 * - \c getDefaultDataWriterQos() - \c DDS::Publisher::get_default_datawriter_qos()
-	 */
-	NODE_SET_PROTOTYPE_METHOD(tpl, "createDataWriter", PublisherWrap::CreateDataWriter);
-	NODE_SET_PROTOTYPE_METHOD(tpl, "getDefaultDataWriterQos", PublisherWrap::GetDefaultDataWriterQos);
-
-    auto ctorFun = tpl->GetFunction(isolate->GetCurrentContext()).ToLocalChecked();
-    PublisherWrap::constructor.Reset(isolate, ctorFun);
-    
-	exports->Set(
-		isolate->GetCurrentContext(),
-		String::NewFromUtf8(isolate, "Publisher"),
-		ctorFun
-	).Check();
+    return info.Env().Undefined();
 }
 
 
-PublisherWrap::PublisherWrap()
-: m_thePublisher(NULL)
+Napi::Value
+PublisherWrap::CopyFromTopicQos(Napi::CallbackInfo const& info)
 {
+    if (info.Length() != 1)
+    {
+        std::stringstream msg;
+
+        msg << NAME
+            << ".copyFromTopicQos() called with invalid number of arguments.";
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+
+    DDS::DataWriterQos result;
+    DDS::TopicQos input;
+
+    TopicQosProxy::FromJs(info.Env(), info[0].As< TopicQosProxy::NapiContainer >(), input);
+
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "copyFromTopicQos")->copy_from_topic_qos(result, input);
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "copyFromTopicQos", retcode);
+    }
+
+    return DataWriterQosProxy::NewInstance(info.Env(), result);
 }
 
 
-PublisherWrap::~PublisherWrap()
+Napi::Value
+PublisherWrap::CreateDataWriter(Napi::CallbackInfo const& info)
 {
-	m_thePublisher = NULL;
+    static const char *METHOD_NAME = "createDataWriter";
+
+    DDS::DataWriterQos dr_qos;
+    DDS::Publisher *the_pub = m_publisher.get(info.Env(), METHOD_NAME);
+    TopicWrap *topic_wrapper = nullptr;
+    DDS::Topic *topic = nullptr;
+
+    the_pub->get_default_datawriter_qos(dr_qos);
+    switch(info.Length())
+    {
+    case 2:
+        DataWriterQosProxy::FromJs(info.Env(), info[1].As< DataWriterQosProxy::NapiContainer >(), dr_qos);
+        // Fall-through intentional
+    case 1:
+        topic_wrapper = TopicWrap::Unwrap(info[0].As< Napi::Object >());
+        topic = topic_wrapper->useTopic(info.Env(), "useTopic");
+        break;
+    default:
+        {
+            std::stringstream msg;
+
+            msg << DottedName({ MODNAME, NAME, METHOD_NAME }).flat() << "(): Incorrect number of arguments.";
+
+            throw Napi::Error::New(info.Env(), msg.str());
+        }
+    }
+
+    DDS::DataWriter *reader = the_pub->create_datawriter(topic, dr_qos, nullptr, 0);
+    if (nullptr == reader)
+    {
+        throw NewDdsError(info.Env(), DottedName({ MODNAME, NAME }).flat(), METHOD_NAME, DDS::RETCODE_ERROR);
+    }
+
+    return DataWriterWrapFactory::NewInstance(info.Env(), reader, topic_wrapper->getWriterJsClassName());
 }
 
 
-void PublisherWrap::New(FunctionCallbackInfo<Value> const& args)
+Napi::Value
+PublisherWrap::DeleteContainedEntities(Napi::CallbackInfo const& info)
 {
-	Isolate *isolate = Isolate::GetCurrent();
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "deleteContainedEntities")->delete_contained_entities();
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "deleteContainedEntities", retcode);
+    }
 
-	if (nullptr == isolate)
-	{
-		return;
-	}
-
-	Local< Context > ctx = isolate->GetCurrentContext();
-	HandleScope scope(isolate);
-
-	if (args.Length() < 1)
-	{
-		isolate->ThrowException(
-			Exception::TypeError(
-				String::NewFromUtf8(
-					isolate,
-					"Not enough arguments for Publisher constructor."
-				)
-			)
-		);
-		return;
-	}
-
-	if (!args[0]->IsObject())
-	{
-		isolate->ThrowException(
-			Exception::TypeError(
-				String::NewFromUtf8(
-					isolate,
-					"No participant object passed to Publisher constructor."
-				)
-			)
-		);
-		return;
-	}
-
-	auto objectMaybe = args[0]->ToObject(ctx);
-	if (objectMaybe.IsEmpty())
-	{
-		// Pending exception must have held up the assignment
-		return;		
-	}
-
-	Local< Object > participObj = objectMaybe.ToLocalChecked();
-	if
-	(
-		(participObj->InternalFieldCount() < 2) ||
-		(nullptr == participObj->GetAlignedPointerFromInternalField(1))
-	)
-	{
-		isolate->ThrowException(
-			Exception::TypeError(
-				String::NewFromUtf8(
-					isolate,
-					"Invalid participant object passed to Publisher "
-					"constructor."
-				)
-			)
-		);
-		return;
-	}
-
-	if (args.IsConstructCall())
-	{
-		Maybe< bool > setResult = args.This()->Set(
-			isolate->GetCurrentContext(),
-			String::NewFromUtf8(isolate, "participant"),
-			participObj
-		);
-		if (!setResult.FromMaybe(false))
-		{
-			// Pending exception/termination
-			return;
-		}
-		DomainParticipant *particip = reinterpret_cast< DomainParticipant* >(
-			participObj->GetAlignedPointerFromInternalField(1)
-		);
-		PublisherWrap *obj = new PublisherWrap();
-        // --------------------------------------------------------------------
-		// At the moment, this DDS publisher wrapper does not support 
-        // configuring its Quality of Service (QoS) or configuring
-        // listeners.
-        // --------------------------------------------------------------------
-		obj->m_thePublisher = particip->create_publisher(DDS::PUBLISHER_QOS_DEFAULT, NULL, 0);
-		args.This()->SetAlignedPointerInInternalField(1, obj->m_thePublisher);
-		obj->Wrap(args.This());
-		args.GetReturnValue().Set(args.This());
-	}
-	else
-	{
-		unsigned argc = 3u;
-		Local<Value> argv[] = {
-			args[0],
-			Undefined(isolate),
-			Undefined(isolate)
-		};
-		if (args.Length() > 2) argv[2] = args[2]; else argc--;
-		if (args.Length() > 1) argv[1] = args[1]; else argc--;
-
-		Local<Function> cons = Local<Function>::New(isolate, PublisherWrap::constructor);
-		MaybeLocal< Object > resultMaybe = cons->NewInstance(isolate->GetCurrentContext(), argc, argv);
-		if (resultMaybe.IsEmpty())
-		{
-			isolate->ThrowException(
-				Exception::Error(
-					String::NewFromUtf8(
-						isolate,
-						"Could not create instance of Publisher."
-					)
-				)
-			);
-			return;
-		}
-		args.GetReturnValue().Set(resultMaybe.ToLocalChecked());
-	}
+    return info.Env().Undefined();
 }
 
 
-void PublisherWrap::CreateDataWriter(FunctionCallbackInfo<Value> const& args)
+Napi::Value
+PublisherWrap::DeleteDataWriter(Napi::CallbackInfo const& info)
 {
-	Isolate *isolate = Isolate::GetCurrent();
-	HandleScope scope(isolate);
-	Local< Context > ctx = isolate->GetCurrentContext();
-
-	if (args.Length() < 1)
-	{
-		isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Not enough arguments to the createDataWriter() method call.")));
-		return;
-	}
-
-	unsigned argc = 3;
-	Local<Value> argv[] = {
-		args.This(),
-		Undefined(isolate),
-		Undefined(isolate)
-	};
-
-	if (args.Length() > 2) argv[2] = args[2]; else argc--;
-	if (args.Length() > 1) argv[1] = args[1]; else argc--;
-	
-	MaybeLocal< Object > topicMaybe = args[0]->ToObject(ctx);
-	if (topicMaybe.IsEmpty())
-	{
-		isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Invalid topic argument passed to createDataWriter()")));
-		return;
-	}
-	Local<Object> topicObj = topicMaybe.FromMaybe(Local< Object >());
-	MaybeLocal< Value > fieldMaybe = topicObj->Get(ctx, String::NewFromUtf8(isolate, "newDataWriter"));
-	Local< Value > fieldVal;
-	if (fieldMaybe.IsEmpty() || !(fieldVal = fieldMaybe.FromMaybe(Local< Value >()))->IsFunction())
-	{
-		isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Invalid topic argument passed to createDataWriter()")));
-		return;
-	}
-	/**
-	 * Instead of calling the \c DDS::Publisher::create_datawriter() 
-	 * method directly, \c CreateDataWriter() relies on a factory object
-	 * passed in the \c createDataWriter() call. This factory object is generated by the IDL
-	 * compiler and is available to the JavaScript script. Doing this reconciles
-	 * the difference that exists between the object wrapping pattern of Node.js
-	 * and the DDS API mechanics.
-	 */
-	Local<Function> dwConstructor = fieldVal.As<Function>();
-	MaybeLocal< Value > resultMaybe = dwConstructor->Call(ctx, topicObj, argc, argv);
-	if (resultMaybe.IsEmpty())
-	{
-		isolate->ThrowException(Exception::Error(String::NewFromUtf8(isolate, "Could not create DataWriter instance.")));
-		return;
-	}
-	args.GetReturnValue().Set(resultMaybe.FromMaybe(Local< Value >()));
+    throw Napi::Error::New(info.Env(), "Publisher.deleteDataWriter() not implemented.");
 }
 
 
-void PublisherWrap::GetDefaultDataWriterQos(FunctionCallbackInfo<Value> const& args)
+Napi::Value
+PublisherWrap::Enable(Napi::CallbackInfo const& info)
 {
-	Isolate *isolate = Isolate::GetCurrent();
-	Local< Context > ctx = isolate->GetCurrentContext();
-	HandleScope scope(isolate);
-	ReturnCode_t ddsRetCode = DDS::RETCODE_OK;
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "enable")->enable();
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "enable", retcode);
+    }
 
-	PublisherWrap *me = ObjectWrap::Unwrap<PublisherWrap>(args.This());
-	DataWriterQos defaultDwQos;
-	ddsRetCode = me->m_thePublisher->get_default_datawriter_qos(&defaultDwQos);
-	if (ddsRetCode != DDS::RETCODE_OK)
-	{
-		stringstream errorMsg;
-		errorMsg << "DDS problem while acquiring default DataWriter QoS:" << DDS_error(ddsRetCode);
-		isolate->ThrowException(Exception::Error(String::NewFromUtf8(isolate, errorMsg.str().c_str())));
-		return;
-	}
-
-	args.GetReturnValue().Set(DDS::DataWriterQosField::FromCppToJsValue(defaultDwQos));
+    return info.Env().Undefined();
 }
 
+
+Napi::Value
+PublisherWrap::EndCoherentChanges(Napi::CallbackInfo const& info)
+{
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "endCoherentChanges")->end_coherent_changes();
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "endCoherentChanges", retcode);
+    }
+
+    return info.Env().Undefined();
+}
+
+
+Napi::Value
+PublisherWrap::GetDefaultDataWriterQos(Napi::CallbackInfo const& info)
+{
+    DDS::DataWriterQos result;
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "getDefaultDataWriterQos")->get_default_datawriter_qos(result);
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "getDefaultDataWriterQos", retcode);
+    }
+
+    return DataWriterQosProxy::NewInstance(info.Env(), result);
+}
+
+
+Napi::Value
+PublisherWrap::GetInstanceHandle(Napi::CallbackInfo const& info)
+{
+    throw Napi::Error::New(info.Env(), "Publisher.getInstanceHandle() not implemented.");
+}
+
+
+Napi::Value
+PublisherWrap::GetParticipant(Napi::CallbackInfo const& info)
+{
+    return m_participantJsObj.get(info.Env(), "getParticipant");
+}
+
+
+Napi::Value
+PublisherWrap::GetQos(Napi::CallbackInfo const& info)
+{
+    DDS::PublisherQos result;
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "getQos")->get_qos(result);
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "getQos", retcode);
+    }
+
+    return PublisherQosProxy::NewInstance(info.Env(), result);
+}
+
+
+Napi::Value
+PublisherWrap::GetStatusChanges(Napi::CallbackInfo const& info)
+{
+    throw Napi::Error::New(info.Env(), "Publisher.getStatusChanges() not implemented.");
+}
+
+
+Napi::Value
+PublisherWrap::LookupDataWriter(Napi::CallbackInfo const& info)
+{
+    throw Napi::Error::New(info.Env(), "Publisher.lookupDataWriter() not implemented.");
+}
+
+
+Napi::Value
+PublisherWrap::ResumePublications(Napi::CallbackInfo const& info)
+{
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "resumePublications")->resume_publications();
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "resumePublications", retcode);
+    }
+
+    return info.Env().Undefined();
+}
+
+
+Napi::Value
+PublisherWrap::SetDefaultDataWriterQos(Napi::CallbackInfo const& info)
+{
+    if (info.Length() != 1)
+    {
+        std::stringstream msg;
+
+        msg << NAME
+            << ".setDefaultDataWriterQos() called with invalid number of arguments.";
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+
+    DDS::DataWriterQos input;
+    DataWriterQosProxy::FromJs(info.Env(), info[0].As< DataWriterQosProxy::NapiContainer >(), input);
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "setDefaultDataWriterQos")->set_default_datawriter_qos(input);
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "setDefaultDataWriterQos", retcode);
+    }
+
+    return info.Env().Undefined();
+}
+
+
+Napi::Value
+PublisherWrap::SetQos(Napi::CallbackInfo const& info)
+{
+    if (info.Length() != 1)
+    {
+        std::stringstream msg;
+
+        msg << NAME
+            << ".setQos() called with invalid number of arguments.";
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+
+    DDS::PublisherQos input;
+    PublisherQosProxy::FromJs(info.Env(), info[0].As< PublisherQosProxy::NapiContainer >(), input);
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "setQos")->set_qos(input);
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "setQos", retcode);
+    }
+
+    return info.Env().Undefined();
+}
+
+
+Napi::Value
+PublisherWrap::SuspendPublications(Napi::CallbackInfo const& info)
+{
+    DDS::ReturnCode_t retcode = m_publisher.get(info.Env(), "suspendPublications")->suspend_publications();
+    if (retcode != DDS::RETCODE_OK)
+    {
+        throw NewDdsError(info.Env(), NAME, "suspendPublications", retcode);
+    }
+
+    return info.Env().Undefined();
+}
+
+
+Napi::Object
+PublisherWrap::Init(Napi::Env env, Napi::Object exports, ConstructorRegistry *ctorReg)
+{
+    Napi::Function ctor_func = DefineClass(
+        env,
+        NAME,
+        {
+            InstanceMethod("beginCoherentChanges", &PublisherWrap::BeginCoherentChanges, napi_enumerable),
+            InstanceMethod("copyFromTopicQos", &PublisherWrap::CopyFromTopicQos, napi_enumerable),
+            InstanceMethod("createDataWriter", &PublisherWrap::CreateDataWriter, napi_enumerable),
+            InstanceMethod("deleteContainedEntities", &PublisherWrap::DeleteContainedEntities, napi_enumerable),
+            InstanceMethod("deleteDataWriter", &PublisherWrap::DeleteDataWriter, napi_enumerable),
+            InstanceMethod("enable", &PublisherWrap::Enable, napi_enumerable),
+            InstanceMethod("endCoherentChanges", &PublisherWrap::EndCoherentChanges, napi_enumerable),
+            InstanceMethod("getDefaultDataWriterQos", &PublisherWrap::GetDefaultDataWriterQos, napi_enumerable),
+            InstanceMethod("getInstanceHandle", &PublisherWrap::GetInstanceHandle, napi_enumerable),
+            InstanceMethod("getParticipant", &PublisherWrap::GetParticipant, napi_enumerable),
+            InstanceMethod("getQos", &PublisherWrap::GetQos, napi_enumerable),
+            InstanceMethod("getStatusChanges", &PublisherWrap::GetStatusChanges, napi_enumerable),
+            InstanceMethod("lookupDataWriter", &PublisherWrap::LookupDataWriter, napi_enumerable),
+            InstanceMethod("resumePublications", &PublisherWrap::ResumePublications, napi_enumerable),
+            InstanceMethod("setDefaultDataWriterQos", &PublisherWrap::SetDefaultDataWriterQos, napi_enumerable),
+            InstanceMethod("setQos", &PublisherWrap::SetQos, napi_enumerable),
+            InstanceMethod("suspendPublications", &PublisherWrap::SuspendPublications, napi_enumerable)
+        }
+    );
+
+    Napi::FunctionReference *ctor_ref = new Napi::FunctionReference();
+    *ctor_ref = Napi::Persistent(ctor_func);
+    ctorReg->setConstructorFor(DottedName({ MODNAME, NAME }), ctor_ref);
+
+    exports.Set(NAME, ctor_func);
+    return exports;
+}
+
+Napi::Object
+PublisherWrap::NewInstance(Napi::Env env, DDS::Publisher *publisher, Napi::Object participantJsObj)
+{
+    Napi::EscapableHandleScope scope(env);
+
+    Napi::External< DDS::Publisher > publisher_ext = Napi::External< DDS::Publisher >::New(env, publisher);
+    Napi::FunctionReference *ctor_ref = env.GetInstanceData< ConstructorRegistry >()->getConstructorFor(DottedName({ MODNAME, NAME }));
+    if (nullptr == ctor_ref)
+    {
+        throw Napi::Error::New(env, "TopicWrap::NewInstance(): Internal error: Constructor for Publisher not available.");
+    }
+    Napi::Object result = ctor_ref->New({ publisher_ext, participantJsObj });
+
+    return scope.Escape((napi_value)result).As< Napi::Object >();
+}
+
+PublisherWrap::PublisherWrap(Napi::CallbackInfo const& info):
+    Napi::ObjectWrap< PublisherWrap >(info),
+    m_participantJsObj(NAME, "Participant"),
+    m_publisher(NAME)
+{
+    if (info.Length() != 2)
+    {
+        throw Napi::Error::New(info.Env(), "Publisher constructor provided insufficient arguments.");
+    }
+
+    if (!info[0].IsExternal())
+    {
+        throw Napi::Error::New(info.Env(), "Publisher constructor passed invalid publisher external argument.");
+    }
+
+    if (!info[1].IsObject())
+    {
+        throw Napi::Error::New(info.Env(), "Publisher constructor passed invalid participant JS object argument.");
+    }
+
+    m_publisher.reset(info[0].As< Napi::External< DDS::Publisher > >().Data());
+    m_participantJsObj.reset(info[1].As< Napi::Object >());
+}
 
 } // end namespace DdsJs
+
+// vim: set ts=4 sw=4 expandtab:

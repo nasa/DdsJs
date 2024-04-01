@@ -1,0 +1,94 @@
+/**
+ * \file {{implementationFile.cppFileName}}
+ * \brief Contains the implementation for the \c {{name}} class.
+ * \note Automatically-generated code.
+ * \date {{implementationFile.createDate}}
+ */
+
+//
+// Standard Headers
+#include <sstream>
+
+
+//
+// Class Definition Header
+#include "{{headerFile.headerFileName}}"
+
+
+{{#each owner.namespaceStack}}
+namespace {{this}}
+{
+
+{{/each}}
+const char *{{name}}::MODNAME = "{{owner.fullyScopedJsName}}";
+
+const char *{{name}}::NAME = "{{cppCounterpartName}}";
+
+::Napi::Object
+{{name}}::Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg)
+{
+    ::Napi::Function ctor_func = DefineClass(
+        env,
+        NAME,
+        {
+            InstanceMethod("getMatchedSubscriptionData", &{{name}}::GetMatchedSubscriptionData, napi_enumerable),
+            InstanceMethod("getMatchedSubscriptions", &{{name}}::GetMatchedSubscriptions, napi_enumerable),
+            InstanceMethod("getStatusChanges", &{{name}}::GetStatusChanges, napi_enumerable),
+            InstanceMethod("write", &{{name}}::Write, napi_enumerable)
+        }
+    );
+
+    ::Napi::FunctionReference *ctor_ref = new ::Napi::FunctionReference();
+    *ctor_ref = ::Napi::Persistent(ctor_func);
+    ctorReg->setConstructorFor(::DdsJs::DottedName({ MODNAME, NAME }), ctor_ref);
+
+    exports.Set(NAME, ctor_func);
+    return exports;
+}
+
+
+{{name}}::{{name}}(::Napi::CallbackInfo const& info):
+    {{{baseWrapperName}}}({{name}}::NAME),
+    ::Napi::ObjectWrap< {{name}} >(info)
+{
+    if (info.Length() != 1)
+    {
+        std::stringstream msg;
+
+        msg << NAME << " constructor provided insufficient arguments.";
+
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+
+    if (!info[0].IsExternal())
+    {
+        std::stringstream msg;
+
+        msg << NAME << " constructor passed invalid data reader external argument.";
+
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+
+    m_writer.reset(info[0].As< Napi::External< {{cppCounterpartName}} > >().Data());
+}
+
+
+const char*
+{{name}}::modname() const
+{
+    return MODNAME;
+}
+
+
+const char*
+{{name}}::name() const
+{
+    return NAME;
+}
+
+{{#itemsInReverse owner.namespaceStack}}
+} // end namespace {{this}}
+
+{{/itemsInReverse}}
+
+// vim: set ts=4 sw=4 expandtab:

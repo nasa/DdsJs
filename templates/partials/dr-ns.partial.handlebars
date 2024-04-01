@@ -1,0 +1,12 @@
+class {{name}} implements DDS.DataReader {
+  getLivelinessChangedStatus(): DDS.LivelinessChangedStatus;
+  getMatchedPublicationData(pubHandle: DDS.InstanceHandle): DDS.PublicationBuiltinTopicData;
+  getMatchedPublications(): DDS.InstanceHandle[];
+  getRequestedIncompatibleQosStatus(): DDS.RequestedIncompatibleQosStatus;
+  getSampleLostStatus(): DDS.SampleLostStatus;
+  getSampleRejectedStatus(): DDS.SampleRejectedStatus;
+  getStatusChanges(): DDS.StatusMask;
+  getSubscriptionMatchedStatus(): DDS.SubscriptionMatchedStatus;
+  getQos(): DDS.DataReaderQos;
+  take(maxSamples: number): { sample: {{readerFor}} | null, sampleInfo: DDS.SampleInfo }[];
+}

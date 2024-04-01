@@ -1,0 +1,70 @@
+/**
+ * \file {{headerFile.headerFileName}}
+ * \brief Contains the definition of the \c {{name}} class.
+ * \note Automatically-generated code.
+ * \date {{headerFile.createDate}}
+ */
+
+#ifndef {{headerFile.includeGuard}}
+#define {{headerFile.includeGuard}}
+
+{{#if providerHeader}}
+//
+// DDS Provider Header
+#include <{{providerHeader}}>
+{{/if}}
+
+//
+// Library Headers
+#include <napi.h>
+#include <DdsJs/ddsjs.hh>
+
+{{#each headerFile.memberHeaderFiles}}
+#include <{{this}}>
+{{/each}}
+
+{{#each owner.namespaceStack}}
+namespace {{this}}
+{
+
+{{/each}}
+class {{name}} : public ::Napi::ObjectWrap< {{name}} >
+{
+public:
+    {{#each members}}
+    struct {{innerStructName}}
+    {
+        using Proxy = {{proxyType.name}};
+        static const char *NAME;
+    };
+
+    {{/each}}
+    using CppEntity = {{idlName}};
+    using NapiContainer = {{napiContainerName}};
+
+    static const char *MODNAME;
+    
+    static const char *NAME;
+
+    static ::Napi::Object Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg);
+
+    static NapiContainer NewInstance(::Napi::Env env);
+
+    static NapiContainer NewInstance(::Napi::Env env, CppEntity const& cppInstance);
+
+    static void FromCpp(::Napi::Env env, CppEntity const& cppVal, NapiContainer& jsValOut);
+
+    static void FromJs(::Napi::Env env, NapiContainer const& jsVal, CppEntity& cppValOut);
+
+    {{name}}(::Napi::CallbackInfo const& info);
+
+    virtual ~{{name}}() = default;
+};
+
+{{#itemsInReverse owner.namespaceStack}}
+} // end namespace {{this}}
+
+{{/itemsInReverse}}
+#endif /* !{{headerFile.includeGuard}} */
+
+// vim: set ts=4 sw=4 expandtab:

@@ -1,0 +1,49 @@
+{
+  "name": "dds-js-devkit",
+  "version": "2.0.1",
+  "description": "Development dependencies for NodeJS CoreDX API binding",
+  "author": {
+    "name": "Rolando J. Nieves",
+    "email": "rolando.j.nieves@nasa.gov"
+  },
+  "main": "dist/index.js",
+  "bin": {
+    "ddsjs-idl": "dist/ddsjs-idl.js",
+    "ddsjs-idl-types": "dist/ddsjs-idl-types.js"
+  },
+  "scripts": {
+    "compile-grammar": "java -Xmx500M -cp ${npm_config_antlr4_jar} org.antlr.v4.Tool -Dlanguage=TypeScript -no-listener -visitor src/parser/DdsJsIdl.g4",
+    "prepack": "tsc",
+    "cmake-js": "cmake-js",
+    "rlsbuild": "cmake-js -C --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON rebuild",
+    "dbgbuild": "cmake-js -C -D --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON rebuild",
+    "dbgconfig": "cmake-js -C -D --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON configure",
+    "tsc": "tsc",
+    "astra-publish": "npm pack && astra-npm-pub"
+  },
+  "dependencies": {
+    "antlr4": "^4.13.1-patch-1",
+    "cmake-js": "^7.3.0",
+    "handlebars": "^4.7.8",
+    "node-addon-api": "^7.1.0",
+    "tmp": "^0.2.1",
+    "uuid": "^9.0.1",
+    "yargs": "^17.7.2"
+  },
+  "files": [
+    "DdsJs/**/*.cpp",
+    "DdsJs/**/*.hh",
+    "cmake-js/*.cmake",
+    "dist/**/*.js",
+    "templates/**/*.handlebars"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "@types/tmp": "^0.2.6",
+    "@types/uuid": "^9.0.8",
+    "@types/yargs": "^17.0.32",
+    "astra-npm-pub": "http://10.10.42.100/local-npm-pkgs/astra-npm-pub-1.1.2.tgz",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

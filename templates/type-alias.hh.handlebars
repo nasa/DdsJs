@@ -1,0 +1,39 @@
+/**
+ * \file {{headerFile.headerFileName}}
+ * \brief Contains the definition of the \c {{name}} type alias.
+ * \note Automatically-generated code.
+ * \date {{headerFile.createDate}}
+ */
+
+#ifndef {{headerFile.includeGuard}}
+#define {{headerFile.includeGuard}}
+
+{{#if providerHeader}}
+//
+// DDS Provider Header
+#include <{{providerHeader}}>
+{{/if}}
+
+//
+// Library Headers
+#include <napi.h>
+#include <DdsJs/ddsjs.hh>
+
+{{#if headerFile.aliasForHeader}}
+#include <{{headerFile.aliasForHeader}}>
+{{/if}}
+
+{{#each owner.namespaceStack}}
+namespace {{this}}
+{
+
+{{/each}}
+using {{name}} = {{{aliasFor.name}}};
+
+{{#itemsInReverse owner.namespaceStack}}
+} // end namespace {{this}}
+
+{{/itemsInReverse}}
+#endif /* !{{headerFile.includeGuard}} */
+
+// vim: set ts=4 sw=4 expandtab:
