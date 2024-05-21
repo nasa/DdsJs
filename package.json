@@ -1,6 +1,6 @@
 {
   "name": "dds-js-devkit",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Development dependencies for NodeJS CoreDX API binding",
   "author": {
     "name": "Rolando J. Nieves",
@@ -18,8 +18,7 @@
     "rlsbuild": "cmake-js -C --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON rebuild",
     "dbgbuild": "cmake-js -C -D --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON rebuild",
     "dbgconfig": "cmake-js -C -D --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON configure",
-    "tsc": "tsc",
-    "astra-publish": "npm pack && astra-npm-pub"
+    "tsc": "tsc"
   },
   "dependencies": {
     "antlr4": "^4.13.1-patch-1",
@@ -42,7 +41,6 @@
     "@types/tmp": "^0.2.6",
     "@types/uuid": "^9.0.8",
     "@types/yargs": "^17.0.32",
-    "astra-npm-pub": "http://10.10.42.100/local-npm-pkgs/astra-npm-pub-1.1.2.tgz",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
