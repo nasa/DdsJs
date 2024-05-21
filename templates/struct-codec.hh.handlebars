@@ -34,7 +34,7 @@ public:
     {{#each members}}
     struct {{innerStructName}}
     {
-        using Proxy = {{proxyType.name}};
+        using Proxy = {{{proxyType.name}}};
         static const char *NAME;
     };
 
