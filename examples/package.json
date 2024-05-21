@@ -16,7 +16,7 @@
     },
     "devDependencies": {
         "cmake-js": "^7.3.0",
-        "dds-js-devkit": "file:../dds-js-devkit-2.0.1.tgz",
+        "dds-js-devkit": "file:../dds-js-devkit-2.0.2.tgz",
         "node-addon-api": "^7.1.0"
     },
     "files": [
