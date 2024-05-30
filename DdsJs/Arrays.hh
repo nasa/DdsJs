@@ -39,7 +39,7 @@ template< typename CppContainerType >
 void
 FixedArray< ElementProxy, Size >::FromCpp(Napi::Env env, CppContainerType const& cppVal, NapiContainer& jsValOut)
 {
-   // Whatever values were present in the JS array prior to this call will be
+    // Whatever values were present in the JS array prior to this call will be
     // erased and replaced with fresh values.
     uint32_t jsValSize = jsValOut.Length();
     while ((jsValSize > 0) && (jsValSize > Size))

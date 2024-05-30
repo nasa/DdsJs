@@ -33,7 +33,7 @@ export class CppNameGen {
     let result: string = "";
     
     if (codecProxy instanceof ArrayProxy) {
-      result = `::DdsJs::FixedArray< ${this.proxyNameFor(codecProxy.elemProxy)} >`;
+      result = `::DdsJs::FixedArray< ${this.proxyNameFor(codecProxy.elemProxy)}, ${codecProxy.dimensions.join(", ")} >`;
     } else if (codecProxy instanceof BoundedSequenceProxy) {
       result = `::DdsJs::BoundedSequence< ${this.proxyNameFor(codecProxy.elemProxy)}, ${this.typeGen.forProxy(codecProxy)}, ${codecProxy.boundsExpr} >`;
     } else if (codecProxy instanceof UnboundedSequenceProxy) {

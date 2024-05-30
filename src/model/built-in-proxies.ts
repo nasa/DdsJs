@@ -18,12 +18,11 @@ import { BaseCodecProxy } from "./codec-proxy";
 // ----------------------------------------------------------------------------
 export class ArrayProxy extends BaseCodecProxy {
   public constructor(public readonly elemProxy: BaseCodecProxy, public readonly dimensions: string[], proxyNameGen: CppNameGen) {
-    // let currentProxyName = elemProxy.name;
-    // let currentDim: string | undefined;
+    if (dimensions.length > 1) {
+      let msg = "Multi-dimensional arrays currently not supported.";
+      throw new Error(msg);
+    }
     let cppDims = dimensions.map((aDim) => `[${aDim}]`).join("");
-    // while ((currentDim = dimensions.pop()) !== undefined) {
-    //   currentProxyName = `::DdsJs::FixedArray< ${currentProxyName}, ${currentDim} >`;
-    // }
     super(`${elemProxy.idlName}${cppDims}`, "Napi::Array", `${elemProxy.jsTypeName}[]`);
     this._name = proxyNameGen.proxyNameFor(this);
   }
