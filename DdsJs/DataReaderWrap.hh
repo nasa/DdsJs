@@ -254,7 +254,7 @@ DataReaderWrapBaseT< ReaderType, SampleProxy >::GetMatchedPublications(Napi::Cal
     DDS::InstanceHandleSeq matched_pubs;
 
     DDS::ReturnCode_t result = m_reader.get(info.Env(), METHOD_NAME)->get_matched_publications(&matched_pubs);
-    if (DDS::RETCODE_OK != result)
+    if ((DDS::RETCODE_OK != result) && (DDS::RETCODE_NO_DATA != result))
     {
         throw NewDdsError(info.Env(), DottedName({ modname(), name() }).flat(), METHOD_NAME, result);
     }
@@ -406,3 +406,5 @@ DataReaderWrapBaseT< ReaderType, SampleProxy >::DataReaderWrapBaseT(std::string 
 } // end namespace DdsJs
 
 #endif /* DATAREADERWRAP_HH_ */
+
+// vim: set ts=4 sw=4 expandtab:
