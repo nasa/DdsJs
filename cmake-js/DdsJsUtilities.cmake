@@ -33,6 +33,7 @@ function(add_ddsjs_sources TARGET DDSJS_ROOT)
             "${DDSJS_ROOT}/DdsJs/OwnershipQosPolicy.cpp"
             "${DDSJS_ROOT}/DdsJs/OwnershipQosPolicyKind.cpp"
             "${DDSJS_ROOT}/DdsJs/OwnershipStrengthQosPolicy.cpp"
+            "${DDSJS_ROOT}/DdsJs/ParticipantBuiltinTopicData.cpp"
             "${DDSJS_ROOT}/DdsJs/PartitionQosPolicy.cpp"
             "${DDSJS_ROOT}/DdsJs/PresentationQosPolicy.cpp"
             "${DDSJS_ROOT}/DdsJs/PresentationQosPolicyAccessScopeKind.cpp"

@@ -28,6 +28,7 @@
 #include <DdsJs/OwnershipQosPolicy.hh>
 #include <DdsJs/OwnershipQosPolicyKind.hh>
 #include <DdsJs/OwnershipStrengthQosPolicy.hh>
+#include <DdsJs/ParticipantBuiltinTopicData.hh>
 #include <DdsJs/PartitionQosPolicy.hh>
 #include <DdsJs/PresentationQosPolicy.hh>
 #include <DdsJs/PresentationQosPolicyAccessScopeKind.hh>
@@ -187,6 +188,7 @@ DdsModule::Init(Napi::Env env, Napi::Object exports, ConstructorRegistry *ctorRe
     OwnershipQosPolicyProxy::Init(env, dds_module, ctorReg);
     OwnershipQosPolicyKindProxy::Init(env, dds_module);
     OwnershipStrengthQosPolicyProxy::Init(env, dds_module, ctorReg);
+    ParticipantBuiltinTopicDataProxy::Init(env, dds_module, ctorReg);
     PartitionQosPolicyProxy::Init(env, dds_module, ctorReg);
     PresentationQosPolicyProxy::Init(env, dds_module, ctorReg);
     PresentationQosPolicyAccessScopeKindProxy::Init(env, dds_module);
