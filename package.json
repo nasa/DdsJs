@@ -1,6 +1,6 @@
 {
   "name": "dds-js-devkit",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Development dependencies for NodeJS CoreDX API binding",
   "author": {
     "name": "Rolando J. Nieves",
