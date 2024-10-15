@@ -6,6 +6,7 @@
     "private": true,
     "scripts": {
         "prepack": "npm run native-build",
+        "cmake-js": "cmake-js",
         "addon-src-gen": "ddsjs-idl -o native/addon -r HostMonitorAmalgam.hh -d ${npm_config_with_dds} -b cmake-js HostMonitor.idl",
         "addon-type-gen": "ddsjs-idl-types -m ${npm_package_name} -o ${npm_config_local_prefix}/index.d.ts HostMonitor.idl",
         "native-build": "cmake-js -C --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON rebuild",
@@ -16,7 +17,7 @@
     },
     "devDependencies": {
         "cmake-js": "^7.3.0",
-        "dds-js-devkit": "file:../dds-js-devkit-2.0.2.tgz",
+        "dds-js-devkit": "file:../",
         "node-addon-api": "^7.1.0"
     },
     "files": [

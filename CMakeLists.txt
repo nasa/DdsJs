@@ -27,14 +27,17 @@ include(DdsJsUtilities)
 
 set(WITH_DDS "CoreDX" CACHE STRING "Selected DDS provider (CoreDX is the default).")
 
+set (DDS_DEPENDENCIES "")
+
 if (WITH_DDS STREQUAL "CoreDX")
-    set(DDS_PROVIDER_COMP "Cxxcf")
-    set(DDS_PROVIDER_ST "cdx_node")
-    set(DDS_PROVIDER "DDS_PROVIDER_COREDX")
+    find_package(CoreDX REQUIRED COMPONENTS Cxx)
+    list  (APPEND DDS_DEPENDENCIES "CoreDX::Cxx")
+elseif (WITH_DDS STREQUAL "CycloneDDS")
+    find_package(CycloneDDS REQUIRED)
+    list (APPEND DDS_DEPENDENCIES "CycloneDDS::ddsc")
 else ()
     message (FATAL_ERROR "Missing or unknown DDS provider '${WITH_DDS}'.")
 endif ()
-find_package(${WITH_DDS} REQUIRED COMPONENTS ${DDS_PROVIDER_COMP})
 
 # =============================================================================
 # Derive the include path for node-addon-api.
@@ -56,8 +59,11 @@ message(STATUS "node-addon-api headers at ${NODE_ADDON_API_DIR}")
 add_library(DdsJsRuntime STATIC
     ${CMAKE_JS_SRC}
 )
-add_ddsjs_sources(DdsJsRuntime "${PROJECT_SOURCE_DIR}")
-prepare_provider_header("${WITH_DDS}" "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}/DdsJs")
+add_ddsjs_sources(
+    TARGET DdsJsRuntime
+    DDSJS_ROOT "${PROJECT_SOURCE_DIR}"
+    DDS_PROVIDER ${WITH_DDS}
+)
 
 target_include_directories(DdsJsRuntime
     PRIVATE
@@ -85,7 +91,7 @@ set_target_properties(
     PROPERTIES
         POSITION_INDEPENDENT_CODE True
 )
-target_link_libraries(DdsJsRuntime ${WITH_DDS}::${DDS_PROVIDER_COMP} ${CMAKE_JS_LIB})
+target_link_libraries(DdsJsRuntime ${DDS_DEPENDENCIES} ${CMAKE_JS_LIB})
 ## ----------------------------------------------------------------------------
 
 ## Runtime Library Installation Plan ------------------------------------------
@@ -102,7 +108,7 @@ install(
 ## Package configuration build plan -------------------------------------------
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_local/DdsJs/DdsJsConfig.cmake.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_local/DdsJsConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/DdsJs/DdsJsConfig.cmake"
     INSTALL_DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/DdsJs"
 )

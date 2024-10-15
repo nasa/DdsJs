@@ -1,0 +1,41 @@
+/**
+ * \file OwnershipQosPolicyKind.hh
+ * \brief Contains the definition of the \c OwnershipQosPolicyKindProxy class.
+ * \author Rolando J. Nieves
+ * \date 2024-02-02 10:01:44
+ */
+
+#ifndef _DDSJS_DDSJS_OWNERSHIPQOSPOLICYKIND_HH_
+#define _DDSJS_DDSJS_OWNERSHIPQOSPOLICYKIND_HH_
+
+#include <napi.h>
+
+#include <DdsJs/Providers/CoreDX/CoreDX.hh>
+
+
+namespace DdsJs {
+
+class OwnershipQosPolicyKindProxy
+{
+public:
+    using CppEntity = DDS::OwnershipQosPolicyKind;
+    using NapiContainer = Napi::Number;
+
+    static const char *NAME;
+
+    static Napi::Object Init(Napi::Env env, Napi::Object exports);
+
+    static NapiContainer NewInstance(Napi::Env env);
+
+    static NapiContainer NewInstance(Napi::Env env, CppEntity const& cppInstance);
+
+    static void FromCpp(Napi::Env env, CppEntity const& cppVal, NapiContainer& jsValOut);
+
+    static void FromJs(Napi::Env env, NapiContainer const& jsVal, CppEntity& cppValOut);
+};
+
+} // end namespace DdsJs
+
+#endif /* !_DDSJS_DDSJS_OWNERSHIPQOSPOLICYKIND_HH_ */
+
+// vim: set ts=4 sw=4 expandtab:

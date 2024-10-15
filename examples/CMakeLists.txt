@@ -8,16 +8,19 @@ project(
 )
 set(DDSJS_ROOT "$ENV{npm_config_local_prefix}/node_modules/dds-js-devkit" CACHE PATH "Root of dds-js-devkit package.")
 set(ADDON_GEN_ROOT "${PROJECT_SOURCE_DIR}/native/addon" CACHE PATH "Directory where C++ add-on source files will go.")
-set(PROVIDER_ROOT "${PROJECT_SOURCE_DIR}/native/${WITH_DDS}" CACHE PATH "Directory where DDS provider deposits generated C++.")
+# set(PROVIDER_ROOT "${PROJECT_SOURCE_DIR}/native/${WITH_DDS}" CACHE PATH "Directory where DDS provider deposits generated C++.")
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" "${DDSJS_ROOT}/cmake-js" "${ADDON_GEN_ROOT}/cmake-js")
 
 include(DdsJsUtilities)
-include(HostMonitorAddonUtilities)
-include(TargetIDLSources)
+# include(HostMonitorAddonUtilities)
+# include(TargetIDLSources)
 
 if ("${WITH_DDS}" STREQUAL "CoreDX")
-    find_package(CoreDX REQUIRED COMPONENTS Cxxcf)
-    set(PROVIDER_COMPONENT "CoreDX::Cxxcf")
+    find_package(CoreDX REQUIRED COMPONENTS Cxx)
+    list  (APPEND DDS_DEPENDENCIES "CoreDX::Cxx")
+elseif (WITH_DDS STREQUAL "CycloneDDS")
+    find_package(CycloneDDS REQUIRED)
+    list (APPEND DDS_DEPENDENCIES "CycloneDDS::ddsc")
 endif ()
 
 # ==============================================================================
@@ -47,18 +50,21 @@ message(STATUS "NodeJS module tuple: ${NODE_MODULE_TUPLE}")
 # ==============================================================================
 # NodeJS module library target.
 # ==============================================================================
-add_library("${PROJECT_NAME}" SHARED ${CMAKE_JS_SRC})
-add_ddsjs_sources("${PROJECT_NAME}" "${DDSJS_ROOT}")
-prepare_provider_header("CoreDX" "${DDSJS_ROOT}" "${DDSJS_ROOT}/DdsJs")
-add_HostMonitorAddon_sources("${PROJECT_NAME}" "${ADDON_GEN_ROOT}")
-target_idl_sources(
-    "${PROJECT_NAME}"
-    BINDING "CXX"
-    DDS_PROVIDER "${WITH_DDS}"
-    IDL_SOURCES "${PROJECT_SOURCE_DIR}/HostMonitor.idl"
-    OUTPUT_DIR "${PROVIDER_ROOT}"
-    USE_EXISTING
+add_library("${PROJECT_NAME}" SHARED ${CMAKE_JS_SRC} "native/addon/HostMonitorAddon.cpp")
+add_ddsjs_sources(
+    TARGET "${PROJECT_NAME}"
+    DDSJS_ROOT "${DDSJS_ROOT}"
+    DDS_PROVIDER ${WITH_DDS}
 )
+# add_HostMonitorAddon_sources("${PROJECT_NAME}" "${ADDON_GEN_ROOT}")
+# target_idl_sources(
+#     "${PROJECT_NAME}"
+#     BINDING "CXX"
+#     DDS_PROVIDER "${WITH_DDS}"
+#     IDL_SOURCES "${PROJECT_SOURCE_DIR}/HostMonitor.idl"
+#     OUTPUT_DIR "${PROVIDER_ROOT}"
+#     USE_EXISTING
+# )
 
 set_target_properties(
     ${PROJECT_NAME}
@@ -67,13 +73,13 @@ set_target_properties(
         SUFFIX ".node"
         LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${NODE_MODULE_TUPLE}"
 )
-target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} ${PROVIDER_COMPONENT})
+target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} ${DDS_DEPENDENCIES})
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
         "${PROJECT_SOURCE_DIR}/native"
         ${ADDON_GEN_ROOT}
-        ${PROVIDER_ROOT}
+        # ${PROVIDER_ROOT}
         ${DDSJS_ROOT}
         ${CMAKE_JS_INC}
         ${NODE_ADDON_API_DIR}
