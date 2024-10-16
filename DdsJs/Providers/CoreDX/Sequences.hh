@@ -12,13 +12,11 @@
 
 #include <napi.h>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
-
 
 namespace DdsJs
 {
 
-template< typename ElementCodecType, typename CppContainerType >
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities >
 class UnboundedSequence
 {
 public:
@@ -36,8 +34,8 @@ public:
 };
 
 
-template< typename ElementCodecType, typename CppContainerType, unsigned Bounds >
-class BoundedSequence : public UnboundedSequence< ElementCodecType, CppContainerType >
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities, unsigned Bounds >
+class BoundedSequence : public UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >
 {
 public:
     using NapiContainer = Napi::Array;
@@ -53,9 +51,9 @@ public:
 };
 
 
-template< typename ElementCodecType, typename CppContainerType >
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities >
 void
-UnboundedSequence< ElementCodecType, CppContainerType >::FromCpp(Napi::Env env, CppContainerType const& cppVal, NapiContainer& jsValOut)
+UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::FromCpp(Napi::Env env, CppContainerType const& cppVal, NapiContainer& jsValOut)
 {
     // Whatever values were present in the JS array prior to this call will be
     // erased and replaced with fresh values.
@@ -72,9 +70,9 @@ UnboundedSequence< ElementCodecType, CppContainerType >::FromCpp(Napi::Env env, 
 }
 
 
-template< typename ElementCodecType, typename CppContainerType >
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities >
 void
-UnboundedSequence< ElementCodecType, CppContainerType >::FromJs(Napi::Env env, NapiContainer const& jsVal, CppContainerType& cppValOut)
+UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::FromJs(Napi::Env env, NapiContainer const& jsVal, CppContainerType& cppValOut)
 {
     // Whatever values were present in the C++ array prior to this call will be
     // erased and replaced with fresh values.
@@ -87,18 +85,18 @@ UnboundedSequence< ElementCodecType, CppContainerType >::FromJs(Napi::Env env, N
 }
 
 
-template< typename ElementCodecType, typename CppContainerType >
-typename UnboundedSequence< ElementCodecType, CppContainerType >::NapiContainer
-UnboundedSequence< ElementCodecType, CppContainerType >::NewInstance(Napi::Env env)
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities >
+typename UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::NapiContainer
+UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::NewInstance(Napi::Env env)
 {
     Napi::EscapableHandleScope scope(env);
     return scope.Escape(NapiContainer::New(env)).As< NapiContainer >();
 }
 
 
-template< typename ElementCodecType, typename CppContainerType >
-typename UnboundedSequence< ElementCodecType, CppContainerType >::NapiContainer
-UnboundedSequence< ElementCodecType, CppContainerType >::NewInstance(Napi::Env env, CppContainerType const& cppVal)
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities >
+typename UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::NapiContainer
+UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::NewInstance(Napi::Env env, CppContainerType const& cppVal)
 {
     NapiContainer result = UnboundedSequence::NewInstance(env);
     UnboundedSequence::FromCpp(env, cppVal, result);
@@ -106,17 +104,17 @@ UnboundedSequence< ElementCodecType, CppContainerType >::NewInstance(Napi::Env e
 }
 
 
-template< typename ElementCodecType, typename CppContainerType, unsigned Bounds >
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities, unsigned Bounds >
 void
-BoundedSequence< ElementCodecType, CppContainerType, Bounds >::FromCpp(Napi::Env env, CppContainerType const& cppVal, NapiContainer& jsValOut)
+BoundedSequence< ElementCodecType, CppContainerType, SequenceUtilities, Bounds >::FromCpp(Napi::Env env, CppContainerType const& cppVal, NapiContainer& jsValOut)
 {
-    UnboundedSequence< ElementCodecType, CppContainerType >::FromCpp(env, cppVal, jsValOut);
+    UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::FromCpp(env, cppVal, jsValOut);
 }
 
 
-template< typename ElementCodecType, typename CppContainerType, unsigned Bounds >
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities, unsigned Bounds >
 void
-BoundedSequence< ElementCodecType, CppContainerType, Bounds >::FromJs(Napi::Env env, NapiContainer const& jsVal, CppContainerType& cppValOut)
+BoundedSequence< ElementCodecType, CppContainerType, SequenceUtilities, Bounds >::FromJs(Napi::Env env, NapiContainer const& jsVal, CppContainerType& cppValOut)
 {
     if (jsVal.Length() > Bounds)
     {
@@ -127,23 +125,23 @@ BoundedSequence< ElementCodecType, CppContainerType, Bounds >::FromJs(Napi::Env 
         throw Napi::Error::New(env, error_msg.str().c_str());
     }
 
-    UnboundedSequence< ElementCodecType, CppContainerType >::FromJs(env, jsVal, cppValOut);
+    UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::FromJs(env, jsVal, cppValOut);
 }
 
 
-template< typename ElementCodecType, typename CppContainerType, unsigned Bounds >
-typename BoundedSequence< ElementCodecType, CppContainerType, Bounds >::NapiContainer
-BoundedSequence< ElementCodecType, CppContainerType, Bounds >::NewInstance(Napi::Env env)
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities, unsigned Bounds >
+typename BoundedSequence< ElementCodecType, CppContainerType, SequenceUtilities, Bounds >::NapiContainer
+BoundedSequence< ElementCodecType, CppContainerType, SequenceUtilities, Bounds >::NewInstance(Napi::Env env)
 {
-    return UnboundedSequence< ElementCodecType, CppContainerType >::NewInstance(env);
+    return UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::NewInstance(env);
 }
 
 
-template< typename ElementCodecType, typename CppContainerType, unsigned Bounds >
-typename BoundedSequence< ElementCodecType, CppContainerType, Bounds >::NapiContainer
-BoundedSequence< ElementCodecType, CppContainerType, Bounds >::NewInstance(Napi::Env env, CppContainerType const& cppVal)
+template< typename ElementCodecType, typename CppContainerType, template< typename ContainerType, typename ElementType > typename SequenceUtilities, unsigned Bounds >
+typename BoundedSequence< ElementCodecType, CppContainerType, SequenceUtilities, Bounds >::NapiContainer
+BoundedSequence< ElementCodecType, CppContainerType, SequenceUtilities, Bounds >::NewInstance(Napi::Env env, CppContainerType const& cppVal)
 {
-    return UnboundedSequence< ElementCodecType, CppContainerType >::NewInstance(env, cppVal);
+    return UnboundedSequence< ElementCodecType, CppContainerType, SequenceUtilities >::NewInstance(env, cppVal);
 }
 
 } // end namespace DdsJs
