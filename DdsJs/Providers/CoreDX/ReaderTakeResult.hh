@@ -12,19 +12,11 @@
 
 #include <napi.h>
 
-// --------------------------------------------------------------------------
-// CoreDX API Headers
-#include <dds/dds.hh>
-#include <dds/dds_builtin.hh>
-#include <dds/dds_typesupport.hh>
-
-#include <DdsJs/Providers/CoreDX/SampleInfo.hh>
-
 
 namespace DdsJs
 {
 
-template< typename SampleProxy, typename TakeResultIterator >
+template< typename SampleProxy, typename SampleInfoProxy, typename TakeResultIterator >
 class ReaderTakeResult
 {
 private:
