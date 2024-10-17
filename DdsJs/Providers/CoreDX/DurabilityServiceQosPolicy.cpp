@@ -1,14 +1,17 @@
 /**
- * \file DurabilityServiceQosPolicy.cpp
+ * \file CoreDX/DurabilityServiceQosPolicy.cpp
  * \brief Contains the implementation for the \c DurabilityServiceQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:02:20
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DurabilityServiceQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DurabilityServiceQosPolicyProxy::ServiceCleanupDelayField::NAME = "service_cleanup_delay";
 

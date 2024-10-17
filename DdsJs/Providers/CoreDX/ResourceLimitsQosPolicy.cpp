@@ -1,14 +1,17 @@
 /**
- * \file ResourceLimitsQosPolicy.cpp
+ * \file CoreDX/ResourceLimitsQosPolicy.cpp
  * \brief Contains the implementation for the \c ResourceLimitsQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:10:22
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "ResourceLimitsQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *ResourceLimitsQosPolicyProxy::MaxSamplesField::NAME = "max_samples";
 

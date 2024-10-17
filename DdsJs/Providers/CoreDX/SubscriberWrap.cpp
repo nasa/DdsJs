@@ -1,10 +1,12 @@
 /**
- * \file SubscriberWrap.cpp
+ * \file CoreDX/SubscriberWrap.cpp
  * \brief Contains the implementation for the \c SubscriberWrap class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 17:14:40
  */
 
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/DataReaderQos.hh>
 #include <DdsJs/Providers/CoreDX/DataReaderWrap.hh>
 #include <DdsJs/Providers/CoreDX/SubscriberQos.hh>
@@ -12,10 +14,13 @@
 #include <DdsJs/Providers/CoreDX/TopicWrap.hh>
 #include <DdsJs/Providers/CoreDX/dds_error_util.hh>
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "SubscriberWrap.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *SubscriberWrap::MODNAME = "DDS";
 

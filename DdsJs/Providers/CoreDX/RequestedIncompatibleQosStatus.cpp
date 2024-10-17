@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/RequestedIncompatibleQosStatus.cpp
+ * \file CoreDX/RequestedIncompatibleQosStatus.cpp
  * \brief Contains the implementation for the \c RequestedIncompatibleQosStatusProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 16:38:56
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "RequestedIncompatibleQosStatus.hh"
 
 

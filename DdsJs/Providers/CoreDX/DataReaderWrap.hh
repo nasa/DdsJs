@@ -1,34 +1,51 @@
 /**
- * \file DataReaderWrap.hh
+ * \file CoreDX/DataReaderWrap.hh
  * \brief Contains the definition of the \c DataReaderWrapBaseT template class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 09:49:27
  */
 
-#ifndef DATAREADERWRAP_HH_
-#define DATAREADERWRAP_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_DATAREADERWRAP_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_DATAREADERWRAP_HH_
 
+// --------------------------------------------------------------------------
+// Standard C++ Library
 #include <cstdlib>
 #include <memory>
 #include <sstream>
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
 #include <DdsJs/CppBackingInstance.hh>
+#include <DdsJs/ReaderTakeResult.hh>
+#include <DdsJs/Sequences.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Arrays.hh>
 #include <DdsJs/Providers/CoreDX/DataReaderQos.hh>
 #include <DdsJs/Providers/CoreDX/LivelinessChangedStatus.hh>
 #include <DdsJs/Providers/CoreDX/PublicationBuiltinTopicData.hh>
-#include <DdsJs/Providers/CoreDX/ReaderTakeResult.hh>
+#include <DdsJs/Providers/CoreDX/ReaderTakeOperation.hh>
 #include <DdsJs/Providers/CoreDX/RequestedIncompatibleQosStatus.hh>
+#include <DdsJs/Providers/CoreDX/SampleInfo.hh>
 #include <DdsJs/Providers/CoreDX/SampleLostStatus.hh>
 #include <DdsJs/Providers/CoreDX/SampleRejectedStatus.hh>
-#include <DdsJs/Providers/CoreDX/Sequences.hh>
+#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
 #include <DdsJs/Providers/CoreDX/StatusMask.hh>
 #include <DdsJs/Providers/CoreDX/SubscriptionMatchedStatus.hh>
 #include <DdsJs/Providers/CoreDX/dds_error_util.hh>
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
 namespace DdsJs
 {
@@ -57,7 +74,7 @@ protected:
     /**
      * take() operation logic type alias.
      */
-    using TakeOperation = ReaderTakeOperation< ReaderType, typename SampleProxy::CppEntity >;
+    using TakeOperation = CoreDX::ReaderTakeOperation< ReaderType, typename SampleProxy::CppEntity >;
 
     /**
      * Reference to the actual C++ \c DDS::DataReader derived instance.
@@ -259,7 +276,7 @@ DataReaderWrapBaseT< ReaderType, SampleProxy >::GetMatchedPublications(Napi::Cal
         throw NewDdsError(info.Env(), DottedName({ modname(), name() }).flat(), METHOD_NAME, result);
     }
 
-    return UnboundedSequence< InstanceHandleProxy, DDS::InstanceHandleSeq >::NewInstance(info.Env(), matched_pubs);
+    return UnboundedSequence< InstanceHandleProxy, DDS::InstanceHandleSeq, CoreDX::SequenceUtilities >::NewInstance(info.Env(), matched_pubs);
 }
 
 
@@ -392,7 +409,7 @@ DataReaderWrapBaseT< ReaderType, SampleProxy >::Take(Napi::CallbackInfo const& i
         throw NewDdsError(info.Env(), DottedName({ modname(), name() }).flat(), METHOD_NAME, take_result);
     }
     
-    ReaderTakeResult< SampleProxy, TakeOperation > result(std::forward< std::unique_ptr< TakeOperation > >(take_op_ptr));
+    ReaderTakeResult< SampleProxy, SampleInfoProxy, TakeOperation > result(std::forward< std::unique_ptr< TakeOperation > >(take_op_ptr));
 
     return result.toJs(info.Env());
 }
@@ -405,6 +422,6 @@ DataReaderWrapBaseT< ReaderType, SampleProxy >::DataReaderWrapBaseT(std::string 
 
 } // end namespace DdsJs
 
-#endif /* DATAREADERWRAP_HH_ */
+#endif /* _DDSJS_DDSJS_PROVIDERS_COREDX_DATAREADERWRAP_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

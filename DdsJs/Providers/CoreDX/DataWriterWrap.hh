@@ -1,26 +1,41 @@
 /**
- * \file DataWriterWrap.hh
+ * \file CoreDX/DataWriterWrap.hh
  * \brief Contains the definition of the \c DataWriterWrapBaseT template class.
  * \date 2014-10-15
  * \author Rolando J. Nieves
  */
 
-#ifndef _DDSJS_DDSJS_DATAWRITERWRAP_HH_
-#define _DDSJS_DDSJS_DATAWRITERWRAP_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_DATAWRITERWRAP_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_DATAWRITERWRAP_HH_
 
+// --------------------------------------------------------------------------
+// Standard C++ Library
 #include <sstream>
 #include <string>
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/CppBackingInstance.hh>
 #include <DdsJs/DottedName.hh>
+#include <DdsJs/Sequences.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/InstanceHandle.hh>
-#include <DdsJs/Providers/CoreDX/Sequences.hh>
+#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
 #include <DdsJs/Providers/CoreDX/StatusMask.hh>
 #include <DdsJs/Providers/CoreDX/SubscriptionBuiltinTopicData.hh>
 #include <DdsJs/Providers/CoreDX/dds_error_util.hh>
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
 
 namespace DdsJs
@@ -138,7 +153,7 @@ DataWriterWrapBaseT< WriterType, SampleProxy >::GetMatchedSubscriptions(Napi::Ca
         throw NewDdsError(info.Env(), DottedName({ modname(), name() }).flat(), METHOD_NAME, result);
     }
 
-    return UnboundedSequence< InstanceHandleProxy, DDS::InstanceHandleSeq >::NewInstance(info.Env(), matched_subs);
+    return UnboundedSequence< InstanceHandleProxy, DDS::InstanceHandleSeq, CoreDX::SequenceUtilities >::NewInstance(info.Env(), matched_subs);
 }
 
 
@@ -197,6 +212,6 @@ DataWriterWrapBaseT< WriterType, SampleProxy >::DataWriterWrapBaseT(std::string 
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_DATAWRITERWRAP_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_DATAWRITERWRAP_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

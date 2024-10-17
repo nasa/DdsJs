@@ -1,13 +1,25 @@
 /**
- * \file DdsJs/SubscriptionBuiltinTopicData.hh
+ * \file CoreDX/SubscriptionBuiltinTopicData.hh
  * \brief Contains the definition of the \c SubscriptionBuiltinTopicDataProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-15 12:05:23
  */
 
-#ifndef _DDSJS_DDSJS_SUBSCRIPTIONBUILTINTOPICDATA_HH_
-#define _DDSJS_DDSJS_SUBSCRIPTIONBUILTINTOPICDATA_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_SUBSCRIPTIONBUILTINTOPICDATA_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_SUBSCRIPTIONBUILTINTOPICDATA_HH_
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
+#include <DdsJs/Strings.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/BuiltinTopicKey.hh>
 #include <DdsJs/Providers/CoreDX/DeadlineQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/DestinationOrderQosPolicy.hh>
@@ -19,7 +31,7 @@
 #include <DdsJs/Providers/CoreDX/PartitionQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/PresentationQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/ReliabilityQosPolicy.hh>
-#include <DdsJs/Providers/CoreDX/Strings.hh>
+#include <DdsJs/Providers/CoreDX/StringUtilities.hh>
 #include <DdsJs/Providers/CoreDX/TimeBasedFilterQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/TopicDataQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/UserDataQosPolicy.hh>
@@ -45,13 +57,13 @@ public:
 
     struct TopicNameField
     {
-        using Proxy = UnboundedString;
+        using Proxy = UnboundedString< CoreDX::StringUtilities >;
         static const char *NAME;
     };
 
     struct TypeNameField
     {
-        using Proxy = UnboundedString;
+        using Proxy = UnboundedString< CoreDX::StringUtilities >;
         static const char *NAME;
     };
 
@@ -156,6 +168,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_SUBSCRIPTIONBUILTINTOPICDATA_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_SUBSCRIPTIONBUILTINTOPICDATA_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

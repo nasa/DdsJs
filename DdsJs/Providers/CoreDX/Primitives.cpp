@@ -1,11 +1,12 @@
 /**
- * \file Primitives.cpp
+ * \file CoreDX/Primitives.cpp
  * \brief Contains the implementation for the primitive value translation classes between NodeJS and C++
  * \date 2023-12-15 16:14:46
  * \author Rolando J. Nieves
  */
 
-
+// --------------------------------------------------------------------------
+// Local Definition
 #include "Primitives.hh"
 
 namespace DdsJs

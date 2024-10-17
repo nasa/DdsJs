@@ -1,19 +1,30 @@
 /**
- * \file DestinationOrderQosPolicy.hh
+ * \file CoreDX/DestinationOrderQosPolicy.hh
  * \brief Contains the definition of the \c DestinationOrderQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 17:01:40
  */
 
-#ifndef _DDSJS_DDSJS_DESTINATIONORDERQOSPOLICY_HH_
-#define _DDSJS_DDSJS_DESTINATIONORDERQOSPOLICY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_DESTINATIONORDERQOSPOLICY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_DESTINATIONORDERQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
-#include <DdsJs/ConstructorRegistry.hh>
-#include <DdsJs/Providers/CoreDX/DestinationOrderQosPolicyKind.hh>
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
+// --------------------------------------------------------------------------
+// DdsJs Generic
+#include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
+#include <DdsJs/Providers/CoreDX/DestinationOrderQosPolicyKind.hh>
 
 
 namespace DdsJs {
@@ -51,6 +62,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_DESTINATIONORDERQOSPOLICY_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_DESTINATIONORDERQOSPOLICY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

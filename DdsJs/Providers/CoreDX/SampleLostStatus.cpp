@@ -1,11 +1,12 @@
 /**
- * \file DdsJs/SampleLostStatus.cpp
+ * \file CoreDX/SampleLostStatus.cpp
  * \brief Contains the implementation for the \c SampleLostStatusProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-12 18:05:31
  */
 
-
+// --------------------------------------------------------------------------
+// Local Definition
 #include "SampleLostStatus.hh"
 
 

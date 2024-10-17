@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/SampleRejectedStatus.cpp
+ * \file CoreDX/SampleRejectedStatus.cpp
  * \brief Contains the implementation for the \c SampleRejectedStatusProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-13 12:45:36
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "SampleRejectedStatus.hh"
 
 

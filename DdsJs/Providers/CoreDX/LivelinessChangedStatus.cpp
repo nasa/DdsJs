@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/LivelinessChangedStatus.cpp
+ * \file CoreDX/LivelinessChangedStatus.cpp
  * \brief Contains the implementation for the \c LivelinessChangedStatus class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 12:03:54
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "LivelinessChangedStatus.hh"
 
 

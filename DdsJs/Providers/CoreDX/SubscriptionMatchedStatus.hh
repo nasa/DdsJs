@@ -1,19 +1,31 @@
 /**
- * \file SubscriptionMatchedStatus.hh
+ * \file CoreDX/SubscriptionMatchedStatus.hh
  * \brief Contains the defintion of the \c SubscriptionMatchedStatusProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-13 13:24:49
  */
 
-#ifndef _DDSJS_DDSJS_SUBSCRIPTIONMATCHEDSTATUS_HH_
-#define _DDSJS_DDSJS_SUBSCRIPTIONMATCHEDSTATUS_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_SUBSCRIPTIONMATCHEDSTATUS_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_SUBSCRIPTIONMATCHEDSTATUS_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/InstanceHandle.hh>
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
 
 namespace DdsJs
@@ -75,4 +87,4 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_SUBSCRIPTIONMATCHEDSTATUS_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_SUBSCRIPTIONMATCHEDSTATUS_HH_ */

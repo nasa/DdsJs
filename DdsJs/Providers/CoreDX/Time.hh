@@ -1,20 +1,34 @@
 /**
- * \file Time.hh
+ * \file CoreDX/Time.hh
  * \brief Contains the definition of the \c TimeProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-03-20 15:55:42
  */
 
-#ifndef _DDSJS_DDSJS_TIME_HH_
-#define _DDSJS_DDSJS_TIME_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_TIME_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_TIME_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
+#include <napi.h>
+
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class TimeProxy : public Napi::ObjectWrap< TimeProxy >
 {
@@ -54,6 +68,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_TIME_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_TIME_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

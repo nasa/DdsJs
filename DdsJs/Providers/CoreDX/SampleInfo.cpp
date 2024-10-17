@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/SampleInfo.cpp
+ * \file CoreDX/SampleInfo.cpp
  * \brief Contains the implementation for the \c SampleInfoProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-14 13:51:42
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "SampleInfo.hh"
 
 

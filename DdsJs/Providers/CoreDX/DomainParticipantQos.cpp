@@ -1,14 +1,17 @@
 /**
- * \file DomainParticipantQos.cpp
+ * \file CoreDX/DomainParticipantQos.cpp
  * \brief Contains the implementation for the \c DomainParticipantQosProxy class.
  * \author Rolando J. Nieves
  * \date 2024-01-23 11:07:21
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DomainParticipantQos.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DomainParticipantQosProxy::EntityFactoryField::NAME = "entity_factory";
 

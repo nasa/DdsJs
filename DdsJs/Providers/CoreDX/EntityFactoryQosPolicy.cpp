@@ -1,14 +1,17 @@
 /**
- * \file EntityFactoryQosPolicy.cpp
+ * \file CoreDX/EntityFactoryQosPolicy.cpp
  * \brief Contains the implementation of the \c EntityFactoryQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-23 10:27:06
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "EntityFactoryQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *EntityFactoryQosPolicyProxy::AutoenableCreatedEntitiesField::NAME = "autoenable_created_entities";
 

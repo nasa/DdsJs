@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/DataReaderWrap.cpp
+ * \file CoreDX/DataReaderWrap.cpp
  * \brief Contains the implementation for the \c DataReaderWrapFactory class.
  * \author Rolando J. Nieves
  * \date 2024-03-14 15:36:24
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DataReaderWrap.hh"
 
 

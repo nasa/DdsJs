@@ -1,30 +1,43 @@
 /**
- * \file TopicDataQosPolicy.hh
+ * \file CoreDX/TopicDataQosPolicy.hh
  * \brief Contains the definition of the \c TopicDataQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 14:52:43
  */
 
-#ifndef _DDSJS_DDSJS_TOPICDATAQOSPOLICY_HH_
-#define _DDSJS_DDSJS_TOPICDATAQOSPOLICY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_TOPICDATAQOSPOLICY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_TOPICDATAQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+#include <DdsJs/Sequences.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
-#include <DdsJs/Providers/CoreDX/Sequences.hh>
-
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
+#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 class TopicDataQosPolicyProxy : public Napi::ObjectWrap< TopicDataQosPolicyProxy >
 {
 public:
     struct ValueField
     {
-        using Proxy = UnboundedSequence< OctetPrimitive, decltype(DDS::TopicDataQosPolicy::value) >;
+        using Proxy = UnboundedSequence< OctetPrimitive, decltype(DDS::TopicDataQosPolicy::value), CoreDX::SequenceUtilities >;
         static const char* NAME;
     };
 
@@ -51,6 +64,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_TOPICDATAQOSPOLICY_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_TOPICDATAQOSPOLICY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

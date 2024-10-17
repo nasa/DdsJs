@@ -1,22 +1,34 @@
 /**
- * \file WriterDataLifecycleQosPolicy.hh
+ * \file CoreDX/WriterDataLifecycleQosPolicy.hh
  * \brief Contains the definition of the \c WriterDataLifecycleQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 11:54:22
  */
 
-#ifndef _DDSJS_DDSJS_WRITERDATALIFECYCLEQOSPOLICY_HH_
-#define _DDSJS_DDSJS_WRITERDATALIFECYCLEQOSPOLICY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_WRITERDATALIFECYCLEQOSPOLICY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_WRITERDATALIFECYCLEQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class WriterDataLifecycleQosPolicyProxy : public Napi::ObjectWrap< WriterDataLifecycleQosPolicyProxy >
 {
@@ -51,6 +63,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_WRITERDATALIFECYCLEQOSPOLICY_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_WRITERDATALIFECYCLEQOSPOLICY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/QosPolicyCount.cpp
+ * \file CoreDX/QosPolicyCount.cpp
  * \brief Contains the implementation for the \c QosPolicyCountProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 16:26:15
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "QosPolicyCount.hh"
 
 

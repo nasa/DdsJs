@@ -1,17 +1,27 @@
 /**
- * \file DdsJs/BuiltinTopicKey.hh
+ * \file CoreDX/BuiltinTopicKey.hh
  * \brief Contains the definition of the \c BuiltinTopicKeyProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 14:20:50
  */
 
-#ifndef _DDSJS_DDSJS_BUILTINTOPICKEY_HH_
-#define _DDSJS_DDSJS_BUILTINTOPICKEY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_BUILTINTOPICKEY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_BUILTINTOPICKEY_HH_
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Arrays.hh>
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
 
 namespace DdsJs
@@ -48,7 +58,8 @@ public:
     virtual ~BuiltinTopicKeyProxy() = default;
 };
 
-}
-#endif /* !_DDSJS_DDSJS_BUILTINTOPICKEY_HH_ */
+} // end namespace DdsJs
+
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_BUILTINTOPICKEY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

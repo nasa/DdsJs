@@ -1,13 +1,15 @@
 /**
- * \file Arrays.hh
+ * \file CoreDX/Arrays.hh
  * \brief Contains the definition of the \c ArrayProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-26 17:21:45
  */
 
-#ifndef _DDSJS_DDSJS_ARRAYS_HH_
-#define _DDSJS_DDSJS_ARRAYS_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_ARRAYS_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_ARRAYS_HH_
 
+// --------------------------------------------------------------------------
+// Standard C++ Library
 #include <sstream>
 #include <napi.h>
 
@@ -99,6 +101,6 @@ FixedArray< ElementProxy, Size >::NewInstance(Napi::Env env, CppContainerType co
 }
 
 }
-#endif /* !_DDSJS_DDSJS_ARRAYS_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_ARRAYS_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

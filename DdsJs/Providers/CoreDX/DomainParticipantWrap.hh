@@ -1,22 +1,34 @@
 /**
- * \file DomainParticipantWrap.hh
+ * \file CoreDX/DomainParticipantWrap.hh
  * \brief Contains the definition of the \c DomainParticipantWrap class.
  * \author Rolando J. Nieves
  * \date 2014-07-28 16:02:00
  */
-#ifndef _DDS_JS_DOMAIN_PARTICIPANT_WRAP_HH_
-#define _DDS_JS_DOMAIN_PARTICIPANT_WRAP_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_DOMAINPARTICIPANTWRAP_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_DOMAINPARTICIPANTWRAP_HH_
 
+// --------------------------------------------------------------------------
+// Standard C++ Library
 #include <map>
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
 #include <DdsJs/CppBackingInstance.hh>
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 struct TypeSupportAssociations;
 
@@ -65,4 +77,4 @@ private:
 
 } // end namespace DdsJs
 
-#endif /* _DDS_JS_DOMAIN_PARTICIPANT_WRAP_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_DOMAINPARTICIPANTWRAP_HH_ */

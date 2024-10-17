@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/SubscriptionBuiltinTopicData.cpp
+ * \file CoreDX/SubscriptionBuiltinTopicData.cpp
  * \brief Contains the implementation for the \c SubscriptionBuiltinTopicDataProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-15 12:16:33
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "SubscriptionBuiltinTopicData.hh"
 
 

@@ -1,23 +1,35 @@
 /**
- * \file ReliabilityQosPolicy.hh
+ * \file CoreDX/ReliabilityQosPolicy.hh
  * \brief Contains the definition of the \c ReliabilityQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:49:40
  */
 
-#ifndef _DDSJS_DDSJS_RELIABILITYQOSPOLICY_HH_
-#define _DDSJS_DDSJS_RELIABILITYQOSPOLICY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_RELIABILITYQOSPOLICY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_RELIABILITYQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Duration.hh>
 #include <DdsJs/Providers/CoreDX/ReliabilityQosPolicyKind.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class ReliabilityQosPolicyProxy : public Napi::ObjectWrap< ReliabilityQosPolicyProxy >
 {
@@ -58,6 +70,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_RELIABILITYQOSPOLICY_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_RELIABILITYQOSPOLICY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

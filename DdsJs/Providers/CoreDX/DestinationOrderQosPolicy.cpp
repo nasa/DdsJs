@@ -1,14 +1,17 @@
 /**
- * \file DestinationOrderQosPolicy.cpp
+ * \file CoreDX/DestinationOrderQosPolicy.cpp
  * \brief Contains the implementation of the \c DestinationOrderQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 17:04:05
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DestinationOrderQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DestinationOrderQosPolicyProxy::KindField::NAME = "kind";
 

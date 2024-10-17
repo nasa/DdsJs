@@ -1,14 +1,17 @@
 /**
- * \file WriterDataLifecycleQosPolicy.cpp
+ * \file CoreDX/WriterDataLifecycleQosPolicy.cpp
  * \brief Contains the implementation for the \c WriterDataLifecycleQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 11:57:07
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "WriterDataLifecycleQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *WriterDataLifecycleQosPolicyProxy::AutodisposeUnregisteredInstancesField::NAME = "autodispose_unregistered_instances";
 

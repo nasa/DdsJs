@@ -1,14 +1,17 @@
 /**
- * \file ReaderDataLifecycleQosPolicy.cpp
+ * \file CoreDX/ReaderDataLifecycleQosPolicy.cpp
  * \brief Contains the implementation for the \c ReaderDataLifecycleQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 12:37:16
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "ReaderDataLifecycleQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *ReaderDataLifecycleQosPolicyProxy::AutopurgeNowriterSamplesDelayField::NAME = "autopurge_nowriter_samples_delay";
 

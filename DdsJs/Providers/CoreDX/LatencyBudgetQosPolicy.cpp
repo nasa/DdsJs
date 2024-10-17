@@ -1,14 +1,17 @@
 /**
- * \file LatencyBudgetQosPolicy.cpp
+ * \file CoreDX/LatencyBudgetQosPolicy.cpp
  * \brief Contains the implementation for the \c LatencyBudgetQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:27:52
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "LatencyBudgetQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *LatencyBudgetQosPolicyProxy::DurationField::NAME = "duration";
 

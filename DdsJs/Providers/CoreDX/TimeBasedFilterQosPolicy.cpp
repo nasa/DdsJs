@@ -1,14 +1,17 @@
 /**
- * \file TimeBasedFilterQosPolicy.cpp
+ * \file CoreDX/TimeBasedFilterQosPolicy.cpp
  * \brief Contains the implementation for the \c TimeBasedFilterQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 12:17:26
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "TimeBasedFilterQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *TimeBasedFilterQosPolicyProxy::MinimumSeparationField::NAME = "minimum_separation";
 

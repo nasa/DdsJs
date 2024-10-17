@@ -1,14 +1,17 @@
 /**
- * \file LifespanQosPolicy.cpp
+ * \file CoreDX/LifespanQosPolicy.cpp
  * \brief Contains the implementation for the \c LifespanQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 09:56:36
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "LifespanQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *LifespanQosPolicyProxy::DurationField::NAME = "duration";
 

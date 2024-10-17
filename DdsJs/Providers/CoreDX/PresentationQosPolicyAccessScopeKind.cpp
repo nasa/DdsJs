@@ -1,14 +1,17 @@
 /**
- * \file PresentationQosPolicyAccessScopeKind.cpp
+ * \file CoreDX/PresentationQosPolicyAccessScopeKind.cpp
  * \brief Contains the implementation of the \c PresentationQosPolicyAccessScopeKindProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-23 11:41:02
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "PresentationQosPolicyAccessScopeKind.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *PresentationQosPolicyAccessScopeKindProxy::NAME = "PresentationQosPolicyAccessScopeKind";
 

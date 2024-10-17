@@ -1,14 +1,17 @@
 /**
- * \file DeadlineQosPolicy.cpp
+ * \file CoreDX/DeadlineQosPolicy.cpp
  * \brief Contains the implementation for the \c DeadlineQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:20:15
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DeadlineQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DeadlineQosPolicyProxy::PeriodField::NAME = "period";
 

@@ -1,16 +1,17 @@
 /**
- * \file DurabilityQosPolicy.cpp
+ * \file CoreDX/DurabilityQosPolicy.cpp
  * \brief Contains the implementation for the \c DurabilityQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 15:18:00
  */
 
-// #include <ddsjs.hh>
-
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DurabilityQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DurabilityQosPolicyProxy::KindField::NAME = "kind";
 

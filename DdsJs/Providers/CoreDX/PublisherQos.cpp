@@ -1,14 +1,17 @@
 /**
- * \file PublisherQos.cpp
+ * \file CoreDX/PublisherQos.cpp
  * \brief Contains the implementation for the \c PublisherQosProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-24 15:58:10
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "PublisherQos.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *PublisherQosProxy::EntityFactoryField::NAME = "entity_factory";
 

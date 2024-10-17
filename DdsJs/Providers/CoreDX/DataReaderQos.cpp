@@ -1,14 +1,17 @@
 /**
- * \file DataReaderQos.cpp
+ * \file CoreDX/DataReaderQos.cpp
  * \brief Contains the implementation for the \c DataReaderQosProxy class.
  * \author Rolando J. Nieves
  * \date 2024-02-02 12:46:52
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DataReaderQos.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DataReaderQosProxy::DeadlineField::NAME = "deadline";
 

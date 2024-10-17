@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/BuiltinTopicKey.cpp
+ * \file CoreDX/BuiltinTopicKey.cpp
  * \brief Contains the implementation for the \c BuiltinTopicKeyProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 14:44:40
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "BuiltinTopicKey.hh"
 
 

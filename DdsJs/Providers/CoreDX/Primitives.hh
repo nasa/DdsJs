@@ -1,13 +1,15 @@
 /**
- * \file Primitives.hh
+ * \file CoreDX/Primitives.hh
  * \brief Contains the primitive value translation classes between NodeJS and C++
  * \date 2023-12-15 16:05:11
  * \author Rolando J. Nieves
  */
 
-#ifndef _DDSJS_DDSJS_PRIMITIVES_HH_
-#define _DDSJS_DDSJS_PRIMITIVES_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_PRIMITIVES_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_PRIMITIVES_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
 
@@ -260,6 +262,6 @@ UnsignedShortPrimitive::NewInstance(Napi::Env env, CppEntity const& cppVal);
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_PRIMITIVES_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_PRIMITIVES_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

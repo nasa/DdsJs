@@ -1,14 +1,17 @@
 /**
- * \file LivelinessQosPolicyKind.cpp
+ * \file CoreDX/LivelinessQosPolicyKind.cpp
  * \brief Contains the implementation for the \c LivelinessQosPolicyKindProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:33:32
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "LivelinessQosPolicyKind.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *LivelinessQosPolicyKindProxy::NAME = "LivelinessQosPolicyKind";
 

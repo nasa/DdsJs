@@ -1,14 +1,17 @@
 /**
- * \file Duration.cpp
+ * \file CoreDX/Duration.cpp
  * \brief Contains the implementation for the \c DurationProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 15:50:56
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "Duration.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DurationProxy::SecField::NAME = "sec";
 

@@ -1,16 +1,29 @@
 /**
- * \file TopicQos.hh
+ * \file CoreDX/TopicQos.hh
  * \brief Contains the definition for the \c TopicQosProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 10:18:41
  */
 
-#ifndef _DDSJS_DDSJS_TOPICQOS_HH_
-#define _DDSJS_DDSJS_TOPICQOS_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_TOPICQOS_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_TOPICQOS_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/DeadlineQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/DestinationOrderQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/DurabilityQosPolicy.hh>
@@ -25,10 +38,9 @@
 #include <DdsJs/Providers/CoreDX/TopicDataQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/TransportPriorityQosPolicy.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class TopicQosProxy : public Napi::ObjectWrap< TopicQosProxy >
 {
@@ -136,6 +148,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_TOPICQOS_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_TOPICQOS_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

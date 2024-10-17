@@ -1,10 +1,12 @@
 /**
- * \file ReliabilityQosPolicyKind.cpp
+ * \file CoreDX/ReliabilityQosPolicyKind.cpp
  * \brief Contains the implementation for the \c ReliabilityQosPolicyKindProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:47:08
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "ReliabilityQosPolicyKind.hh"
 
 

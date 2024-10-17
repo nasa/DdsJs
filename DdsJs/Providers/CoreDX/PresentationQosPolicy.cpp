@@ -1,14 +1,17 @@
 /**
- * \file PresentationQosPolicy.cpp
+ * \file CoreDX/PresentationQosPolicy.cpp
  * \brief Contains the implementation of the \c PresentationQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-23 12:21:39
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "PresentationQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *PresentationQosPolicyProxy::AccessScopeField::NAME = "access_scope";
 

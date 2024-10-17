@@ -1,22 +1,34 @@
 /**
- * \file OwnershipQosPolicy.hh
+ * \file CoreDX/OwnershipQosPolicy.hh
  * \brief Contains the definition of the \c OwnershipQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 10:07:52
  */
 
-#ifndef _DDSJS_DDSJS_OWNERSHIPQOSPOLICY_HH_
-#define _DDSJS_DDSJS_OWNERSHIPQOSPOLICY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_OWNERSHIPQOSPOLICY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_OWNERSHIPQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/OwnershipQosPolicyKind.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class OwnershipQosPolicyProxy : public Napi::ObjectWrap< OwnershipQosPolicyProxy >
 {
@@ -51,6 +63,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_OWNERSHIPQOSPOLICY_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_OWNERSHIPQOSPOLICY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

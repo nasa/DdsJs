@@ -1,26 +1,37 @@
 /**
- * \file TypeSupportWrap.hh
+ * \file CoreDX/TypeSupportWrap.hh
  * \brief Contains the definition of the \c TypeSupportWrapBaseT template class.
  * \author Rolando J. Nieves
  * \date 2024-01-29 15:43:24
  */
 
-#ifndef _DDSJS_DDSJS_TYPESUPPORTWRAP_HH_
-#define _DDSJS_DDSJS_TYPESUPPORTWRAP_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_TYPESUPPORTWRAP_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_TYPESUPPORTWRAP_HH_
 
+// --------------------------------------------------------------------------
+// Standard C++ Library
 #include <memory>
 #include <sstream>
 #include <string>
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/DomainParticipantWrap.hh>
 #include <DdsJs/Providers/CoreDX/dds_error_util.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 struct TypeSupportAssociations
 {
@@ -118,6 +129,6 @@ TypeSupportWrapBaseT< TypeSupportClass >::TypeSupportWrapBaseT(TypeSupportAssoci
 
 } // end namespace DdsJs
 
-#endif /* ! _DDSJS_DDSJS_TYPESUPPORTWRAP_HH_ */
+#endif /* ! _DDSJS_DDSJS_PROVIDERS_COREDX_TYPESUPPORTWRAP_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

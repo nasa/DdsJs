@@ -1,19 +1,33 @@
 /**
- * \file DdsJs/RequestedIncompatibleQosStatus.hh
+ * \file CoreDX/RequestedIncompatibleQosStatus.hh
  * \brief Contains the definition for the \c RequestedIncompatibleQosStatusProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 16:08:22
  */
 
-#ifndef _DDSJS_DDSJS_REQUESTEDINCOMPATIBLEQOSSTATUS_HH_
-#define _DDSJS_DDSJS_REQUESTEDINCOMPATIBLEQOSSTATUS_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_REQUESTEDINCOMPATIBLEQOSSTATUS_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_REQUESTEDINCOMPATIBLEQOSSTATUS_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
+#include <DdsJs/Sequences.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
 #include <DdsJs/Providers/CoreDX/QosPolicyCount.hh>
 #include <DdsJs/Providers/CoreDX/QosPolicyId.hh>
-#include <DdsJs/Providers/CoreDX/Sequences.hh>
+#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
 
 
 namespace DdsJs
@@ -42,7 +56,7 @@ public:
 
     struct PoliciesField
     {
-        using Proxy = UnboundedSequence< QosPolicyCountProxy, decltype(DDS::RequestedIncompatibleQosStatus::policies) >;
+        using Proxy = UnboundedSequence< QosPolicyCountProxy, decltype(DDS::RequestedIncompatibleQosStatus::policies), CoreDX::SequenceUtilities >;
         static const char *NAME;
     };
 
@@ -69,6 +83,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_REQUESTEDINCOMPATIBLEQOSSTATUS_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_REQUESTEDINCOMPATIBLEQOSSTATUS_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/PublicationBuiltinTopicData.cpp
+ * \file CoreDX/PublicationBuiltinTopicData.cpp
  * \brief Contains the implementation for the \c PublicationBuiltinTopicDataProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 15:26:11
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "PublicationBuiltinTopicData.hh"
 
 

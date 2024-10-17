@@ -1,23 +1,35 @@
 /**
- * \file DdsJs/SampleInfo.hh
+ * \file CoreDX/SampleInfo.hh
  * \brief Contains the definition of the \c SampleInfoProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-14 13:44:14
  */
 
-#ifndef _DDSJS_DDSJS_SAMPLEINFO_HH_
-#define _DDSJS_DDSJS_SAMPLEINFO_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_SAMPLEINFO_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_SAMPLEINFO_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/InstanceHandle.hh>
 #include <DdsJs/Providers/CoreDX/InstanceStateKind.hh>
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
 #include <DdsJs/Providers/CoreDX/SampleStateKind.hh>
 #include <DdsJs/Providers/CoreDX/Time.hh>
 #include <DdsJs/Providers/CoreDX/ViewStateKind.hh>
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
 
 namespace DdsJs
@@ -121,6 +133,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_SAMPLEINFO_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_SAMPLEINFO_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

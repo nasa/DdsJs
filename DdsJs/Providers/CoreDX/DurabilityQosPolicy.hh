@@ -1,23 +1,35 @@
 /**
- * \file DurabilityQosPolicy.hh
+ * \file CoreDX/DurabilityQosPolicy.hh
  * \brief Contains the definition of the \c DurabilityQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 15:14:59
  */
 
-#ifndef _DDSJS_DDSJS_DURABILITYQOSPOLICY_HH_
-#define _DDSJS_DDSJS_DURABILITYQOSPOLICY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_DURABILITYQOSPOLICY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_DURABILITYQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/DurabilityQosPolicyKind.hh>
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class DurabilityQosPolicyProxy : public Napi::ObjectWrap< DurabilityQosPolicyProxy >
 {
@@ -52,6 +64,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_DURABILITYQOSPOLICY_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_DURABILITYQOSPOLICY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

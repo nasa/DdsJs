@@ -1,17 +1,27 @@
 /**
- * \file DdsJs/LivelinessChangedStatus.hh
+ * \file CoreDX/LivelinessChangedStatus.hh
  * \brief Contains the definition of the \c LivelinessChangedStatusProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 10:29:14
  */
 
-#ifndef _DDSJS_DDSJS_LIVELINESSCHANGEDSTATUS_HH_
-#define _DDSJS_DDSJS_LIVELINESSCHANGEDSTATUS_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_LIVELINESSCHANGEDSTATUS_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_LIVELINESSCHANGEDSTATUS_HH_
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/InstanceHandle.hh>
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
 
 namespace DdsJs
@@ -73,6 +83,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_LIVELINESSCHANGEDSTATUS_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_LIVELINESSCHANGEDSTATUS_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

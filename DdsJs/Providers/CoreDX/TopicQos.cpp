@@ -1,14 +1,17 @@
 /**
- * \file TopicQos.cpp
+ * \file CoreDX/TopicQos.cpp
  * \brief Contains the implementation for the \c TopicQosProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 10:38:31
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "TopicQos.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *TopicQosProxy::DeadlineField::NAME = "deadline";
 

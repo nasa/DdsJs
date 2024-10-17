@@ -1,23 +1,35 @@
 /**
- * \file PresentationQosPolicy.hh
+ * \file CoreDX/PresentationQosPolicy.hh
  * \brief Contains the definition of the \c PresentationQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-23 12:16:45
  */
 
-#ifndef _DDSJS_DDSJS_PRESENTATIONQOSPOLICY_HH_
-#define _DDSJS_DDSJS_PRESENTATIONQOSPOLICY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_PRESENTATIONQOSPOLICY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_PRESENTATIONQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/PresentationQosPolicyAccessScopeKind.hh>
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class PresentationQosPolicyProxy : public Napi::ObjectWrap< PresentationQosPolicyProxy >
 {
@@ -64,6 +76,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_PRESENTATIONQOSPOLICY_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_PRESENTATIONQOSPOLICY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

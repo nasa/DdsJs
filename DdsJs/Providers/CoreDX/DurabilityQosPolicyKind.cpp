@@ -1,14 +1,17 @@
 /**
- * \file DurabilityQosPolicyKind.cpp
+ * \file CoreDX/DurabilityQosPolicyKind.cpp
  * \brief Contains the implementation for the \c DurabilityQosPolicyKindProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 15:03:59
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DurabilityQosPolicyKind.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DurabilityQosPolicyKindProxy::NAME = "DurabilityQosPolicyKind";
 

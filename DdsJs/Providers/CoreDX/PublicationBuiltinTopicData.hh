@@ -1,13 +1,19 @@
 /**
- * \file DdsJs/PublicationBuiltinTopicData.hh
+ * \file CoreDX/PublicationBuiltinTopicData.hh
  * \brief Contains the definition of the \c PublicationBuiltinTopicDataProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 14:58:05
  */
 
-#ifndef _DDSJS_DDSJS_PUBLICATIONBUILTINTOPICDATA_HH_
-#define _DDSJS_DDSJS_PUBLICATIONBUILTINTOPICDATA_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_PUBLICATIONBUILTINTOPICDATA_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_PUBLICATIONBUILTINTOPICDATA_HH_
 
+// --------------------------------------------------------------------------
+// DdsJs Generic
+#include <DdsJs/Strings.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/BuiltinTopicKey.hh>
 #include <DdsJs/Providers/CoreDX/DeadlineQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/DestinationOrderQosPolicy.hh>
@@ -22,7 +28,7 @@
 #include <DdsJs/Providers/CoreDX/PartitionQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/PresentationQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/ReliabilityQosPolicy.hh>
-#include <DdsJs/Providers/CoreDX/Strings.hh>
+#include <DdsJs/Providers/CoreDX/StringUtilities.hh>
 #include <DdsJs/Providers/CoreDX/TopicDataQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/UserDataQosPolicy.hh>
 
@@ -47,13 +53,13 @@ public:
 
     struct TopicNameField
     {
-        using Proxy = UnboundedString;
+        using Proxy = UnboundedString< CoreDX::StringUtilities >;
         static const char *NAME;
     };
 
     struct TypeNameField
     {
-        using Proxy = UnboundedString;
+        using Proxy = UnboundedString< CoreDX::StringUtilities >;
         static const char *NAME;
     };
 
@@ -170,6 +176,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_PUBLICATIONBUILTINTOPICDATA_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_PUBLICATIONBUILTINTOPICDATA_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

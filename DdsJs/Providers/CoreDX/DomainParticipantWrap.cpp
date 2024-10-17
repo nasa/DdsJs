@@ -1,21 +1,25 @@
 /**
- * \file DomainParticipantWrap.cpp
+ * \file CoreDX/DomainParticipantWrap.cpp
  * \brief Contains the implementation for the \c DomainParticipantWrap class.
  * \author Rolando J. Nieves
  * \date 2014-07-28 16:06:08
  */
 
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/InstanceHandle.hh>
 #include <DdsJs/Providers/CoreDX/ParticipantBuiltinTopicData.hh>
 #include <DdsJs/Providers/CoreDX/PublisherQos.hh>
 #include <DdsJs/Providers/CoreDX/PublisherWrap.hh>
+#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
 #include <DdsJs/Providers/CoreDX/SubscriberQos.hh>
 #include <DdsJs/Providers/CoreDX/SubscriberWrap.hh>
 #include <DdsJs/Providers/CoreDX/TopicQos.hh>
 #include <DdsJs/Providers/CoreDX/TopicWrap.hh>
 #include <DdsJs/Providers/CoreDX/TypeSupportWrap.hh>
 
-
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DomainParticipantWrap.hh"
 
 namespace DdsJs
@@ -316,7 +320,7 @@ DomainParticipantWrap::GetDiscoveredParticipants(Napi::CallbackInfo const& info)
         throw NewDdsError(info.Env(), NAME, "getDiscoveredParticipants", retcode);
     }
 
-    return UnboundedSequence< InstanceHandleProxy, DDS::InstanceHandleSeq >::NewInstance(info.Env(), discovered_participants);
+    return UnboundedSequence< InstanceHandleProxy, DDS::InstanceHandleSeq, CoreDX::SequenceUtilities >::NewInstance(info.Env(), discovered_participants);
 }
 
 

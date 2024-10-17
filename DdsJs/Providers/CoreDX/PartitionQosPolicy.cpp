@@ -1,14 +1,17 @@
 /**
- * \file PartitionQosPolicy.cpp
+ * \file CoreDX/PartitionQosPolicy.cpp
  * \brief Contains the implementation for the \c PartitionQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-24 15:25:39
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "PartitionQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *PartitionQosPolicyProxy::NameField::NAME = "name";
 

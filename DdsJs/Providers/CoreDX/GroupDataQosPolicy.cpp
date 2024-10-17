@@ -1,14 +1,17 @@
 /**
- * \file GroupDataQosPolicy.cpp
+ * \file CoreDX/GroupDataQosPolicy.cpp
  * \brief Contains the implementation for the \c GroupDataQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-24 15:43:15
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "GroupDataQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char* GroupDataQosPolicyProxy::ValueField::NAME = "value";
 

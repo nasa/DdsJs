@@ -1,10 +1,12 @@
 /**
- * \file DataWriterWrap.cpp
+ * \file CoreDX/DataWriterWrap.cpp
  * \brief Contains the implementation for the \c DataWriterWrapFactory class.
  * \author Rolando J. Nieves
  * \date 2024-03-15 12:46:54
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DataWriterWrap.hh"
 
 

@@ -1,14 +1,17 @@
 /**
- * \file Time.cpp
+ * \file CoreDX/Time.cpp
  * \brief Contains the implementation for the \c TimeProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-03-20 15:56:38
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "Time.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *TimeProxy::SecField::NAME = "sec";
 

@@ -1,19 +1,26 @@
 /**
- * \file DdsJs/SampleRejectedStatusKind.hh
+ * \file CoreDX/SampleRejectedStatusKind.hh
  * \brief Contains the definition of the \c SampleRejectedStatusKindProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-13 12:13:57
  */
 
-#ifndef _DDSJS_DDSJS_SAMPLEREJECTEDSTATUSKIND_HH_
-#define _DDSJS_DDSJS_SAMPLEREJECTEDSTATUSKIND_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_SAMPLEREJECTEDSTATUSKIND_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_SAMPLEREJECTEDSTATUSKIND_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 class SampleRejectedStatusKindProxy
 {
@@ -36,6 +43,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_SAMPLEREJECTEDSTATUSKIND_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_SAMPLEREJECTEDSTATUSKIND_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

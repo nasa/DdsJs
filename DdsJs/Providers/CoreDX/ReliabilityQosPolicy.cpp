@@ -1,14 +1,17 @@
 /**
- * \file ReliabilityQosPolicy.cpp
+ * \file CoreDX/ReliabilityQosPolicy.cpp
  * \brief Contains the implementation for the \c ReliabilityQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:52:46
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "ReliabilityQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *ReliabilityQosPolicyProxy::KindField::NAME = "kind";
 

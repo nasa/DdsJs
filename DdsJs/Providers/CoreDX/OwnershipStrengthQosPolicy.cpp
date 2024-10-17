@@ -1,14 +1,17 @@
 /**
- * \file OwnershipStrengthQosPolicy.cpp
+ * \file CoreDX/OwnershipStrengthQosPolicy.cpp
  * \brief Contains the implementation for the \c OwnershipStrengthQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 11:50:31
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "OwnershipStrengthQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *OwnershipStrengthQosPolicyProxy::ValueField::NAME = "value";
 

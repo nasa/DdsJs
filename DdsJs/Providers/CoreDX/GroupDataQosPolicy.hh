@@ -1,30 +1,43 @@
 /**
- * \file GroupDataQosPolicy.hh
+ * \file CoreDX/GroupDataQosPolicy.hh
  * \brief Contains the definition of the \c GroupDataQosPolicyProxy class.
  * \author Rolando J. Nieves
  * \date 2024-01-24 15:40:36
  */
 
-#ifndef _DDSJS_DDSJS_GROUPDATAQOSPOLICY_HH_
-#define _DDSJS_DDSJS_GROUPDATAQOSPOLICY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_GROUPDATAQOSPOLICY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_GROUPDATAQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+#include <DdsJs/Sequences.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
-#include <DdsJs/Providers/CoreDX/Sequences.hh>
-
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
+#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 class GroupDataQosPolicyProxy : public Napi::ObjectWrap< GroupDataQosPolicyProxy >
 {
 public:
     struct ValueField
     {
-        using Proxy = UnboundedSequence< OctetPrimitive, decltype(DDS::GroupDataQosPolicy::value) >;
+        using Proxy = UnboundedSequence< OctetPrimitive, decltype(DDS::GroupDataQosPolicy::value), CoreDX::SequenceUtilities >;
         static const char* NAME;
     };
 
@@ -52,6 +65,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* _DDSJS_DDSJS_GROUPDATAQOSPOLICY_HH_ */
+#endif /* _DDSJS_DDSJS_PROVIDERS_COREDX_GROUPDATAQOSPOLICY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

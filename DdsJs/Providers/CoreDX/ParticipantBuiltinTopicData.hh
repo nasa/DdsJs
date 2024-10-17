@@ -1,13 +1,21 @@
 /**
- * \file ParticipantBuiltinTopicData.hh
+ * \file CoreDX/ParticipantBuiltinTopicData.hh
  * \brief Contains the definition of the \c ParticipantBuiltinTopicData class.
  * \author Rolando J. Nieves
  * \date 2024-06-12 14:40:49
  */
 
-#ifndef _DDSJS_DDSJS_PARTICIPANTBUILTINTOPICDATA_HH_
-#define _DDSJS_DDSJS_PARTICIPANTBUILTINTOPICDATA_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_PARTICIPANTBUILTINTOPICDATA_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_PARTICIPANTBUILTINTOPICDATA_HH_
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/BuiltinTopicKey.hh>
 #include <DdsJs/Providers/CoreDX/UserDataQosPolicy.hh>
 
@@ -53,6 +61,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_PARTICIPANTBUILTINTOPICDATA_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_PARTICIPANTBUILTINTOPICDATA_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

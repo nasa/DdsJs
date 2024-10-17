@@ -1,10 +1,12 @@
 /**
- * \file ParticipantBuiltinTopicData.cpp
+ * \file CoreDX/ParticipantBuiltinTopicData.cpp
  * \brief Contains the implementation for the \c ParticipantBuiltinTopicData class.
  * \author Rolando J. Nieves
  * \date 2024-06-12 14:49:13
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "ParticipantBuiltinTopicData.hh"
 
 

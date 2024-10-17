@@ -1,10 +1,12 @@
 /**
- * \file DdsJs/SubscriptionMatchedStatus.cpp
+ * \file CoreDX/SubscriptionMatchedStatus.cpp
  * \brief Contains the implementation for the \c SubscriptionMatchedStatusProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-13 13:32:40
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "SubscriptionMatchedStatus.hh"
 
 

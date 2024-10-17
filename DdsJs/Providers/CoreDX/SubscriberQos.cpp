@@ -1,14 +1,17 @@
 /**
- * \file SubscriberQos.cpp
+ * \file CoreDX/SubscriberQos.cpp
  * \brief Contains the implementation for the \c SubscriberQosProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 11:13:57
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "SubscriberQos.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *SubscriberQosProxy::EntityFactoryField::NAME = "entity_factory";
 

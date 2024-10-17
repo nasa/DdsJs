@@ -1,14 +1,17 @@
 /**
- * \file TransportPriorityQosPolicy.cpp
+ * \file CoreDX/TransportPriorityQosPolicy.cpp
  * \brief Contains the implementation for the \c TransportPriorityQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 17:17:58
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "TransportPriorityQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *TransportPriorityQosPolicyProxy::ValueField::NAME = "value";
 

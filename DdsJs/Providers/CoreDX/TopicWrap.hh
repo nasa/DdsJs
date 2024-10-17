@@ -1,23 +1,32 @@
 /**
- * \file TopicWrap.hh
+ * \file CoreDX/TopicWrap.hh
  * \brief Contains the definition of the \c TopicWrap class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 13:22:25
  */
 
-#ifndef _DDSJS_DDSJS_TOPICWRAP_HH_
-#define _DDSJS_DDSJS_TOPICWRAP_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_TOPICWRAP_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_TOPICWRAP_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
 #include <DdsJs/CppBackingInstance.hh>
 #include <DdsJs/JsWrapperInstanceRef.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class TopicWrap : public Napi::ObjectWrap< TopicWrap >
 {
@@ -64,6 +73,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_TOPICWRAP_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_TOPICWRAP_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

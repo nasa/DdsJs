@@ -1,14 +1,17 @@
 /**
- * \file DataWriterQos.cpp
+ * \file CoreDX/DataWriterQos.cpp
  * \brief Contains the implementation for the \c DataWriterQosProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 12:04:30
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DataWriterQos.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DataWriterQosProxy::DeadlineField::NAME = "deadline";
 

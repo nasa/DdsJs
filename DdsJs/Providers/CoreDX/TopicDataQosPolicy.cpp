@@ -1,14 +1,17 @@
 /**
- * \file TopicDataQosPolicy.cpp
+ * \file CoreDX/TopicDataQosPolicy.cpp
  * \brief Contains the implementation for the \c TopicDataQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 14:56:41
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "TopicDataQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char* TopicDataQosPolicyProxy::ValueField::NAME = "value";
 

@@ -1,14 +1,17 @@
 /**
- * \file HistoryQosPolicyKind.cpp
+ * \file CoreDX/HistoryQosPolicyKind.cpp
  * \brief Contains the implementation for the \c HistoryQosPolicyKindProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 15:26:11
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "HistoryQosPolicyKind.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *HistoryQosPolicyKindProxy::NAME = "HistoryQosPolicyKind";
 

@@ -1,19 +1,31 @@
 /**
- * \file DdsJs/QosPolicyCount.hh
+ * \file CoreDX/QosPolicyCount.hh
  * \brief Contains the definition for the \c QosPolicyCountProxy class.
  * \author Rolando J. Nieves
  * \date 2024-03-11 16:16:29
  */
 
-#ifndef _DDSJS_DDSJS_QOSPOLICYCOUNT_HH_
-#define _DDSJS_DDSJS_QOSPOLICYCOUNT_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_QOSPOLICYCOUNT_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_QOSPOLICYCOUNT_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
 #include <DdsJs/Providers/CoreDX/QosPolicyId.hh>
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
 
 namespace DdsJs
@@ -57,6 +69,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_QOSPOLICYCOUNT_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_QOSPOLICYCOUNT_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

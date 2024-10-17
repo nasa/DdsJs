@@ -1,16 +1,29 @@
 /**
- * \file DataReaderQos.hh
+ * \file CoreDX/DataReaderQos.hh
  * \brief Contains the definition of the \c DataReaderQosProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 12:21:08
  */
 
-#ifndef _DDSJS_DDSJS_DATAREADERQOS_HH_
-#define _DDSJS_DDSJS_DATAREADERQOS_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_DATAREADERQOS_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_DATAREADERQOS_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/DeadlineQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/DestinationOrderQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/DurabilityQosPolicy.hh>
@@ -24,10 +37,9 @@
 #include <DdsJs/Providers/CoreDX/TimeBasedFilterQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/UserDataQosPolicy.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class DataReaderQosProxy : public Napi::ObjectWrap< DataReaderQosProxy >
 {
@@ -129,6 +141,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_DATAREADERQOS_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_DATAREADERQOS_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

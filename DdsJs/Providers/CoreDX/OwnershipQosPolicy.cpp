@@ -1,14 +1,17 @@
 /**
- * \file OwnershipQosPolicy.cpp
+ * \file CoreDX/OwnershipQosPolicy.cpp
  * \brief Contains the implementation for the \c OwnershipQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 10:11:29
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "OwnershipQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *OwnershipQosPolicyProxy::KindField::NAME = "kind";
 

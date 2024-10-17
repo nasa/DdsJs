@@ -1,19 +1,26 @@
 /**
- * \file LivelinessQosPolicyKind.hh
+ * \file CoreDX/LivelinessQosPolicyKind.hh
  * \brief Contains the definition of the \c LivelinessQosPolicyKindProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:31:20
  */
 
-#ifndef _DDSJS_DDSJS_LIVELINESSQOSPOLICYKIND_HH_
-#define _DDSJS_DDSJS_LIVELINESSQOSPOLICYKIND_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_LIVELINESSQOSPOLICYKIND_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_LIVELINESSQOSPOLICYKIND_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 class LivelinessQosPolicyKindProxy
 {
@@ -36,6 +43,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_LIVELINESSQOSPOLICYKIND_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_LIVELINESSQOSPOLICYKIND_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

@@ -1,14 +1,17 @@
 /**
- * \file UserDataQosPolicy.cpp
+ * \file CoreDX/UserDataQosPolicy.cpp
  * \brief Contains the implementation of the \c UserDataQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-22 15:02:44
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "UserDataQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char* UserDataQosPolicyProxy::ValueField::NAME = "value";
 

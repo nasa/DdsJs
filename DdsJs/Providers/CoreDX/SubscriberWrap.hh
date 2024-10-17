@@ -1,23 +1,32 @@
 /**
- * \file SubscriberWrap.hh
+ * \file CoreDX/SubscriberWrap.hh
  * \brief Contains the definition for the \c SubscriberWrap class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 17:01:55
  */
 
-#ifndef _DDSJS_DDSJS_SUBSCRIBERWRAP_HH_
-#define _DDSJS_DDSJS_SUBSCRIBERWRAP_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_SUBSCRIBERWRAP_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_SUBSCRIBERWRAP_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
 #include <DdsJs/CppBackingInstance.hh>
 #include <DdsJs/JsWrapperInstanceRef.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 /**
  * \brief Wrap the \c DDS::Subscriber class for Node.js
@@ -75,6 +84,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_SUBSCRIBERWRAP_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_SUBSCRIBERWRAP_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

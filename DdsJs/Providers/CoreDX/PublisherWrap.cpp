@@ -1,12 +1,16 @@
 /**
- * \file PublisherWrap.cpp
+ * \file CoreDX/PublisherWrap.cpp
  * \brief Contains the implementation for the \c PublisherWrap class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-02 14:01:06
  */
 
+// --------------------------------------------------------------------------
+// Standard C++ Library
 #include <sstream>
 
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/DataWriterQos.hh>
 #include <DdsJs/Providers/CoreDX/DataWriterWrap.hh>
 #include <DdsJs/Providers/CoreDX/PublisherQos.hh>
@@ -14,10 +18,13 @@
 #include <DdsJs/Providers/CoreDX/TopicWrap.hh>
 #include <DdsJs/Providers/CoreDX/dds_error_util.hh>
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "PublisherWrap.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *PublisherWrap::MODNAME = "DDS";
 

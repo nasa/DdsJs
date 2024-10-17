@@ -1,20 +1,30 @@
 /**
- * \file DeadlineQosPolicy.hh
+ * \file CoreDX/DeadlineQosPolicy.hh
  * \brief Contains the definition of the \c DeadlineQosPolicyProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 16:13:56
  */
 
-#ifndef _DDSJS_DDSJS_DEADLINEQOSPOLICY_HH_
-#define _DDSJS_DDSJS_DEADLINEQOSPOLICY_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_DEADLINEQOSPOLICY_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_DEADLINEQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Duration.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class DeadlineQosPolicyProxy : public Napi::ObjectWrap< DeadlineQosPolicyProxy >
 {
@@ -49,6 +59,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_DEADLINEQOSPOLICY_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_DEADLINEQOSPOLICY_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

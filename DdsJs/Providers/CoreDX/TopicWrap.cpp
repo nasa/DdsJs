@@ -1,19 +1,26 @@
 /**
- * \file TopicWrap.cpp
+ * \file CoreDX/TopicWrap.cpp
  * \brief Contains the implementation for the \c TopicWrap class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-01-31 13:44:55
  */
 
+// --------------------------------------------------------------------------
+// Standard C++ Library
 #include <sstream>
 
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/DomainParticipantWrap.hh>
 #include <DdsJs/Providers/CoreDX/dds_error_util.hh>
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "TopicWrap.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *TopicWrap::MODNAME = "DDS";
 

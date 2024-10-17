@@ -1,10 +1,12 @@
 /**
- * \file DdsModule.cpp
+ * \file CoreDX/DdsModule.cpp
  * \brief Contains the implementation for the \c DdsModule class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-07 11:54:11
  */
 
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/BuiltinTopicKey.hh>
 #include <DdsJs/Providers/CoreDX/DataReaderQos.hh>
 #include <DdsJs/Providers/CoreDX/DataWriterQos.hh>
@@ -59,12 +61,15 @@
 #include <DdsJs/Providers/CoreDX/WriterDataLifecycleQosPolicy.hh>
 #include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DdsModule.hh"
 
 
 using std::stringstream;
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 Napi::Value
 DdsModule::CreateDomainParticipant(Napi::CallbackInfo const& info)

@@ -1,22 +1,34 @@
 /**
- * \file DomainParticipantFactoryQos.hh
+ * \file CoreDX/DomainParticipantFactoryQos.hh
  * \brief Contains the definition of the \c DomainParticipantFactoryQosProxy class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-05 15:55:50
  */
 
-#ifndef _DDSJS_DDSJS_DOMAINPARTICIPANTFACTORYQOS_HH_
-#define _DDSJS_DDSJS_DOMAINPARTICIPANTFACTORYQOS_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_COREDX_DOMAINPARTICIPANTFACTORYQOS_HH_
+#define _DDSJS_DDSJS_PROVIDERS_COREDX_DOMAINPARTICIPANTFACTORYQOS_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// CoreDX API Headers
+#include <dds/dds.hh>
+#include <dds/dds_builtin.hh>
+#include <dds/dds_typesupport.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/EntityFactoryQosPolicy.hh>
 
-#include <DdsJs/Providers/CoreDX/CoreDX.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class DomainParticipantFactoryQosProxy : public Napi::ObjectWrap< DomainParticipantFactoryQosProxy >
 {
@@ -51,6 +63,6 @@ public:
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_DOMAINPARTICIPANTFACTORYQOS_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_COREDX_DOMAINPARTICIPANTFACTORYQOS_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:
