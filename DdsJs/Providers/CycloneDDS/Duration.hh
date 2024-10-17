@@ -8,9 +8,17 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DURATION_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DURATION_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/Primitives.hh>
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
 
 
 namespace DdsJs

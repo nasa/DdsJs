@@ -8,17 +8,27 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DURABILITYSERVICEQOSPOLICY_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DURABILITYSERVICEQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/Duration.hh>
 #include <DdsJs/Providers/CycloneDDS/HistoryQosPolicyKind.hh>
 #include <DdsJs/Providers/CycloneDDS/Primitives.hh>
 
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class DurabilityServiceQosPolicyProxy : public Napi::ObjectWrap< DurabilityServiceQosPolicyProxy >
 {

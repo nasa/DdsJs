@@ -8,8 +8,16 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DOMAINPARTICIPANTFACTORYQOS_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DOMAINPARTICIPANTFACTORYQOS_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/EntityFactoryQosPolicy.hh>
 
 

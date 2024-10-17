@@ -5,10 +5,13 @@
  * \date 2024-10-03 12:12:18
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DurabilityQosPolicyKind.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DurabilityQosPolicyKindProxy::NAME = "DurabilityQosPolicyKind";
 

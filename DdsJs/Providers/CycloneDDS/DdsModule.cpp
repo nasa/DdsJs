@@ -1,10 +1,16 @@
 /**
- * \file DdsModule.cpp
+ * \file CycloneDDS/DdsModule.cpp
  * \brief Contains the implementation for the \c DdsModule class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-09-26 18:01:07
  */
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/DataReaderQos.hh>
 #include <DdsJs/Providers/CycloneDDS/DataWriterQos.hh>
 #include <DdsJs/Providers/CycloneDDS/DeadlineQosPolicy.hh>
@@ -53,12 +59,15 @@
 #include <DdsJs/Providers/CycloneDDS/WriterDataLifecycleQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/dds_error_util.hh>
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DdsModule.hh"
 
 
 using std::stringstream;
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 Napi::Value
 DdsModule::CreateDomainParticipant(Napi::CallbackInfo const& info)

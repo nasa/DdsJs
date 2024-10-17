@@ -5,6 +5,8 @@
  * \date 2024-09-26 17:56:52
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "ReliabilityQosPolicyKind.hh"
 
 

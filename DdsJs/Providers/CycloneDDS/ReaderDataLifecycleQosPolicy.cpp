@@ -5,6 +5,8 @@
  * \date 2024-10-04 10:35:03
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "ReaderDataLifecycleQosPolicy.hh"
 
 

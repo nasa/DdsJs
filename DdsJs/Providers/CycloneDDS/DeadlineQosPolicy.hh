@@ -8,10 +8,17 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DEADLINEQOSPOLICY_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DEADLINEQOSPOLICY_HH_
 
-#include <DdsJs/ConstructorRegistry.hh>
-#include <DdsJs/Providers/CycloneDDS/Duration.hh>
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
 
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
+// --------------------------------------------------------------------------
+// DdsJs Generic
+#include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
+#include <DdsJs/Providers/CycloneDDS/Duration.hh>
 
 
 namespace DdsJs

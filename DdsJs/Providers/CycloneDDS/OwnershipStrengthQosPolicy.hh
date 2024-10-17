@@ -8,10 +8,21 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_OWNERSHIPSTRENGTHQOSPOLICY_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_OWNERSHIPSTRENGTHQOSPOLICY_HH_
 
-#include <DdsJs/ConstructorRegistry.hh>
-#include <DdsJs/Providers/CycloneDDS/Primitives.hh>
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
 
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
+#include <napi.h>
+
+// --------------------------------------------------------------------------
+// DdsJs Generic
+#include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
+#include <DdsJs/Providers/CycloneDDS/Primitives.hh>
 
 
 namespace DdsJs

@@ -5,6 +5,8 @@
  * \date 2024-10-03 18:02:08
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "OwnershipStrengthQosPolicy.hh"
 
 

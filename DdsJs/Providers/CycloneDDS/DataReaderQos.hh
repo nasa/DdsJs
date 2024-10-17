@@ -8,9 +8,20 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DATAREADERQOS_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DATAREADERQOS_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/DeadlineQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/DestinationOrderQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/DurabilityQosPolicy.hh>
@@ -23,8 +34,6 @@
 #include <DdsJs/Providers/CycloneDDS/ResourceLimitsQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/TimeBasedFilterQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/UserDataQosPolicy.hh>
-
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
 
 
 namespace DdsJs

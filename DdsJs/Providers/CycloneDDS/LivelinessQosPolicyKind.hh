@@ -8,9 +8,13 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_LIVELINESSQOSPOLICYKIND_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_LIVELINESSQOSPOLICYKIND_HH_
 
-#include <napi.h>
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
 
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
+#include <napi.h>
 
 
 namespace DdsJs

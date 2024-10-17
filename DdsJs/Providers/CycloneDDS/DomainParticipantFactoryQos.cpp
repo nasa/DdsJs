@@ -5,6 +5,8 @@
  * \date 2024-10-02 15:27:49
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DomainParticipantFactoryQos.hh"
 
 

@@ -5,12 +5,16 @@
  * \date 2024-10-02 12:36:23
  */
 
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/DomainParticipantQos.hh>
 #include <DdsJs/Providers/CycloneDDS/InstanceHandle.hh>
 #include <DdsJs/Providers/CycloneDDS/PublisherQos.hh>
 #include <DdsJs/Providers/CycloneDDS/PublisherWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/dds_error_util.hh>
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DomainParticipantWrap.hh"
 
 
@@ -141,6 +145,6 @@ DomainParticipantWrap::GetQos(Napi::CallbackInfo const& info)
     return result;
 }
 
-}
+} // end namespace DdsJs
 
 // vim: set ts=4 sw=4 expandtab:

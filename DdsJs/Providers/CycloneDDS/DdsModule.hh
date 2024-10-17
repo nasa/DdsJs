@@ -1,19 +1,24 @@
 /**
- * \file DdsModule.hh
+ * \file CycloneDDS/DdsModule.hh
  * \brief Contains the definition of the \c DdsModule class.
  * \author Rolando J. Nieves <rolando.j.nieves@nasa.gov>
  * \date 2024-02-07 10:40:25
  */
 
-#ifndef _DDSJS_DDSJS_DDSMODULE_HH_
-#define _DDSJS_DDSJS_DDSMODULE_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DDSMODULE_HH_
+#define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DDSMODULE_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 class DdsModule
 {
@@ -33,6 +38,6 @@ public:
 };
 
 }
-#endif /* !_DDSJS_DDSJS_DDSMODULE_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DDSMODULE_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

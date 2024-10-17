@@ -8,17 +8,28 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_SUBSCRIBERQOS_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_SUBSCRIBERQOS_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/EntityFactoryQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/GroupDataQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/PartitionQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/PresentationQosPolicy.hh>
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 class SubscriberQosProxy : public Napi::ObjectWrap< SubscriberQosProxy >
 {

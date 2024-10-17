@@ -8,10 +8,17 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_INSTANCESTATEKIND_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_INSTANCESTATEKIND_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/Primitives.hh>
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
 
 
 namespace DdsJs
@@ -28,7 +35,8 @@ public:
     static NapiContainer NewInstance(Napi::Env env, CppEntity const& cppVal);
 };
 
-}
+} // end namespace DdsJs
+
 #endif /* !_DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_INSTANCESTATEKIND_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

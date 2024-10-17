@@ -8,11 +8,18 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_PUBLISHERWRAP_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_PUBLISHERWRAP_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
 #include <DdsJs/JsWrapperInstanceRef.hh>
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
 
 
 namespace DdsJs

@@ -5,10 +5,13 @@
  * \date 2024-10-03 12:29:50
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "DurabilityServiceQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *DurabilityServiceQosPolicyProxy::ServiceCleanupDelayField::NAME = "service_cleanup_delay";
 

@@ -5,10 +5,13 @@
  * \date 2024-10-02 10:17:17
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "EntityFactoryQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *EntityFactoryQosPolicyProxy::AutoenableCreatedEntitiesField::NAME = "autoenable_created_entities";
 

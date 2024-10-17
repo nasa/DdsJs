@@ -1,16 +1,25 @@
 /**
- * \file dds_error_util.cpp
+ * \file CycloneDDS/dds_error_util.cpp
  * \brief Contains the implementation of the DDS error handling utility functions.
  * \author Rolando J. Nieves
  * \date 2024-02-07 13:39:07
  */
 
+// --------------------------------------------------------------------------
+// Standard C++ Library
 #include <sstream>
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// Local Definition
 #include "dds_error_util.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 Napi::Error NewDdsError(Napi::Env env, std::string const& className, std::string const& methodName, dds_return_t retcode)
 {

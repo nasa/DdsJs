@@ -5,10 +5,13 @@
  * \date 2024-10-03 17:10:29
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "TransportPriorityQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *TransportPriorityQosPolicyProxy::ValueField::NAME = "value";
 

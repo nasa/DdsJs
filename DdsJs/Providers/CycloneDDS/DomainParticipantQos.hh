@@ -8,16 +8,26 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DOMAINPARTICIPANTQOS_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DOMAINPARTICIPANTQOS_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
+
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/EntityFactoryQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/UserDataQosPolicy.hh>
 
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class DomainParticipantQosProxy : public Napi::ObjectWrap< DomainParticipantQosProxy >
 {

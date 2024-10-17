@@ -8,6 +8,8 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_PRIMITIVES_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_PRIMITIVES_HH_
 
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
 

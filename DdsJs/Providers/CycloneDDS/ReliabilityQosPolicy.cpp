@@ -5,11 +5,13 @@
  * \date 2024-09-26 18:24:57
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "ReliabilityQosPolicy.hh"
-#include <dds/ddsc/dds_public_qos.h>
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *ReliabilityQosPolicyProxy::KindField::NAME = "kind";
 

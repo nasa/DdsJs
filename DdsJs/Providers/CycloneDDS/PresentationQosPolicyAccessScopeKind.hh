@@ -8,12 +8,17 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_PRESENTATIONQOSPOLICYACCESSSCOPEKIND_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_PRESENTATIONQOSPOLICYACCESSSCOPEKIND_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class PresentationQosPolicyAccessScopeKindProxy
 {

@@ -8,14 +8,21 @@
 #ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_TOPICDATAQOSPOLICY_HH_
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_TOPICDATAQOSPOLICY_HH_
 
+// --------------------------------------------------------------------------
+// CycloneDDS C API
+#include <dds/dds.h>
+
+// --------------------------------------------------------------------------
+// NodeJS Add-on API
 #include <napi.h>
 
+// --------------------------------------------------------------------------
+// DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
 
-#include <DdsJs/Providers/CycloneDDS/CycloneDDS.hh>
 
-
-namespace DdsJs {
+namespace DdsJs
+{
 
 class TopicDataQosPolicyProxy : public Napi::ObjectWrap< TopicDataQosPolicyProxy >
 {

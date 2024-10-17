@@ -5,10 +5,13 @@
  * \date 2024-10-03 11:57:55
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "SubscriberQos.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *SubscriberQosProxy::EntityFactoryField::NAME = "entity_factory";
 

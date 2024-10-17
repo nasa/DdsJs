@@ -5,10 +5,13 @@
  * \date 2024-10-02 16:35:30
  */
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "PresentationQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char *PresentationQosPolicyProxy::AccessScopeField::NAME = "access_scope";
 

@@ -5,8 +5,10 @@
  * \author Rolando J. Nieves
  */
 
-
+// --------------------------------------------------------------------------
+// Local Definition
 #include "Primitives.hh"
+
 
 namespace DdsJs
 {

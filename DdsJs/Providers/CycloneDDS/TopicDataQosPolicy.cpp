@@ -5,13 +5,17 @@
  * \date 2024-01-22 15:02:44
  */
 
-
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/Primitives.hh>
 
+// --------------------------------------------------------------------------
+// Local Definition
 #include "TopicDataQosPolicy.hh"
 
 
-namespace DdsJs {
+namespace DdsJs
+{
 
 const char* TopicDataQosPolicyProxy::ValueField::NAME = "value";
 
