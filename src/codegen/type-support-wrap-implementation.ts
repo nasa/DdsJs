@@ -11,8 +11,8 @@ import { ImplementationFileBase } from "./implementation-file";
 export class TypeSupportWrapImplementation extends ImplementationFileBase< TypeSupportInstanceWrap > {
   public static readonly TEMPLATE_NAME: string = "type-support-wrap.cpp.handlebars";
 
-  public constructor(typeSupportWrap: TypeSupportInstanceWrap) {
-    super(TypeSupportWrapImplementation.TEMPLATE_NAME, typeSupportWrap.name, typeSupportWrap.owner.namespaceStack);
+  public constructor(typeSupportWrap: TypeSupportInstanceWrap, providerName: string) {
+    super(TypeSupportWrapImplementation.TEMPLATE_NAME, providerName, typeSupportWrap.name, typeSupportWrap.owner.namespaceStack);
   }
 }
 

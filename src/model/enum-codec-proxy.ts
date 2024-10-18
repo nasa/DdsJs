@@ -34,10 +34,10 @@ export class EnumCodecProxy extends OwnedCodecProxy {
   public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
     this.providerHeader = providerHeader;
     if (this.headerFile === null) {
-      this.headerFile = new EnumProxyHeader(this);
+      this.headerFile = new EnumProxyHeader(this, providerName);
     }
     if (this.implementationFile === null) {
-      this.implementationFile = new EnumProxyImplementation(this);
+      this.implementationFile = new EnumProxyImplementation(this, providerName);
     }
 
     destination.write(this.headerFile, this);

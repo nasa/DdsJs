@@ -13,8 +13,8 @@ export class UnionProxyHeader extends HeaderFileBase< UnionCodecProxy > {
   public static readonly TEMPLATE_NAME: string = "union-codec.hh.handlebars";
   public readonly memberHeaderFiles: string[];
 
-  public constructor(unionDef: UnionCodecProxy) {
-    super(UnionProxyHeader.TEMPLATE_NAME, unionDef.name, unionDef.owner.namespaceStack);
+  public constructor(unionDef: UnionCodecProxy, providerName: string) {
+    super(UnionProxyHeader.TEMPLATE_NAME, providerName, unionDef.name, unionDef.owner.namespaceStack);
     let headerFileSet: Set< string > = new Set< string >();
 
     for (let aCase of unionDef.caseIter()) {

@@ -11,8 +11,8 @@ import { ImplementationFileBase } from "./implementation-file";
 export class DataReaderWrapImplementation extends ImplementationFileBase< DataReaderInstanceWrap > {
   public static readonly TEMPLATE_NAME: string = "data-reader-wrap.cpp.handlebars";
 
-  public constructor(dataReaderWrap: DataReaderInstanceWrap) {
-    super(DataReaderWrapImplementation.TEMPLATE_NAME, dataReaderWrap.name, dataReaderWrap.owner.namespaceStack);
+  public constructor(dataReaderWrap: DataReaderInstanceWrap, providerName: string) {
+    super(DataReaderWrapImplementation.TEMPLATE_NAME, providerName, dataReaderWrap.name, dataReaderWrap.owner.namespaceStack);
   }
 }
 

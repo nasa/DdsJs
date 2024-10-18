@@ -15,8 +15,8 @@ export class UnionProxyImplementation extends ImplementationFileBase< UnionCodec
   public caseForCtor: UnionProxyCase;
   public discrHeaderFile: string | null;
 
-  public constructor(unionCodec: UnionCodecProxy) {
-    super(UnionProxyImplementation.TEMPLATE_NAME, unionCodec.name, unionCodec.owner.namespaceStack);
+  public constructor(unionCodec: UnionCodecProxy, providerName: string) {
+    super(UnionProxyImplementation.TEMPLATE_NAME, providerName, unionCodec.name, unionCodec.owner.namespaceStack);
     this.caseForCtor = unionCodec.caseIter().next().value;
     this.discrValForCtor = this.caseForCtor.caseLabels[0];
     this.discrHeaderFile = new HeaderDependency(unionCodec.discriminatorProxy).gather();

@@ -17,8 +17,8 @@ export abstract class HeaderFileBase< TemplateContext = any > extends TemplateGe
   public readonly headerFileName: string;
   public readonly includeGuard: string;
 
-  public constructor(templateName: string, baseName: string, dirPath: string[]) {
-    super(templateName);
+  public constructor(templateName: string, providerName: string, baseName: string, dirPath: string[]) {
+    super(templateName, providerName);
     let fileNameComponents = dirPath.concat(`${baseName}.hh`);
     this.headerFileName = path.join(...fileNameComponents);
     this.includeGuard = `_${baseName}_hh_${uuidv4().replace(/\-/g, "_")}_`.toUpperCase();

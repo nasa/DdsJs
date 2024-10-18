@@ -24,11 +24,11 @@ export class DataWriterInstanceWrap extends CppInstanceWrapper {
     this.providerHeader = providerHeader;
 
     if (this.headerFile === null) {
-      this.headerFile = new DataWriterWrapHeader(this);
+      this.headerFile = new DataWriterWrapHeader(this, providerName);
     }
 
     if (this.implementationFile === null) {
-      this.implementationFile = new DataWriterWrapImplementation(this);
+      this.implementationFile = new DataWriterWrapImplementation(this, providerName);
     }
 
     destination.write(this.headerFile, this);

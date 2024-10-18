@@ -12,8 +12,8 @@ export class DataReaderWrapHeader extends HeaderFileBase< DataReaderInstanceWrap
   public static readonly TEMPLATE_NAME: string = "data-reader-wrap.hh.handlebars";
   public proxyTypeHeader: string | undefined;
 
-  public constructor(drWrap: DataReaderInstanceWrap) {
-    super(DataReaderWrapHeader.TEMPLATE_NAME, drWrap.name, drWrap.owner.namespaceStack);
+  public constructor(drWrap: DataReaderInstanceWrap, providerName: string) {
+    super(DataReaderWrapHeader.TEMPLATE_NAME, providerName, drWrap.name, drWrap.owner.namespaceStack);
     this.proxyTypeHeader = drWrap.supportedProxy.headerFile?.headerFileName;
   }
 }

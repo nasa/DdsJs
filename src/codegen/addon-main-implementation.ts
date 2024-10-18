@@ -14,8 +14,8 @@ export class AddonMainImplementation extends ImplementationFileBase< DdsJsAddon 
   public readonly idlModuleMap: IdlModuleInfo[];
   public readonly nodeJsAddonName: string;
 
-  public constructor(addon: DdsJsAddon) {
-    super(AddonMainImplementation.TEMPLATE_NAME, addon.name, []);
+  public constructor(addon: DdsJsAddon, providerName: string) {
+    super(AddonMainImplementation.TEMPLATE_NAME, providerName, addon.name, []);
     this.idlModuleMap = Array.from(addon.moduleIter()).map((aModule) => makeModuleInfo(aModule));
     this.nodeJsAddonName = addon.idlName.toLowerCase();
   }

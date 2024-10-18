@@ -15,8 +15,8 @@ export class CmakeJsModule extends TemplateGeneratedSource< CmakeJsModule > {
   public readonly moduleFileName: string;
   public readonly sourceFiles: string[];
 
-  public constructor(addon: DdsJsAddon) {
-    super(CmakeJsModule.TEMPLATE_NAME);
+  public constructor(addon: DdsJsAddon, providerName: string) {
+    super(CmakeJsModule.TEMPLATE_NAME, providerName);
     this.addonName = addon.name;
     this.moduleFileName = path.join("cmake-js", `${addon.name}Utilities.cmake`);
     this.sourceFiles = addon.collectSourceFiles();

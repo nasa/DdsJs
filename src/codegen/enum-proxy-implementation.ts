@@ -12,8 +12,8 @@ export class EnumProxyImplementation extends ImplementationFileBase< EnumCodecPr
   public static readonly TEMPLATE_NAME: string = "enum-proxy.cpp.handlebars";
   public defaultMnemonic: EnumMnemonic;
 
-  public constructor(enumProxy: EnumCodecProxy) {
-    super(EnumProxyImplementation.TEMPLATE_NAME, enumProxy.name, enumProxy.owner.namespaceStack);
+  public constructor(enumProxy: EnumCodecProxy, providerName: string) {
+    super(EnumProxyImplementation.TEMPLATE_NAME, providerName, enumProxy.name, enumProxy.owner.namespaceStack);
     this.defaultMnemonic = enumProxy.mnemonicList[0];
   }
 }

@@ -39,11 +39,11 @@ export class StructCodecProxy extends OwnedCodecProxy {
   public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
     this.providerHeader = providerHeader;
     if (this.headerFile === null) {
-      this.headerFile = new StructProxyHeader(this);
+      this.headerFile = new StructProxyHeader(this, providerName);
     }
 
     if (this.implementationFile === null) {
-      this.implementationFile = new StructProxyImplementation(this);
+      this.implementationFile = new StructProxyImplementation(this, providerName);
     }
 
     destination.write(this.headerFile, this);

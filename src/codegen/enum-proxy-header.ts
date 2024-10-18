@@ -11,8 +11,8 @@ import { HeaderFileBase } from "./header-file";
 export class EnumProxyHeader extends HeaderFileBase< EnumCodecProxy > {
   public static readonly TEMPLATE_NAME: string = "enum-proxy.hh.handlebars";
 
-  public constructor(enumProxy: EnumCodecProxy) {
-    super(EnumProxyHeader.TEMPLATE_NAME, enumProxy.name, enumProxy.owner.namespaceStack);
+  public constructor(enumProxy: EnumCodecProxy, providerName: string) {
+    super(EnumProxyHeader.TEMPLATE_NAME, providerName, enumProxy.name, enumProxy.owner.namespaceStack);
   }
 }
 

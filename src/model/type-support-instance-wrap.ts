@@ -21,11 +21,11 @@ export class TypeSupportInstanceWrap extends CppInstanceWrapper {
     this.providerHeader = providerHeader;
 
     if (this.headerFile === null) {
-      this.headerFile = new TypeSupportWrapHeader(this);
+      this.headerFile = new TypeSupportWrapHeader(this, providerName);
     }
 
     if (this.implementationFile === null) {
-      this.implementationFile = new TypeSupportWrapImplementation(this);
+      this.implementationFile = new TypeSupportWrapImplementation(this, providerName);
     }
 
     destination.write(this.headerFile, this);

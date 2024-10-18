@@ -93,11 +93,11 @@ export class UnionCodecProxy extends OwnedCodecProxy {
     this.providerHeader = providerHeader;
 
     if (this.headerFile === null) {
-      this.headerFile = new UnionProxyHeader(this);
+      this.headerFile = new UnionProxyHeader(this, providerName);
     }
 
     if (this.implementationFile === null) {
-      this.implementationFile = new UnionProxyImplementation(this);
+      this.implementationFile = new UnionProxyImplementation(this, providerName);
     }
 
     destination.write(this.headerFile, this);

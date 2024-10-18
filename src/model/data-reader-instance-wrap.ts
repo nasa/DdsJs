@@ -22,11 +22,11 @@ export class DataReaderInstanceWrap extends CppInstanceWrapper {
     this.providerHeader = providerHeader;
 
     if (this.headerFile === null) {
-      this.headerFile = new DataReaderWrapHeader(this);
+      this.headerFile = new DataReaderWrapHeader(this, providerName);
     }
 
     if (this.implementationFile === null) {
-      this.implementationFile = new DataReaderWrapImplementation(this);
+      this.implementationFile = new DataReaderWrapImplementation(this, providerName);
     }
 
     destination.write(this.headerFile, this);

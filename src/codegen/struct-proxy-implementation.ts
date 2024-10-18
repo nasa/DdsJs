@@ -11,8 +11,8 @@ import { ImplementationFileBase } from "./implementation-file";
 export class StructProxyImplementation extends ImplementationFileBase< StructCodecProxy > {
   public static readonly TEMPLATE_NAME = "struct-codec.cpp.handlebars";
 
-  public constructor(structProxy: StructCodecProxy) {
-    super(StructProxyImplementation.TEMPLATE_NAME, structProxy.name, structProxy.owner.namespaceStack);
+  public constructor(structProxy: StructCodecProxy, providerName: string) {
+    super(StructProxyImplementation.TEMPLATE_NAME, providerName, structProxy.name, structProxy.owner.namespaceStack);
   }
 }
 

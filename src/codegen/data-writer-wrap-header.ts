@@ -12,8 +12,8 @@ export class DataWriterWrapHeader extends HeaderFileBase< DataWriterInstanceWrap
   public static readonly TEMPLATE_NAME: string = "data-writer-wrap.hh.handlebars";
   public proxyTypeHeader: string | undefined;
 
-  public constructor(drWrap: DataWriterInstanceWrap) {
-    super(DataWriterWrapHeader.TEMPLATE_NAME, drWrap.name, drWrap.owner.namespaceStack);
+  public constructor(drWrap: DataWriterInstanceWrap, providerName: string) {
+    super(DataWriterWrapHeader.TEMPLATE_NAME, providerName, drWrap.name, drWrap.owner.namespaceStack);
     this.proxyTypeHeader = drWrap.supportedProxy.headerFile?.headerFileName;
   }
 }

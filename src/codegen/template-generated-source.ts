@@ -13,9 +13,9 @@ export abstract class TemplateGeneratedSource< TemplateContext = any > {
   public readonly createDate: string;
   public readonly template: Handlebars.TemplateDelegate< TemplateContext >;
 
-  public constructor(templateName: string) {
+  public constructor(templateName: string, providerName: string) {
     this.createDate = new Date().toISOString();
-    let templateDirectory = path.normalize(path.join(__dirname, "..", "..", "templates"));
+    let templateDirectory = path.normalize(path.join(__dirname, "..", "..", "templates", providerName));
     let templateContents = readFileSync(path.join(templateDirectory, templateName), { encoding: "utf-8" });
     this.template = Handlebars.compile< TemplateContext >(templateContents);
   }

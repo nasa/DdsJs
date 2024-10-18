@@ -11,8 +11,8 @@ import { ImplementationFileBase } from "./implementation-file";
 export class DataWriterWrapImplementation extends ImplementationFileBase< DataWriterInstanceWrap > {
   public static readonly TEMPLATE_NAME: string = "data-writer-wrap.cpp.handlebars";
 
-  public constructor(dataWriterWrap: DataWriterInstanceWrap) {
-    super(DataWriterWrapImplementation.TEMPLATE_NAME, dataWriterWrap.name, dataWriterWrap.owner.namespaceStack);
+  public constructor(dataWriterWrap: DataWriterInstanceWrap, providerName: string) {
+    super(DataWriterWrapImplementation.TEMPLATE_NAME, providerName, dataWriterWrap.name, dataWriterWrap.owner.namespaceStack);
   }
 }
 

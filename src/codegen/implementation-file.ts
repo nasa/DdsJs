@@ -12,8 +12,8 @@ import { TemplateGeneratedSource } from "./template-generated-source";
 export abstract class ImplementationFileBase< TemplateContext = any > extends TemplateGeneratedSource< TemplateContext > {
   public readonly cppFileName: string;
 
-  public constructor(templateName: string, baseName: string, dirPath: string[]) {
-    super(templateName);
+  public constructor(templateName: string, providerName: string, baseName: string, dirPath: string[]) {
+    super(templateName, providerName);
     let fileNameComponents = dirPath.concat(`${baseName}.cpp`);
     this.cppFileName = path.join(...fileNameComponents);
   }

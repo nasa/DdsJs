@@ -11,8 +11,8 @@ import { HeaderFileBase } from "./header-file";
 export class TypeSupportWrapHeader extends HeaderFileBase< TypeSupportInstanceWrap > {
   public static readonly TEMPLATE_NAME: string = "type-support-wrap.hh.handlebars";
 
-  public constructor(typeSupportWrap: TypeSupportInstanceWrap) {
-    super(TypeSupportWrapHeader.TEMPLATE_NAME, typeSupportWrap.name, typeSupportWrap.owner.namespaceStack);
+  public constructor(typeSupportWrap: TypeSupportInstanceWrap, providerName: string) {
+    super(TypeSupportWrapHeader.TEMPLATE_NAME, providerName, typeSupportWrap.name, typeSupportWrap.owner.namespaceStack);
   }
 }
 

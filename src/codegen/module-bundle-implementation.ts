@@ -23,8 +23,8 @@ export class ModuleBundleImplementation extends ImplementationFileBase< ModuleBu
   public readonly initEligibleProxies: CodecInitInfo[];
   public readonly subModuleMap: IdlModuleInfo[];
 
-  public constructor(module: ModuleBundle) {
-    super(ModuleBundleImplementation.TEMPLATE_NAME, module.name, module.namespaceStack);
+  public constructor(module: ModuleBundle, providerName: string) {
+    super(ModuleBundleImplementation.TEMPLATE_NAME, providerName, module.name, module.namespaceStack);
     this.initEligibleProxies = Array.from(module.codecProxyIter())
     .filter((aProxy) => !(aProxy instanceof TypeAliasCodecProxy))
     .map< CodecInitInfo >((aProxy) => { return { name: aProxy.name, noCtorReg: (aProxy instanceof EnumCodecProxy) }; });

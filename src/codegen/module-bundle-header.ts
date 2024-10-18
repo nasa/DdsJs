@@ -11,8 +11,8 @@ import { HeaderFileBase } from "./header-file";
 export class ModuleBundleHeader extends HeaderFileBase< ModuleBundle > {
   public static readonly TEMPLATE_NAME: string = "module.hh.handlebars";
 
-  public constructor(module: ModuleBundle) {
-    super(ModuleBundleHeader.TEMPLATE_NAME, module.name, module.namespaceStack);
+  public constructor(module: ModuleBundle, providerName: string) {
+    super(ModuleBundleHeader.TEMPLATE_NAME, providerName, module.name, module.namespaceStack);
   }
 }
 

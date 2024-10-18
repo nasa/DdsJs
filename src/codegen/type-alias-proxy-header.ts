@@ -13,8 +13,8 @@ export class TypeAliasProxyHeader extends HeaderFileBase< TypeAliasCodecProxy > 
   public static readonly TEMPLATE_NAME: string = "type-alias.hh.handlebars";
   public readonly aliasForHeader: string | null;
 
-  public constructor(typeAlias: TypeAliasCodecProxy) {
-    super(TypeAliasProxyHeader.TEMPLATE_NAME, typeAlias.name, typeAlias.owner.namespaceStack);
+  public constructor(typeAlias: TypeAliasCodecProxy, providerName: string) {
+    super(TypeAliasProxyHeader.TEMPLATE_NAME, providerName, typeAlias.name, typeAlias.owner.namespaceStack);
     this.aliasForHeader = new HeaderDependency(typeAlias.aliasFor).gather();
   }
 }

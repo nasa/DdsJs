@@ -64,10 +64,10 @@ export class DdsJsAddon implements ScopeContainer {
       aModule.emit(destination, this.providerHeader, providerName);
     }
     if (this.headerFile === null) {
-      this.headerFile = new AddonMainHeader(this.name);
+      this.headerFile = new AddonMainHeader(this.name, providerName);
     }
     if (this.implementationFile === null) {
-      this.implementationFile = new AddonMainImplementation(this);
+      this.implementationFile = new AddonMainImplementation(this, providerName);
     }
     destination.write(this.headerFile, this);
     destination.write(this.implementationFile, this);

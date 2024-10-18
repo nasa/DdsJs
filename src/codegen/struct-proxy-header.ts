@@ -13,8 +13,8 @@ export class StructProxyHeader extends HeaderFileBase< StructCodecProxy > {
   public static readonly TEMPLATE_NAME: string = "struct-codec.hh.handlebars";
   public readonly memberHeaderFiles: string[];
 
-  public constructor(structProxy: StructCodecProxy) {
-    super(StructProxyHeader.TEMPLATE_NAME, structProxy.name, structProxy.owner.namespaceStack);
+  public constructor(structProxy: StructCodecProxy, providerName: string) {
+    super(StructProxyHeader.TEMPLATE_NAME, providerName, structProxy.name, structProxy.owner.namespaceStack);
     let headerFileSet: Set< string > = new Set< string >();
     for (let aMember of structProxy.memberIterator()) {
       headerFileSet.add(new HeaderDependency(aMember.proxyType).gather() || "");

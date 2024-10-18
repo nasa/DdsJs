@@ -139,10 +139,10 @@ export class ModuleBundle implements ScopeContainer, ScopeMember {
       aSubmodule.emit(destination, this.providerHeader, providerName);
     }
     if (this.headerFile === null) {
-      this.headerFile = new ModuleBundleHeader(this);
+      this.headerFile = new ModuleBundleHeader(this, providerName);
     }
     if (this.implementationFile === null) {
-      this.implementationFile = new ModuleBundleImplementation(this);
+      this.implementationFile = new ModuleBundleImplementation(this, providerName);
     }
 
     destination.write(this.headerFile, this);
