@@ -32,7 +32,7 @@ export function runCompilerFlow(cmdLineArgs: string[]): void {
 
     // Generate build system utilities, if requested
     if (config.buildSystem === "cmake-js") {
-      let buildSysModule = new CmakeJsModule(model);
+      let buildSysModule = new CmakeJsModule(model, config.providerName);
       destination.write(buildSysModule, buildSysModule);
     }
   } catch (err) {
