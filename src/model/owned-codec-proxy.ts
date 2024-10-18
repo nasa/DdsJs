@@ -22,7 +22,7 @@ export abstract class OwnedCodecProxy extends BaseCodecProxy implements ScopeMem
     this.providerHeader = null;
   }
 
-  public abstract emit(destination: DestinationFolder, providerHeader: string): void;
+  public abstract emit(destination: DestinationFolder, providerHeader: string, providerName: string): void;
 }
 
 // vim: set ts=2 sw=2 expandtab:

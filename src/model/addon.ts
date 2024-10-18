@@ -58,10 +58,10 @@ export class DdsJsAddon implements ScopeContainer {
     return result.sort();
   }
   
-  public emit(destination: DestinationFolder, providerHeader: string): void {
+  public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
     this.providerHeader = providerHeader;
     for (let aModule of this.modules) {
-      aModule.emit(destination, this.providerHeader);
+      aModule.emit(destination, this.providerHeader, providerName);
     }
     if (this.headerFile === null) {
       this.headerFile = new AddonMainHeader(this.name);

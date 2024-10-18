@@ -24,7 +24,7 @@ export abstract class CppInstanceWrapper {
     this.providerHeader = null;
   }
 
-  public abstract emit(destination: DestinationFolder, providerHeader: string): void;
+  public abstract emit(destination: DestinationFolder, providerHeader: string, providerName: string): void;
 }
 
 // vim: set ts=2 sw=2 expandtab:

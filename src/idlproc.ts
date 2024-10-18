@@ -28,7 +28,7 @@ export function runCompilerFlow(cmdLineArgs: string[]): void {
     // Generate C++ from object model
     Handlebars.registerHelper("itemsInReverse", itemsInReverse);
     let destination = new DestinationFolder(config.outputDirectory);
-    model.emit(destination, config.providerHeader);
+    model.emit(destination, config.providerHeader, config.providerName);
 
     // Generate build system utilities, if requested
     if (config.buildSystem === "cmake-js") {

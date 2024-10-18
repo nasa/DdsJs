@@ -17,7 +17,7 @@ export class TypeSupportInstanceWrap extends CppInstanceWrapper {
     super(supportedProxy, nameGen);
   }
 
-  public emit(destination: DestinationFolder, providerHeader: string): void {
+  public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
     this.providerHeader = providerHeader;
 
     if (this.headerFile === null) {

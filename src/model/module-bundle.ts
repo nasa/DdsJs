@@ -127,16 +127,16 @@ export class ModuleBundle implements ScopeContainer, ScopeMember {
     return this.codecProxyList.values();
   }
 
-  public emit(destination: DestinationFolder, providerHeader: string): void {
+  public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
     this.providerHeader = providerHeader;
     for (let aCodecProxy of this.codecProxyList) {
-      aCodecProxy.emit(destination, this.providerHeader);
+      aCodecProxy.emit(destination, this.providerHeader, providerName);
     }
     for (let aWrapper of this.wrapperList) {
-      aWrapper.emit(destination, this.providerHeader);
+      aWrapper.emit(destination, this.providerHeader, providerName);
     }
     for (let aSubmodule of this.subModuleList) {
-      aSubmodule.emit(destination, this.providerHeader);
+      aSubmodule.emit(destination, this.providerHeader, providerName);
     }
     if (this.headerFile === null) {
       this.headerFile = new ModuleBundleHeader(this);

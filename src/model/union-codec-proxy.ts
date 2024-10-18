@@ -89,7 +89,7 @@ export class UnionCodecProxy extends OwnedCodecProxy {
     return this.cases.values();
   }
 
-  public emit(destination: DestinationFolder, providerHeader: string): void {
+  public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
     this.providerHeader = providerHeader;
 
     if (this.headerFile === null) {
