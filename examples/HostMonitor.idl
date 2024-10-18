@@ -6,13 +6,31 @@ const unsigned long long BIG_INTEGER = 1224;
 
 typedef string<HOST_NAME_MAX_LEN> HostNameType;
 
+const unsigned long HOST_LOC_MAX_LEN = 1024;
+
+typedef string< HOST_LOC_MAX_LEN > HostLocType;
+
+@nested
+struct HostInformation {
+    HostNameType hostName;
+    HostLocType hostLocation;
+};
+    
 struct OverallInformation {
-	HostNameType hostName;
+    HostInformation hostInfo;
 	float cpuUtilization;
 	float memoryUtilization;
 };
 
 typedef sequence< OverallInformation > InfoBundle;
+const unsigned long BOUNDED_INFO_LIMIT = 128;
+typedef sequence< OverallInformation, BOUNDED_INFO_LIMIT > BoundedInfoBundle;
+
+struct Bundles {
+    InfoBundle first;
+    BoundedInfoBundle second;
+    sequence< HostInformation > anonymous;
+};
 
 enum Status {
     HOST_ONLINE,
