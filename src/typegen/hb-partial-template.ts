@@ -11,7 +11,7 @@ import Handlebars from "handlebars";
 
 export class HbPartialTemplate {
   public constructor(public readonly partialName: string, public readonly partialTemplateFileName: string) {
-    let templateDirectory = path.normalize(path.join(__dirname, "..", "..", "templates", "partials"));
+    let templateDirectory = path.normalize(path.join(__dirname, "..", "..", "templates", "ts_declarations", "partials"));
     let templateContents = readFileSync(path.join(templateDirectory, partialTemplateFileName), { encoding: "utf-8" });
     Handlebars.registerPartial(partialName, templateContents);
   }

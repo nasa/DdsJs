@@ -21,7 +21,7 @@ export class TypeDeclarationFile {
   public constructor(addon: DdsJsAddon, public readonly moduleName: string) {
     this.createDate = new Date().toISOString();
     this.moduleTrees = Array.from(addon.moduleIter()).map((aBundle) => new IdlModuleDefinition(aBundle));
-    let templateDirectory = path.normalize(path.join(__dirname, "..", "..", "templates"));
+    let templateDirectory = path.normalize(path.join(__dirname, "..", "..", "templates", "ts_declarations"));
     let templateContents = readFileSync(path.join(templateDirectory, TypeDeclarationFile.TEMPLATE_NAME), { encoding: "utf-8" });
     this.template = Handlebars.compile< TypeDeclarationFile >(templateContents);
   }
