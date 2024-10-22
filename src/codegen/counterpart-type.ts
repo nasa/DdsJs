@@ -5,8 +5,8 @@
  */
 
 import { BaseCodecProxy, CppInstanceWrapper } from "../model";
-import { coreDxProxyCounterpartType } from "./coredx";
-import { coreDxWrapperCounterpartClass } from "./coredx/counterpart-type";
+import { coreDxProxyCounterpartType, coreDxWrapperCounterpartClass } from "./coredx";
+import { cycloneDdsProxyCounterpartType, cycloneDdsWrapperCounterpartClass } from "./cyclonedds";
 
 
 export class CounterpartTypeGen {
@@ -15,6 +15,8 @@ export class CounterpartTypeGen {
   public forProxy(codecProxy: BaseCodecProxy): string {
     if (this.providerName === "CoreDX") {
       return coreDxProxyCounterpartType(codecProxy);
+    } else if (this.providerName === "CycloneDDS") {
+      return cycloneDdsProxyCounterpartType(codecProxy);
     } else {
       let msg = `Unsupported DDS provider "${this.providerName}".`;
       throw new Error(msg);
@@ -24,7 +26,9 @@ export class CounterpartTypeGen {
   public forWrapper(wrapper: CppInstanceWrapper): string {
     if (this.providerName === "CoreDX") {
       return coreDxWrapperCounterpartClass(wrapper);
-    } else {
+    } else if (this.providerName === "CycloneDDS") {
+      return cycloneDdsWrapperCounterpartClass(wrapper);
+    }  else {
       let msg = `Unsupported DDS provider "${this.providerName}".`;
       throw new Error(msg);
     }

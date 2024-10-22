@@ -35,13 +35,13 @@ export class CppNameGen {
     if (codecProxy instanceof ArrayProxy) {
       result = `::DdsJs::FixedArray< ${this.proxyNameFor(codecProxy.elemProxy)}, ${codecProxy.dimensions.join(", ")} >`;
     } else if (codecProxy instanceof BoundedSequenceProxy) {
-      result = `::DdsJs::BoundedSequence< ${this.proxyNameFor(codecProxy.elemProxy)}, ${this.typeGen.forProxy(codecProxy)}, ${codecProxy.boundsExpr} >`;
+      result = `::DdsJs::BoundedSequence< ${this.proxyNameFor(codecProxy.elemProxy)}, ${this.typeGen.forProxy(codecProxy)}, ::DdsJs::${this.providerName}::SequenceUtilities, ${codecProxy.boundsExpr} >`;
     } else if (codecProxy instanceof UnboundedSequenceProxy) {
-      result = `::DdsJs::UnboundedSequence< ${this.proxyNameFor(codecProxy.elemProxy)}, ${this.typeGen.forProxy(codecProxy)} >`;
+      result = `::DdsJs::UnboundedSequence< ${this.proxyNameFor(codecProxy.elemProxy)}, ${this.typeGen.forProxy(codecProxy)}, ::DdsJs::${this.providerName}::SequenceUtilities >`;
     } else if (codecProxy instanceof BoundedStringProxy) {
-      result = `::DdsJs::BoundedString< ${codecProxy.boundsExpr} >`;
+      result = `::DdsJs::BoundedString< ::DdsJs::${this.providerName}::StringUtilities, ${codecProxy.boundsExpr} >`;
     } else if (codecProxy instanceof UnboundedStringProxy) {
-      result = "::DdsJs::UnboundedString";
+      result = `::DdsJs::UnboundedString< ::DdsJs::${this.providerName}::StringUtilities >`;
     } else if (codecProxy instanceof BooleanProxy) {
       result = "::DdsJs::BooleanPrimitive";
     } else if (codecProxy instanceof CharProxy) {

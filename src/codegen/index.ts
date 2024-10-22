@@ -21,6 +21,7 @@ export { IdlModuleInfo, makeModuleInfo } from "./idl-module-info";
 export { ImplementationFileBase } from "./implementation-file";
 export { ModuleBundleHeader } from "./module-bundle-header";
 export { ModuleBundleImplementation } from "./module-bundle-implementation";
+export { enumerateProviderHeaders } from "./provider-headers";
 export { StructProxyHeader } from "./struct-proxy-header";
 export { StructProxyImplementation } from "./struct-proxy-implementation";
 export { TemplateGeneratedSource } from "./template-generated-source";

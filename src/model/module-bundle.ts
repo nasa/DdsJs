@@ -27,7 +27,8 @@ export class ModuleBundle implements ScopeContainer, ScopeMember {
   public readonly fullyScopedName: string;
   public readonly fullyScopedJsName: string;
   public readonly namespaceStack: string[];
-  public providerHeader: string | null;
+  public providerHeaders: string[];
+  public providerName: string;
 
   public constructor(idlName: string, public readonly owner: ScopeContainer) {
     this.registry = new ContainerRegistry(this);
@@ -43,7 +44,8 @@ export class ModuleBundle implements ScopeContainer, ScopeMember {
     this.fullyScopedJsName = this.namespaceStack.join(".");
     this.headerFile = null;
     this.implementationFile = null;
-    this.providerHeader = null;
+    this.providerHeaders = [];
+    this.providerName = "";
   }
 
   public addConstantDefinition(constantDef: ConstantDefinition): void {
@@ -127,16 +129,17 @@ export class ModuleBundle implements ScopeContainer, ScopeMember {
     return this.codecProxyList.values();
   }
 
-  public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
-    this.providerHeader = providerHeader;
+  public emit(destination: DestinationFolder, providerHeaders: string[], providerName: string): void {
+    this.providerHeaders = providerHeaders;
+    this.providerName = providerName;
     for (let aCodecProxy of this.codecProxyList) {
-      aCodecProxy.emit(destination, this.providerHeader, providerName);
+      aCodecProxy.emit(destination, this.providerHeaders, providerName);
     }
     for (let aWrapper of this.wrapperList) {
-      aWrapper.emit(destination, this.providerHeader, providerName);
+      aWrapper.emit(destination, this.providerHeaders, providerName);
     }
     for (let aSubmodule of this.subModuleList) {
-      aSubmodule.emit(destination, this.providerHeader, providerName);
+      aSubmodule.emit(destination, this.providerHeaders, providerName);
     }
     if (this.headerFile === null) {
       this.headerFile = new ModuleBundleHeader(this, providerName);

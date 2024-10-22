@@ -6,7 +6,7 @@
 
 import { writeFileSync } from "fs";
 import Handlebars from "handlebars";
-import { CmakeJsModule, CppNameGen, DestinationFolder, itemsInReverse } from "./codegen";
+import { CmakeJsModule, CppNameGen, DestinationFolder, enumerateProviderHeaders, itemsInReverse } from "./codegen";
 import { TranslatorConfiguration, TypeGenConfiguration } from "./config";
 import { interpretInput } from "./parser";
 import { SourceInput } from "./preproc";
@@ -28,7 +28,7 @@ export function runCompilerFlow(cmdLineArgs: string[]): void {
     // Generate C++ from object model
     Handlebars.registerHelper("itemsInReverse", itemsInReverse);
     let destination = new DestinationFolder(config.outputDirectory);
-    model.emit(destination, config.providerHeader, config.providerName);
+    model.emit(destination, enumerateProviderHeaders(config.providerName, config.inputFile), config.providerName);
 
     // Generate build system utilities, if requested
     if (config.buildSystem === "cmake-js") {

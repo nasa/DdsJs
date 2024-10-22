@@ -9,9 +9,30 @@
 #define {{headerFile.includeGuard}}
 
 //
-// Library Headers
+// NodeJs Add-on API
 #include <napi.h>
-#include <DdsJs/ddsjs.hh>
+
+//
+// DdsJs Generic
+#include <DdsJs/DdsJs.hh>
+
+//
+// DdsJs {{providerName}}-Specific
+#include <DdsJs/Providers/{{providerName}}/{{providerName}}.hh>
+
+{{#if providerHeaders}}
+//
+// {{providerName}} Generated Definitions
+{{#each providerHeaders}}
+#include <{{.}}>
+{{/each}}
+{{/if}}
+
+//
+// Module Definitions
+{{#each modules}}
+#include <{{headerFile.headerFileName}}>
+{{/each}}
 
 
 class {{name}} : public ::Napi::Addon< {{name}} >, public ::DdsJs::ConstructorRegistry

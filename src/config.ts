@@ -19,7 +19,6 @@ export class TranslatorConfiguration implements PreprocCompatibleConfig {
   public readonly inputFile: string;
   public readonly outputDirectory: string;
   public readonly preprocExecName: string;
-  public readonly providerHeader: string;
   public readonly providerName: string;
 
   public constructor(cmdLineArgs: string[]) {
@@ -40,10 +39,6 @@ export class TranslatorConfiguration implements PreprocCompatibleConfig {
       .alias("p", "cpp-exe")
       .describe("p", "Name of the C/C++ pre-processor to use (default: cpp).")
       .default("cpp-exe", "cpp")
-      .string("provider-header")
-      .alias("r", "provider-header")
-      .describe("r", "Path to header file including all DDS provider generated headers.")
-      .demandOption("provider-header", "A path to header file including all DDS provider generated headers is required.")
       .string("dds-provider")
       .alias("d", "dds-provider")
       .describe("d", "Identifier for the DDS provider to use.")
@@ -72,7 +67,6 @@ export class TranslatorConfiguration implements PreprocCompatibleConfig {
       throw new Error("More than one (1) input file provided.");
     }
     this.inputFile = parsedArgs["input-file"];
-    this.providerHeader = parsedArgs["provider-header"];
     if (parsedArgs["build-system"] !== undefined) {
       this.buildSystem = parsedArgs["build-system"];
     } else {

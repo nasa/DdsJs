@@ -8,17 +8,26 @@
 #ifndef {{headerFile.includeGuard}}
 #define {{headerFile.includeGuard}}
 
-{{#if providerHeader}}
 //
-// DDS Provider Header
-#include <{{providerHeader}}>
-{{/if}}
-
-//
-// Library Headers
+// NodeJs Add-on API
 #include <napi.h>
-#include <DdsJs/ddsjs.hh>
 
+//
+// DdsJs Generic
+#include <DdsJs/DdsJs.hh>
+
+//
+// DdsJs {{providerName}}-Specific
+#include <DdsJs/Providers/{{providerName}}/{{providerName}}.hh>
+
+{{#if providerHeaders}}
+//
+// {{providerName}} Generated Definitions
+{{#each providerHeaders}}
+#include <{{.}}>
+{{/each}}
+
+{{/if}}
 {{#each namespaceStack}}
 namespace {{this}}
 {

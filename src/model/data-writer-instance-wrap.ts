@@ -20,8 +20,9 @@ export class DataWriterInstanceWrap extends CppInstanceWrapper {
     this.fullJsClassName = owner.namespaceStack.join(".") + `.${this.cppCounterpartName}`;
   }
 
-  public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
-    this.providerHeader = providerHeader;
+  public emit(destination: DestinationFolder, providerHeaders: string[], providerName: string): void {
+    this.providerHeaders = providerHeaders;
+    this.providerName = providerName;
 
     if (this.headerFile === null) {
       this.headerFile = new DataWriterWrapHeader(this, providerName);

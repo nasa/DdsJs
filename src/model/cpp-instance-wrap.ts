@@ -11,7 +11,8 @@ import { OwnedCodecProxy } from "./owned-codec-proxy";
 export abstract class CppInstanceWrapper {
   public headerFile: HeaderFileBase< any > | null;
   public implementationFile: ImplementationFileBase< any > | null;
-  public providerHeader: string | null;
+  public providerHeaders: string[];
+  public providerName: string;
   public readonly name: string;
   public readonly baseWrapperName: string;
   public readonly cppCounterpartName: string;
@@ -21,10 +22,11 @@ export abstract class CppInstanceWrapper {
     this.cppCounterpartName = nameGen.typeGen.forWrapper(this);
     this.headerFile = null;
     this.implementationFile = null;
-    this.providerHeader = null;
+    this.providerHeaders = [];
+    this.providerName = "";
   }
 
-  public abstract emit(destination: DestinationFolder, providerHeader: string, providerName: string): void;
+  public abstract emit(destination: DestinationFolder, providerHeaders: string[], providerName: string): void;
 }
 
 // vim: set ts=2 sw=2 expandtab:

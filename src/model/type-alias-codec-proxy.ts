@@ -17,8 +17,9 @@ export class TypeAliasCodecProxy extends OwnedCodecProxy {
     this._name = proxyNameGen.proxyNameFor(this);
   }
 
-  public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
-    this.providerHeader = providerHeader;
+  public emit(destination: DestinationFolder, providerHeaders: string[], providerName: string): void {
+    this.providerHeaders = providerHeaders;
+    this.providerName = providerName;
     if (this.headerFile === null) {
       this.headerFile = new TypeAliasProxyHeader(this, providerName);
     }

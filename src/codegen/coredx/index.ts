@@ -4,6 +4,7 @@
  * @date 2024-03-12 14:29:30
  */
 
-export { coreDxProxyCounterpartType } from "./counterpart-type";
+export { coreDxProxyCounterpartType, coreDxWrapperCounterpartClass } from "./counterpart-type";
+export { coreDxEnumerateProviderHeaders } from "./provider-headers";
 
 // vim: set ts=2 sw=2 expandtab:

@@ -5,20 +5,8 @@
  * \date {{implementationFile.createDate}}
  */
 
-{{#if providerHeader}}
 //
-// DDS Provider Header
-#include <{{providerHeader}}>
-{{/if}}
-
-//
-// Module Headers
-{{#each modules}}
-#include <{{headerFile.headerFileName}}>
-{{/each}}
-
-//
-// Class Definition Header
+// Class Definition
 #include "{{headerFile.headerFileName}}"
 
 

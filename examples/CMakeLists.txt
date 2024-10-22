@@ -8,14 +8,14 @@ project(
 )
 set(DDSJS_ROOT "$ENV{npm_config_local_prefix}/node_modules/dds-js-devkit" CACHE PATH "Root of dds-js-devkit package.")
 set(ADDON_GEN_ROOT "${PROJECT_SOURCE_DIR}/native/addon" CACHE PATH "Directory where C++ add-on source files will go.")
-# set(PROVIDER_ROOT "${PROJECT_SOURCE_DIR}/native/${WITH_DDS}" CACHE PATH "Directory where DDS provider deposits generated C++.")
+set(PROVIDER_ROOT "${PROJECT_SOURCE_DIR}/native/${WITH_DDS}" CACHE PATH "Directory where DDS provider deposits generated C++.")
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" "${DDSJS_ROOT}/cmake-js" "${ADDON_GEN_ROOT}/cmake-js")
 
 include(DdsJsUtilities)
-# include(HostMonitorAddonUtilities)
-# include(TargetIDLSources)
+include(HostMonitorAddonUtilities)
 
-if ("${WITH_DDS}" STREQUAL "CoreDX")
+if (WITH_DDS STREQUAL "CoreDX")
+    include(TargetIDLSources)
     find_package(CoreDX REQUIRED COMPONENTS Cxx)
     list  (APPEND DDS_DEPENDENCIES "CoreDX::Cxx")
 elseif (WITH_DDS STREQUAL "CycloneDDS")
@@ -56,15 +56,17 @@ add_ddsjs_sources(
     DDSJS_ROOT "${DDSJS_ROOT}"
     DDS_PROVIDER ${WITH_DDS}
 )
-# add_HostMonitorAddon_sources("${PROJECT_NAME}" "${ADDON_GEN_ROOT}")
-# target_idl_sources(
-#     "${PROJECT_NAME}"
-#     BINDING "CXX"
-#     DDS_PROVIDER "${WITH_DDS}"
-#     IDL_SOURCES "${PROJECT_SOURCE_DIR}/HostMonitor.idl"
-#     OUTPUT_DIR "${PROVIDER_ROOT}"
-#     USE_EXISTING
-# )
+add_HostMonitorAddon_sources("${PROJECT_NAME}" "${ADDON_GEN_ROOT}")
+if (WITH_DDS STREQUAL "CoreDX")
+    target_idl_sources(
+        "${PROJECT_NAME}"
+        BINDING "CXX"
+        DDS_PROVIDER "${WITH_DDS}"
+        IDL_SOURCES "${PROJECT_SOURCE_DIR}/HostMonitor.idl"
+        OUTPUT_DIR "${PROVIDER_ROOT}"
+        USE_EXISTING
+    )
+endif ()
 
 set_target_properties(
     ${PROJECT_NAME}
@@ -79,7 +81,7 @@ target_include_directories(
     PUBLIC
         "${PROJECT_SOURCE_DIR}/native"
         ${ADDON_GEN_ROOT}
-        # ${PROVIDER_ROOT}
+        ${PROVIDER_ROOT}
         ${DDSJS_ROOT}
         ${CMAKE_JS_INC}
         ${NODE_ADDON_API_DIR}

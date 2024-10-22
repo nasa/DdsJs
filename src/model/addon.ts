@@ -18,14 +18,16 @@ export class DdsJsAddon implements ScopeContainer {
   public readonly namespaceStack: string[] = [];
   public headerFile: AddonMainHeader | null;
   public implementationFile: AddonMainImplementation | null;
-  public providerHeader: string | null;
+  public providerHeaders: string[];
+  public providerName: string;
 
   public constructor(public readonly idlName: string) {
     this.registry = new ContainerRegistry(this);
     this.name = `${idlName}Addon`;
     this.headerFile = null;
     this.implementationFile = null;
-    this.providerHeader = null;
+    this.providerHeaders = [];
+    this.providerName = "";
   }
 
   public addModule(newModule: ModuleBundle): void {
@@ -58,10 +60,11 @@ export class DdsJsAddon implements ScopeContainer {
     return result.sort();
   }
   
-  public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
-    this.providerHeader = providerHeader;
+  public emit(destination: DestinationFolder, providerHeaders: string[], providerName: string): void {
+    this.providerHeaders = providerHeaders;
+    this.providerName = providerName;
     for (let aModule of this.modules) {
-      aModule.emit(destination, this.providerHeader, providerName);
+      aModule.emit(destination, this.providerHeaders, providerName);
     }
     if (this.headerFile === null) {
       this.headerFile = new AddonMainHeader(this.name, providerName);

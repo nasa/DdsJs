@@ -10,7 +10,6 @@ const unsigned long HOST_LOC_MAX_LEN = 1024;
 
 typedef string< HOST_LOC_MAX_LEN > HostLocType;
 
-@nested
 struct HostInformation {
     HostNameType hostName;
     HostLocType hostLocation;
@@ -29,7 +28,6 @@ typedef sequence< OverallInformation, BOUNDED_INFO_LIMIT > BoundedInfoBundle;
 struct Bundles {
     InfoBundle first;
     BoundedInfoBundle second;
-    sequence< HostInformation > anonymous;
 };
 
 enum Status {

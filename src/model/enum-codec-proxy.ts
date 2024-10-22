@@ -31,8 +31,9 @@ export class EnumCodecProxy extends OwnedCodecProxy {
     this.mnemonicList.push(new EnumMnemonic(name));
   }
 
-  public emit(destination: DestinationFolder, providerHeader: string, providerName: string): void {
-    this.providerHeader = providerHeader;
+  public emit(destination: DestinationFolder, providerHeaders: string[], providerName: string): void {
+    this.providerHeaders = providerHeaders;
+    this.providerName = providerName;
     if (this.headerFile === null) {
       this.headerFile = new EnumProxyHeader(this, providerName);
     }
