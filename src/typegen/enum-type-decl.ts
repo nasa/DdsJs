@@ -14,7 +14,6 @@ export class IdlModuleEnumeration implements IdlModuleNamespaceContent {
 
   public readonly nsPartialName: string;
   public readonly nsScope: string;
-  ;
   public readonly mnemonicValType: string;
 
   public constructor(public readonly name: string, public readonly mnemonicValTypeName: string, public readonly mnemonics: string[], nsScope: string[]) {
