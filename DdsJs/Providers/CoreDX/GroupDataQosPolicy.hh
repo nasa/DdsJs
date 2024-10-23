@@ -21,12 +21,12 @@
 // --------------------------------------------------------------------------
 // DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
-#include <DdsJs/Sequences.hh>
+// #include <DdsJs/Sequences.hh>
 
 // --------------------------------------------------------------------------
 // DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
-#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+#include <DdsJs/Providers/CoreDX/Sequence.hh>
 
 
 namespace DdsJs
@@ -37,7 +37,11 @@ class GroupDataQosPolicyProxy : public Napi::ObjectWrap< GroupDataQosPolicyProxy
 public:
     struct ValueField
     {
-        using Proxy = UnboundedSequence< OctetPrimitive, decltype(DDS::GroupDataQosPolicy::value), CoreDX::SequenceUtilities >;
+        using Proxy = CoreDX::SequenceProxy<
+            OctetPrimitive,
+            CoreDX::CppUnboundedSequencePolicy<typename OctetPrimitive::CppEntity >,
+            CoreDX::CppDirectContainmentPolicy< typename OctetPrimitive::CppEntity >
+        >;
         static const char* NAME;
     };
 

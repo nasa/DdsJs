@@ -6,5 +6,6 @@
 
 export { coreDxProxyCounterpartType, coreDxWrapperCounterpartClass } from "./counterpart-type";
 export { coreDxEnumerateProviderHeaders } from "./provider-headers";
+export { coreDxSequenceProxyNameGen } from "./seq-proxy-gen";
 
 // vim: set ts=2 sw=2 expandtab:

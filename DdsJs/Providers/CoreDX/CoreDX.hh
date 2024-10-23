@@ -66,6 +66,7 @@
 #include <DdsJs/Providers/CoreDX/SampleRejectedStatus.hh>
 #include <DdsJs/Providers/CoreDX/SampleRejectedStatusKind.hh>
 #include <DdsJs/Providers/CoreDX/SampleStateKind.hh>
+#include <DdsJs/Providers/CoreDX/Sequence.hh>
 #include <DdsJs/Providers/CoreDX/StatusMask.hh>
 #include <DdsJs/Providers/CoreDX/SubscriberQos.hh>
 #include <DdsJs/Providers/CoreDX/SubscriberWrap.hh>

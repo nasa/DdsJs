@@ -20,14 +20,15 @@
 
 // --------------------------------------------------------------------------
 // DdsJs Generic
-#include <DdsJs/Sequences.hh>
+// #include <DdsJs/Sequences.hh>
 
 // --------------------------------------------------------------------------
 // DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/Primitives.hh>
 #include <DdsJs/Providers/CoreDX/QosPolicyCount.hh>
 #include <DdsJs/Providers/CoreDX/QosPolicyId.hh>
-#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+// #include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+#include <DdsJs/Providers/CoreDX/Sequence.hh>
 
 
 namespace DdsJs
@@ -56,7 +57,12 @@ public:
 
     struct PoliciesField
     {
-        using Proxy = UnboundedSequence< QosPolicyCountProxy, decltype(DDS::RequestedIncompatibleQosStatus::policies), CoreDX::SequenceUtilities >;
+        using SeqElemProxy = QosPolicyCountProxy;
+        using Proxy = CoreDX::SequenceProxy<
+            SeqElemProxy,
+            CoreDX::CStyleSequencePolicy< DDS_QosPolicyCountSeq >,
+            CoreDX::CDirectContainmentPolicy< typename SeqElemProxy::CppEntity >
+        >;
         static const char *NAME;
     };
 

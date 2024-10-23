@@ -29,7 +29,7 @@
 #include <DdsJs/ConstructorRegistry.hh>
 #include <DdsJs/CppBackingInstance.hh>
 #include <DdsJs/ReaderTakeResult.hh>
-#include <DdsJs/Sequences.hh>
+// #include <DdsJs/Sequences.hh>
 
 // --------------------------------------------------------------------------
 // DdsJs CoreDX-Specific
@@ -42,7 +42,8 @@
 #include <DdsJs/Providers/CoreDX/SampleInfo.hh>
 #include <DdsJs/Providers/CoreDX/SampleLostStatus.hh>
 #include <DdsJs/Providers/CoreDX/SampleRejectedStatus.hh>
-#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+// #include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+#include <DdsJs/Providers/CoreDX/Sequence.hh>
 #include <DdsJs/Providers/CoreDX/StatusMask.hh>
 #include <DdsJs/Providers/CoreDX/SubscriptionMatchedStatus.hh>
 #include <DdsJs/Providers/CoreDX/dds_error_util.hh>
@@ -276,7 +277,11 @@ DataReaderWrapBaseT< ReaderType, SampleProxy >::GetMatchedPublications(Napi::Cal
         throw NewDdsError(info.Env(), DottedName({ modname(), name() }).flat(), METHOD_NAME, result);
     }
 
-    return UnboundedSequence< InstanceHandleProxy, DDS::InstanceHandleSeq, CoreDX::SequenceUtilities >::NewInstance(info.Env(), matched_pubs);
+    return CoreDX::SequenceProxy<
+        InstanceHandleProxy,
+        CoreDX::CppUnboundedSequencePolicy< typename InstanceHandleProxy::CppEntity >,
+        CoreDX::CppDirectContainmentPolicy< typename InstanceHandleProxy::CppEntity >
+    >::NewInstance(info.Env(), matched_pubs);
 }
 
 

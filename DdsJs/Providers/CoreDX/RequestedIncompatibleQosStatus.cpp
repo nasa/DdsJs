@@ -89,7 +89,9 @@ RequestedIncompatibleQosStatusProxy::RequestedIncompatibleQosStatusProxy(Napi::C
 {
     NapiContainer this_instance = info.This().As< NapiContainer >();
     CppEntity blank_value;
-    PoliciesField::Proxy::MySeqUtil::Init(blank_value.policies);
+    // We know in this built-in production, the "policies" field is a C-style
+    // sequence, so it must be initialized as such.
+    DDS_SEQ_INIT(blank_value.policies);
 
     FromCpp(info.Env(), blank_value, this_instance);
 }

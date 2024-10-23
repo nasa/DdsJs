@@ -27,12 +27,13 @@
 // DdsJs Generic
 #include <DdsJs/CppBackingInstance.hh>
 #include <DdsJs/DottedName.hh>
-#include <DdsJs/Sequences.hh>
+// #include <DdsJs/Sequences.hh>
 
 // --------------------------------------------------------------------------
 // DdsJs CoreDX-Specific
 #include <DdsJs/Providers/CoreDX/InstanceHandle.hh>
-#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+// #include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+#include <DdsJs/Providers/CoreDX/Sequence.hh>
 #include <DdsJs/Providers/CoreDX/StatusMask.hh>
 #include <DdsJs/Providers/CoreDX/SubscriptionBuiltinTopicData.hh>
 #include <DdsJs/Providers/CoreDX/dds_error_util.hh>
@@ -153,7 +154,11 @@ DataWriterWrapBaseT< WriterType, SampleProxy >::GetMatchedSubscriptions(Napi::Ca
         throw NewDdsError(info.Env(), DottedName({ modname(), name() }).flat(), METHOD_NAME, result);
     }
 
-    return UnboundedSequence< InstanceHandleProxy, DDS::InstanceHandleSeq, CoreDX::SequenceUtilities >::NewInstance(info.Env(), matched_subs);
+    return CoreDX::SequenceProxy<
+        InstanceHandleProxy,
+        CoreDX::CppUnboundedSequencePolicy< typename InstanceHandleProxy::CppEntity >,
+        CoreDX::CppDirectContainmentPolicy< typename InstanceHandleProxy::CppEntity >
+    >::NewInstance(info.Env(), matched_subs);
 }
 
 

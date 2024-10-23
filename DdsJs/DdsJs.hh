@@ -14,7 +14,7 @@
 #include <DdsJs/JsWrapperInstanceRef.hh>
 #include <DdsJs/ReaderTakeResult.hh>
 #include <DdsJs/ReaderTakeResultIterator.hh>
-#include <DdsJs/Sequences.hh>
+// #include <DdsJs/Sequences.hh>
 #include <DdsJs/Strings.hh>
 
 #endif /* !_DDSJS_DDSJS_HH_ */

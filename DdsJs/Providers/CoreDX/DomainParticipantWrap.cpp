@@ -11,7 +11,8 @@
 #include <DdsJs/Providers/CoreDX/ParticipantBuiltinTopicData.hh>
 #include <DdsJs/Providers/CoreDX/PublisherQos.hh>
 #include <DdsJs/Providers/CoreDX/PublisherWrap.hh>
-#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+// #include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+#include <DdsJs/Providers/CoreDX/Sequence.hh>
 #include <DdsJs/Providers/CoreDX/SubscriberQos.hh>
 #include <DdsJs/Providers/CoreDX/SubscriberWrap.hh>
 #include <DdsJs/Providers/CoreDX/TopicQos.hh>
@@ -320,7 +321,11 @@ DomainParticipantWrap::GetDiscoveredParticipants(Napi::CallbackInfo const& info)
         throw NewDdsError(info.Env(), NAME, "getDiscoveredParticipants", retcode);
     }
 
-    return UnboundedSequence< InstanceHandleProxy, DDS::InstanceHandleSeq, CoreDX::SequenceUtilities >::NewInstance(info.Env(), discovered_participants);
+    return CoreDX::SequenceProxy<
+        InstanceHandleProxy,
+        CoreDX::CppUnboundedSequencePolicy< typename InstanceHandleProxy::CppEntity >,
+        CoreDX::CppDirectContainmentPolicy< typename InstanceHandleProxy::CppEntity >
+    >::NewInstance(info.Env(), discovered_participants);
 }
 
 

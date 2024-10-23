@@ -6,13 +6,17 @@
 
 import { ArrayProxy, BaseCodecProxy, BooleanProxy, BoundedSequenceProxy, BoundedStringProxy, CharProxy, CppInstanceWrapper, DataReaderInstanceWrap, DataWriterInstanceWrap, DoubleProxy, FloatProxy, LongLongProxy, LongProxy, OctetProxy, OwnedCodecProxy, ShortProxy, TypeSupportInstanceWrap, UnboundedSequenceProxy, UnboundedStringProxy, UnsignedLongLongProxy, UnsignedLongProxy, UnsignedShortProxy } from "../model";
 import { CounterpartTypeGen } from "./counterpart-type";
+import { ProxyNameGen } from "./proxy-name-gen";
+import { SequenceProxyNameGen } from "./seq-proxy-gen";
 
 
-export class CppNameGen {
+export class CppNameGen implements ProxyNameGen {
+  public readonly seqProxyGen: SequenceProxyNameGen;
   public readonly typeGen: CounterpartTypeGen;
 
   public constructor(public readonly providerName: string) {
     this.typeGen = new CounterpartTypeGen(providerName);
+    this.seqProxyGen = new SequenceProxyNameGen(providerName, this);
   }
 
   public baseWrapperNameFor(wrapper: CppInstanceWrapper): string {
@@ -35,9 +39,9 @@ export class CppNameGen {
     if (codecProxy instanceof ArrayProxy) {
       result = `::DdsJs::FixedArray< ${this.proxyNameFor(codecProxy.elemProxy)}, ${codecProxy.dimensions.join(", ")} >`;
     } else if (codecProxy instanceof BoundedSequenceProxy) {
-      result = `::DdsJs::BoundedSequence< ${this.proxyNameFor(codecProxy.elemProxy)}, ${this.typeGen.forProxy(codecProxy)}, ::DdsJs::${this.providerName}::SequenceUtilities, ${codecProxy.boundsExpr} >`;
+      result = this.seqProxyGen.proxyNameFor(codecProxy);
     } else if (codecProxy instanceof UnboundedSequenceProxy) {
-      result = `::DdsJs::UnboundedSequence< ${this.proxyNameFor(codecProxy.elemProxy)}, ${this.typeGen.forProxy(codecProxy)}, ::DdsJs::${this.providerName}::SequenceUtilities >`;
+      result = this.seqProxyGen.proxyNameFor(codecProxy);
     } else if (codecProxy instanceof BoundedStringProxy) {
       result = `::DdsJs::BoundedString< ::DdsJs::${this.providerName}::StringUtilities, ${codecProxy.boundsExpr} >`;
     } else if (codecProxy instanceof UnboundedStringProxy) {

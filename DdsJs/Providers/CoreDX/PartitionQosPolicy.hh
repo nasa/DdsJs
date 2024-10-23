@@ -21,12 +21,13 @@
 // --------------------------------------------------------------------------
 // DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
-#include <DdsJs/Sequences.hh>
+// #include <DdsJs/Sequences.hh>
 #include <DdsJs/Strings.hh>
 
 // --------------------------------------------------------------------------
 // DdsJs CoreDX-Specific
-#include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+// #include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
+#include <DdsJs/Providers/CoreDX/Sequence.hh>
 #include <DdsJs/Providers/CoreDX/StringUtilities.hh>
 
 
@@ -38,7 +39,12 @@ class PartitionQosPolicyProxy : public Napi::ObjectWrap< PartitionQosPolicyProxy
 public:
     struct NameField
     {
-        using Proxy = UnboundedSequence< UnboundedString< CoreDX::StringUtilities >, decltype(DDS::PartitionQosPolicy::name), CoreDX::SequenceUtilities >;
+        using SeqElemProxy = UnboundedString< CoreDX::StringUtilities >;
+        using Proxy = CoreDX::SequenceProxy<
+            SeqElemProxy,
+            CoreDX::CppUnboundedSequencePolicy< typename SeqElemProxy::CppEntity >,
+            CoreDX::CppDirectContainmentPolicy< typename SeqElemProxy::CppEntity >
+        >;
         static const char *NAME;
     };
 
