@@ -25,22 +25,22 @@ template< typename ElementProxy, unsigned Size >
 class FixedArray
 {
 public:
-    using CppContainerType = typename ElementProxy::CppContainerType[Size];
+    using CppEntity = typename ElementProxy::CppEntity[Size];
     using NapiContainer = Napi::Array;
 
-    static void FromCpp(Napi::Env env, CppContainerType const& cppVal, NapiContainer& jsValOut);
+    static void FromCpp(Napi::Env env, CppEntity const& cppVal, NapiContainer& jsValOut);
 
-    static void FromJs(Napi::Env env, NapiContainer const& jsVal, CppContainerType& cppValOut);
+    static void FromJs(Napi::Env env, NapiContainer const& jsVal, CppEntity& cppValOut);
 
     static NapiContainer NewInstance(Napi::Env env);
 
-    static NapiContainer NewInstance(Napi::Env env, CppContainerType const& cppVal);
+    static NapiContainer NewInstance(Napi::Env env, CppEntity const& cppVal);
 };
 
 
 template< typename ElementProxy, unsigned Size >
 void
-FixedArray< ElementProxy, Size >::FromCpp(Napi::Env env, CppContainerType const& cppVal, NapiContainer& jsValOut)
+FixedArray< ElementProxy, Size >::FromCpp(Napi::Env env, CppEntity const& cppVal, NapiContainer& jsValOut)
 {
     for (unsigned idx = 0u; idx < jsValOut.Length(); idx++)
     {
@@ -56,7 +56,7 @@ FixedArray< ElementProxy, Size >::FromCpp(Napi::Env env, CppContainerType const&
 
 template< typename ElementProxy, unsigned Size >
 void
-FixedArray< ElementProxy, Size >::FromJs(Napi::Env env, NapiContainer const& jsVal, CppContainerType& cppValOut)
+FixedArray< ElementProxy, Size >::FromJs(Napi::Env env, NapiContainer const& jsVal, CppEntity& cppValOut)
 {
     memset(&cppValOut, 0x00, sizeof(cppValOut));
     const unsigned iter_limit = std::min(jsVal.Length(), Size);
@@ -82,7 +82,7 @@ FixedArray< ElementProxy, Size >::NewInstance(Napi::Env env)
 
 template< typename ElementProxy, unsigned Size >
 typename FixedArray< ElementProxy, Size >::NapiContainer
-FixedArray< ElementProxy, Size >::NewInstance(Napi::Env env, CppContainerType const& cppVal)
+FixedArray< ElementProxy, Size >::NewInstance(Napi::Env env, CppEntity const& cppVal)
 {
     NapiContainer result = NewInstance(env);
     FromCpp(env, cppVal, result);
