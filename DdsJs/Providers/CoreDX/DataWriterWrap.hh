@@ -45,7 +45,7 @@ namespace DdsJs
 class DataWriterWrapFactory
 {
 public:
-    static Napi::Object NewInstance(Napi::Env env, DDS::DataWriter *reader, std::string const& readerJsClassName);
+    static Napi::Object NewInstance(Napi::Env env, DDS::DataWriter *writer, std::string const& writerJsClassName);
 };
 
 template< typename WriterType, typename SampleProxy >

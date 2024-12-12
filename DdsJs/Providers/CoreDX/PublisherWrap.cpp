@@ -101,13 +101,13 @@ PublisherWrap::CreateDataWriter(Napi::CallbackInfo const& info)
         }
     }
 
-    DDS::DataWriter *reader = the_pub->create_datawriter(topic, dr_qos, nullptr, 0);
-    if (nullptr == reader)
+    DDS::DataWriter *writer = the_pub->create_datawriter(topic, dr_qos, nullptr, 0);
+    if (nullptr == writer)
     {
         throw NewDdsError(info.Env(), DottedName({ MODNAME, NAME }).flat(), METHOD_NAME, DDS::RETCODE_ERROR);
     }
 
-    return DataWriterWrapFactory::NewInstance(info.Env(), reader, topic_wrapper->getWriterJsClassName());
+    return DataWriterWrapFactory::NewInstance(info.Env(), writer, topic_wrapper->getWriterJsClassName());
 }
 
 

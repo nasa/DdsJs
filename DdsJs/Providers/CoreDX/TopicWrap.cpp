@@ -161,7 +161,7 @@ TopicWrap::TopicWrap(Napi::CallbackInfo const& info):
 std::string
 TopicWrap::getReaderJsClassName() const
 {
-    DomainParticipantWrap *particip_wrap = m_participantJsObj.getWrapped< DomainParticipantWrap >("getWriterJsClassName");
+    DomainParticipantWrap *particip_wrap = m_participantJsObj.getWrapped< DomainParticipantWrap >("getReaderJsClassName");
 
     return particip_wrap->readerJsClassNameFor(m_topic.get("getReaderJsClassName")->get_type_name());
 }
