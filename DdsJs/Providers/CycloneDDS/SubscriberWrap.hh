@@ -1,12 +1,12 @@
 /**
- * \file CycloneDDS/PublisherWrap.hh
- * \brief Contains the definition of the \c DdsJs::PublisherWrap class.
+ * \file CycloneDDS/SubscriberWrap.hh
+ * \brief Contains the definition of the \c DdsJs::SubscriberWrap class for CycloneDDS.
  * \author Rolando J. Nieves
- * \date 2024-10-02 16:59:53
+ * \date 2024-12-06 13:30:15
  */
 
-#ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_PUBLISHERWRAP_HH_
-#define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_PUBLISHERWRAP_HH_
+#ifndef _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_SUBSCRIBERWRAP_HH_
+#define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_SUBSCRIBERWRAP_HH_
 
 // --------------------------------------------------------------------------
 // CycloneDDS C API
@@ -25,13 +25,13 @@
 namespace DdsJs
 {
 
-class PublisherWrap : public Napi::ObjectWrap< PublisherWrap >
+class SubscriberWrap : public Napi::ObjectWrap< SubscriberWrap >
 {
 private:
     JsWrapperInstanceRef m_participantJsObj;
-    dds_entity_t m_publisher;
+    dds_entity_t m_subscriber;
 
-    Napi::Value CreateDataWriter(Napi::CallbackInfo const& info);
+    Napi::Value CreateDataReader(Napi::CallbackInfo const& info);
 
     Napi::Value GetParticipant(Napi::CallbackInfo const& info);
 
@@ -44,15 +44,15 @@ public:
 
     static Napi::Object Init(Napi::Env env, Napi::Object exports, ConstructorRegistry *ctorReg);
 
-    static Napi::Object NewInstance(Napi::Env env, dds_entity_t publisher, Napi::Object participantJsObj);
+    static Napi::Object NewInstance(Napi::Env env, dds_entity_t subscriber, Napi::Object participantJsObj);
 
-    PublisherWrap(Napi::CallbackInfo const& info);
+    SubscriberWrap(Napi::CallbackInfo const& info);
 
-    virtual ~PublisherWrap();
+    virtual ~SubscriberWrap();
 };
 
 } // end namespace DdsJs
 
-#endif /* !_DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_PUBLISHERWRAP_HH_ */
+#endif /* !_DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_SUBSCRIBERWRAP_HH_ */
 
 // vim: set ts=4 sw=4 expandtab:

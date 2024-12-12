@@ -9,6 +9,11 @@
 #define _DDSJS_DDSJS_PROVIDERS_CYCLONEDDS_DOMAINPARTICIPANTWRAP_HH_
 
 // --------------------------------------------------------------------------
+// Standard C++ Library
+#include <map>
+#include <string>
+
+// --------------------------------------------------------------------------
 // CycloneDDS C API
 #include <dds/dds.h>
 
@@ -20,12 +25,21 @@
 // DdsJs Generic
 #include <DdsJs/ConstructorRegistry.hh>
 
+// --------------------------------------------------------------------------
+// DdsJs CycloneDDS-Specific
+#include <DdsJs/Providers/CycloneDDS/TypeInformation.hh>
+
 
 namespace DdsJs
 {
 
 class DomainParticipantWrap : public Napi::ObjectWrap< DomainParticipantWrap >
 {
+private:
+    using TopicTypeInfoMap = std::map< std::string, CycloneDDS::TypeInformation >;
+
+    TopicTypeInfoMap m_topicTypeInfo;
+
 public:
     static const char *MODNAME;
 
@@ -39,13 +53,16 @@ public:
 
     virtual ~DomainParticipantWrap();
 
-    inline dds_entity_t useParticipant(Napi::Env env)
+    inline dds_entity_t useParticipant()
     { return m_participant; }
+
+    void registerTopicTypeInfo(CycloneDDS::TypeInformation typeInfo, std::string localAlias = "");
 
 private:
     dds_entity_t m_participant;
 
     Napi::Value CreatePublisher(Napi::CallbackInfo const& info);
+    Napi::Value CreateTopic(Napi::CallbackInfo const& info);
     Napi::Value GetInstanceHandle(Napi::CallbackInfo const& info);
     Napi::Value GetQos(Napi::CallbackInfo const& info);
 };

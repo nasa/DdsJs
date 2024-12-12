@@ -12,7 +12,11 @@
 // --------------------------------------------------------------------------
 // DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/DataReaderQos.hh>
+#include <DdsJs/Providers/CycloneDDS/DataReaderWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/DataWriterQos.hh>
+#include <DdsJs/Providers/CycloneDDS/DataWriterWrap.hh>
+#include <DdsJs/Providers/CycloneDDS/dds_error_util.hh>
+#include <DdsJs/Providers/CycloneDDS/dds_qos_util.hh>
 #include <DdsJs/Providers/CycloneDDS/DeadlineQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/DestinationOrderQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/DestinationOrderQosPolicyKind.hh>
@@ -28,17 +32,19 @@
 #include <DdsJs/Providers/CycloneDDS/HistoryQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/HistoryQosPolicyKind.hh>
 #include <DdsJs/Providers/CycloneDDS/InconsistentTopicStatus.hh>
+#include <DdsJs/Providers/CycloneDDS/InstanceHandle.hh>
 #include <DdsJs/Providers/CycloneDDS/InstanceStateKind.hh>
 #include <DdsJs/Providers/CycloneDDS/LatencyBudgetQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/LifespanQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/LivelinessQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/LivelinessQosPolicyKind.hh>
-#include <DdsJs/Providers/CycloneDDS/OwnershipStrengthQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/OwnershipQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/OwnershipQosPolicyKind.hh>
+#include <DdsJs/Providers/CycloneDDS/OwnershipStrengthQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/PartitionQosPolicy.hh>
-#include <DdsJs/Providers/CycloneDDS/PresentationQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/PresentationQosPolicyAccessScopeKind.hh>
+#include <DdsJs/Providers/CycloneDDS/PresentationQosPolicy.hh>
+#include <DdsJs/Providers/CycloneDDS/Primitives.hh>
 #include <DdsJs/Providers/CycloneDDS/PublicationMatchedStatus.hh>
 #include <DdsJs/Providers/CycloneDDS/PublisherQos.hh>
 #include <DdsJs/Providers/CycloneDDS/PublisherWrap.hh>
@@ -49,15 +55,18 @@
 #include <DdsJs/Providers/CycloneDDS/SampleInfo.hh>
 #include <DdsJs/Providers/CycloneDDS/SampleStateKind.hh>
 #include <DdsJs/Providers/CycloneDDS/SubscriberQos.hh>
+#include <DdsJs/Providers/CycloneDDS/SubscriberWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/TimeBasedFilterQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/Time.hh>
 #include <DdsJs/Providers/CycloneDDS/TopicDataQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/TopicQos.hh>
+#include <DdsJs/Providers/CycloneDDS/TopicWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/TransportPriorityQosPolicy.hh>
+#include <DdsJs/Providers/CycloneDDS/TypeInformation.hh>
+#include <DdsJs/Providers/CycloneDDS/TypeSupportWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/UserDataQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/ViewStateKind.hh>
 #include <DdsJs/Providers/CycloneDDS/WriterDataLifecycleQosPolicy.hh>
-#include <DdsJs/Providers/CycloneDDS/dds_error_util.hh>
 
 // --------------------------------------------------------------------------
 // Local Definition
@@ -72,15 +81,19 @@ namespace DdsJs
 Napi::Value
 DdsModule::CreateDomainParticipant(Napi::CallbackInfo const& info)
 {
-    dds_qos_t *dp_qos = nullptr;
+    CycloneDDS::QosUniquePtr dp_qos;
     dds_domainid_t domain_id = 0;
 
     switch(info.Length())
     {
         case 2:
-            dp_qos = dds_create_qos();
-            DomainParticipantQosProxy::FromJs(info.Env(), info[1].As< DomainParticipantQosProxy::NapiContainer >(), dp_qos);
+        {
+            dp_qos.reset(dds_create_qos());
+            // Temporary get to bare-bald pointer so we can bind to ref in FromJs()
+            dds_qos_t *the_qos = dp_qos.get();
+            DomainParticipantQosProxy::FromJs(info.Env(), info[1].As< DomainParticipantQosProxy::NapiContainer >(), the_qos);
             // fall-through intentional
+        }
         case 1:
             domain_id = info[0].As< Napi::Number >().Uint32Value();
             break;
@@ -89,9 +102,7 @@ DdsModule::CreateDomainParticipant(Napi::CallbackInfo const& info)
             throw Napi::Error::New(info.Env(), "createDomainParticipant(): Invalid number of arguments provided.");
     }
 
-    dds_entity_t dp = dds_create_participant(domain_id, dp_qos, nullptr);
-    dds_delete_qos(dp_qos);
-    dp_qos = nullptr;
+    dds_entity_t dp = dds_create_participant(domain_id, dp_qos.get(), nullptr);
     if (dp < 0)
     {
         throw NewDdsError(info.Env(), "DDS", "createDomainParticipant()", (dds_return_t)dp);
@@ -215,8 +226,8 @@ DdsModule::Init(Napi::Env env, Napi::Object exports, ConstructorRegistry *ctorRe
 
     DomainParticipantWrap::Init(env, dds_module, ctorReg);
     PublisherWrap::Init(env, dds_module, ctorReg);
-    // SubscriberWrap::Init(env, dds_module, ctorReg);
-    // TopicWrap::Init(env, dds_module, ctorReg);
+    SubscriberWrap::Init(env, dds_module, ctorReg);
+    TopicWrap::Init(env, dds_module, ctorReg);
 
     exports.DefineProperty(Napi::PropertyDescriptor::Value("DDS", dds_module, napi_enumerable));
 

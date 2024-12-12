@@ -14,9 +14,13 @@
 
 // --------------------------------------------------------------------------
 // DdsJs CycloneDDS-Specific
+#include <DdsJs/Providers/CycloneDDS/Arrays.hh>
 #include <DdsJs/Providers/CycloneDDS/DataReaderQos.hh>
+#include <DdsJs/Providers/CycloneDDS/DataReaderWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/DataWriterQos.hh>
+#include <DdsJs/Providers/CycloneDDS/DataWriterWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/dds_error_util.hh>
+#include <DdsJs/Providers/CycloneDDS/dds_qos_util.hh>
 #include <DdsJs/Providers/CycloneDDS/DdsModule.hh>
 #include <DdsJs/Providers/CycloneDDS/DeadlineQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/DestinationOrderQosPolicy.hh>
@@ -55,12 +59,18 @@
 #include <DdsJs/Providers/CycloneDDS/ResourceLimitsQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/SampleInfo.hh>
 #include <DdsJs/Providers/CycloneDDS/SampleStateKind.hh>
+#include <DdsJs/Providers/CycloneDDS/Sequences.hh>
+#include <DdsJs/Providers/CycloneDDS/StringUtilities.hh>
 #include <DdsJs/Providers/CycloneDDS/SubscriberQos.hh>
+#include <DdsJs/Providers/CycloneDDS/SubscriberWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/TimeBasedFilterQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/Time.hh>
 #include <DdsJs/Providers/CycloneDDS/TopicDataQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/TopicQos.hh>
+#include <DdsJs/Providers/CycloneDDS/TopicWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/TransportPriorityQosPolicy.hh>
+#include <DdsJs/Providers/CycloneDDS/TypeInformation.hh>
+#include <DdsJs/Providers/CycloneDDS/TypeSupportWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/UserDataQosPolicy.hh>
 #include <DdsJs/Providers/CycloneDDS/ViewStateKind.hh>
 #include <DdsJs/Providers/CycloneDDS/WriterDataLifecycleQosPolicy.hh>

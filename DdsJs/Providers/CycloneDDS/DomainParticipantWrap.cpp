@@ -6,12 +6,19 @@
  */
 
 // --------------------------------------------------------------------------
+// Standard C++ Library
+#include <sstream>
+
+// --------------------------------------------------------------------------
 // DdsJs CycloneDDS-Specific
 #include <DdsJs/Providers/CycloneDDS/DomainParticipantQos.hh>
 #include <DdsJs/Providers/CycloneDDS/InstanceHandle.hh>
 #include <DdsJs/Providers/CycloneDDS/PublisherQos.hh>
 #include <DdsJs/Providers/CycloneDDS/PublisherWrap.hh>
+#include <DdsJs/Providers/CycloneDDS/TopicQos.hh>
+#include <DdsJs/Providers/CycloneDDS/TopicWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/dds_error_util.hh>
+#include <DdsJs/Providers/CycloneDDS/dds_qos_util.hh>
 
 // --------------------------------------------------------------------------
 // Local Definition
@@ -83,6 +90,17 @@ DomainParticipantWrap::DomainParticipantWrap(Napi::CallbackInfo const& info):
 }
 
 
+void
+DomainParticipantWrap::registerTopicTypeInfo(CycloneDDS::TypeInformation typeInfo, std::string localAlias)
+{
+    if (localAlias.empty())
+    {
+        localAlias = typeInfo.typeName;
+    }
+    m_topicTypeInfo.emplace(localAlias, typeInfo);
+}
+
+
 Napi::Value
 DomainParticipantWrap::CreatePublisher(Napi::CallbackInfo const& info)
 {
@@ -111,6 +129,62 @@ DomainParticipantWrap::CreatePublisher(Napi::CallbackInfo const& info)
 
 
 Napi::Value
+DomainParticipantWrap::CreateTopic(Napi::CallbackInfo const& info)
+{
+    std::string topic_name;
+    std::string type_name;
+    CycloneDDS::QosUniquePtr topic_qos;
+
+    switch(info.Length())
+    {
+        case 3:
+        {
+            topic_qos.reset(dds_create_qos());
+            // Temporary get to bare-bald pointer so we can bind to ref in FromJs()
+            dds_qos_t *the_qos = topic_qos.get();
+            TopicQosProxy::FromJs(info.Env(), info[2].As< TopicQosProxy::NapiContainer >(), the_qos);
+            // Fall-through intentional
+        }
+        case 2:
+            type_name = info[1].As< Napi::String >().Utf8Value();
+            topic_name = info[0].As< Napi::String >().Utf8Value();
+            break;
+        
+        default:
+            throw Napi::Error::New(info.Env(), "DomainParticipant.createTopic(): Invalid number of arguments provided.");
+    }
+
+    if (topic_name.length() >= TopicWrap::TOPIC_NAME_MAX_LEN)
+    {
+        std::stringstream msg;
+
+        msg << "DomainParticipant.createTopic(): Topic name length exceeds maximum of ("
+            << TopicWrap::TOPIC_NAME_MAX_LEN
+            << ")";
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+
+    auto type_info_iter = m_topicTypeInfo.find(type_name);
+    if (m_topicTypeInfo.end() == type_info_iter)
+    {
+        std::stringstream msg;
+        msg << "DomainParticipant.createTopic(): Unknown type name \""
+            << type_name
+            << "\". Has it been registered?";
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+
+    dds_entity_t the_topic = dds_create_topic(m_participant, (*type_info_iter).second.topicDesc, topic_name.c_str(), topic_qos.get(), nullptr);
+    if (the_topic < 0)
+    {
+        throw NewDdsError(info.Env(), NAME, "createTopic", (dds_return_t)the_topic);
+    }
+
+    return TopicWrap::NewInstance(info.Env(), the_topic, topic_name, (*type_info_iter).second);
+}
+
+
+Napi::Value
 DomainParticipantWrap::GetInstanceHandle(Napi::CallbackInfo const& info)
 {
     typename InstanceHandleProxy::CppEntity participant_handle;
@@ -128,21 +202,15 @@ DomainParticipantWrap::GetInstanceHandle(Napi::CallbackInfo const& info)
 Napi::Value
 DomainParticipantWrap::GetQos(Napi::CallbackInfo const& info)
 {
-    dds_qos_t *dp_qos = dds_create_qos();
+    CycloneDDS::QosUniquePtr dp_qos(dds_create_qos());
 
-    dds_return_t retcode = dds_get_qos(m_participant, dp_qos);
+    dds_return_t retcode = dds_get_qos(m_participant, dp_qos.get());
     if (retcode != DDS_RETCODE_OK)
     {
-        dds_delete_qos(dp_qos);
-        dp_qos = nullptr;
         throw NewDdsError(info.Env(), NAME, "getQos", retcode);
     }
 
-    typename DomainParticipantQosProxy::NapiContainer result = DomainParticipantQosProxy::NewInstance(info.Env(), dp_qos);
-    dds_delete_qos(dp_qos);
-    dp_qos = nullptr;
-
-    return result;
+    return DomainParticipantQosProxy::NewInstance(info.Env(), dp_qos.get());
 }
 
 } // end namespace DdsJs
