@@ -48,6 +48,29 @@ union ExampleUnion switch (UnionValueType)
         long intVal;
 };
 
+const unsigned long FIXED_FRAME_SIZE = 64;
+
+typedef octet FixedFrameContent[FIXED_FRAME_SIZE];
+
+@nested
+struct FixedFrameMeta {
+    double acqTime;
+    unsigned short senderId;
+};
+
+struct FixedFrame {
+    FixedFrameMeta metadata;
+    FixedFrameContent content;
+};
+
+struct OtherData {
+    unsigned long jitArray[128];
+    sequence< unsigned short, 32 > jitBoundedSequence;
+    sequence< float > jitUnboundedSequence;
+    string< 64 > jitBoundedString;
+    string jitUnboundedString;
+};
+
 module LogTransfer {
 
 typedef string< 1024 > LogMessageType;
