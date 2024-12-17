@@ -5,5 +5,6 @@
  */
 
 export { TypeGenConfiguration } from "./config";
+export { generateTypeDeclarations } from "./generate";
 
 // vim: set ts=2 sw=2 expandtab:

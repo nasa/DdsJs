@@ -1,0 +1,6 @@
+{{#if (topLevel subject)}}export declare {{/if}}namespace {{subject.name}} {
+  {{#each childContexts}}
+  {{> (selectPartial)}}
+
+  {{/each}}
+}

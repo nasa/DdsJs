@@ -4,6 +4,8 @@
  * @date 2024-12-06 15:37:11
  */
 
+import { NestedAnnotation, Structure } from "./dds-idl-compiler";
+
 
 // CODE ATTRIBUTION NOTICE
 // Logic closely based from example offered in StackOverflow:
@@ -14,6 +16,12 @@ export function dashToCamelCase(dashCase: string): string {
   // such as already upper case letters and numbers, so that the replacement
   // algorithm collapses the dashes all the same.
   return dashCase.replace(/-([a-zA-Z0-9])/g, (match, letter) => letter.toUpperCase());
+}
+// END CODE ATTRIBUTION NOTICE
+
+export function isTopicTypeEligible(subject: Structure): boolean {
+  let annotation = NestedAnnotation.PresentIn(subject);
+  return (annotation === undefined) || !annotation.isNested
 }
 
 // vim: set ts=2 sw=2 expandtab:

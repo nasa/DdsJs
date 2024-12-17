@@ -1,0 +1,7 @@
+const {{subject.name}}: {
+    {{#each subject}}
+    readonly {{mnemonic}}: number;
+    {{/each}}
+};
+
+type {{enumMnemonicValueType subject}} = typeof {{subject.name}}[keyof typeof {{subject.name}}];

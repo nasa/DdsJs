@@ -1,18 +1,18 @@
 /**
- * @brief Contains the definition of the `registerCycloneDdsPartials()` function.
+ * @brief Contains the definition of the `registerHandlebarsPartials()` function.
  * @author Rolando J. Nieves
- * @date 2024-12-06 15:25:14
+ * @date 2024-12-17 15:48:58
  */
 
 import Handlebars from "handlebars";
 import fs from "node:fs";
 import path from "node:path";
-import { dashToCamelCase } from "../../../utils";
-import { TEMPLATE_ROOT } from "../../generate";
+import { dashToCamelCase } from "../../utils";
+import { TEMPLATE_ROOT } from "../generate";
 
 
-export function registerCycloneDdsPartials(): void {
-  let partialsDir = path.normalize(path.join(TEMPLATE_ROOT, "partials", "cyclonedds"));
+export function registerHandlebarsPartials(): void {
+  let partialsDir = path.normalize(path.join(TEMPLATE_ROOT, "partials"));
   let candidates: fs.Dirent[] = fs.readdirSync(partialsDir, { encoding: "utf-8", withFileTypes: true });
   for (let aCandidate of candidates) {
     if (aCandidate && aCandidate.isFile() && (path.extname(aCandidate.name) == ".handlebars")) {

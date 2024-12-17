@@ -1,0 +1,32 @@
+class {{subject.name}} {
+{{#each subject.members}}
+  {{name}}: {{{tsTypeNameWithDecl typespec decl}}};
+{{/each}}
+}
+
+{{#topicSupport subject}}
+class {{name}}DataReader implements DDS.DataReader {
+  getLivelinessChangedStatus(): DDS.LivelinessChangedStatus;
+  getMatchedPublicationData(pubHandle: DDS.InstanceHandle): DDS.PublicationBuiltinTopicData;
+  getMatchedPublications(): DDS.InstanceHandle[];
+  getRequestedIncompatibleQosStatus(): DDS.RequestedIncompatibleQosStatus;
+  getSampleLostStatus(): DDS.SampleLostStatus;
+  getSampleRejectedStatus(): DDS.SampleRejectedStatus;
+  getStatusChanges(): DDS.StatusMask;
+  getSubscriptionMatchedStatus(): DDS.SubscriptionMatchedStatus;
+  getQos(): DDS.DataReaderQos;
+  take(maxSamples: number): { sample: {{tsTypeName .}} | null, sampleInfo: DDS.SampleInfo }[];
+}
+
+class {{name}}DataWriter implements DDS.DataWriter {
+  getMatchedSubscriptionData(handle: DDS.InstanceHandle): DDS.SubscriptionBuiltinTopicData;
+  getMatchedSubscriptions(): DDS.InstanceHandle[];
+  getStatusChanges(): DDS.StatusMask;
+  write(sample: {{tsTypeName .}}): void;
+}
+
+class {{name}}TypeSupport {
+  registerType(participant: DDS.DomainParticipant): void;
+  getTypeName(): string;
+}
+{{else}}{{/topicSupport}}

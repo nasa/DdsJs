@@ -1,0 +1,11 @@
+class {{subject.name}} {
+  discriminator: {{tsTypeName subject.switchTypeSpec}};
+  {{#each subject.members}}
+  {{name}}?: {{{tsTypeNameWithDecl typespec decl}}}
+  {{/each}}
+
+  // Factory Static Methods
+  {{#each subject.members}}
+  static {{name}}(value: {{{tsTypeNameWithDecl typespec decl}}}): {{../subject.name}}
+  {{/each}}
+}

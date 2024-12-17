@@ -1,5 +1,5 @@
 /**
- * @brief Contains the definition of the `generateFromTemplate()` function.
+ * @brief Contains the definition of the `generateCppCode()` and `generateFromTemplate()` functions.
  * @author Rolando J. Nieves
  * @date 2024-11-19 15:36:40
  */
@@ -9,7 +9,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { IdlFile, isNamingScope, ScopeMember } from "../dds-idl-compiler";
 import { CppGenConfiguration } from "./config";
-import { DestinationFolder } from "./destination-folder";
+import { DestinationFolder } from "../destination-folder";
 import { registerHandlebarsHelpers } from "./handlebars-helpers";
 import { registerHandlebarsPartials } from "./handlebars-partials";
 import { TemplateContextPairFactory } from "./template-mgmt";

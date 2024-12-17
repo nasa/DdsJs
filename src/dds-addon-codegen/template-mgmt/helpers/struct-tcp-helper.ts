@@ -4,15 +4,10 @@
  * @date 2024-12-16 16:12:45
  */
 
-import { NestedAnnotation, ScopeMember, Structure } from "../../../dds-idl-compiler";
+import { ScopeMember, Structure } from "../../../dds-idl-compiler";
+import { isTopicTypeEligible } from "../../../utils";
 import { ImplementationFileContext, HeaderFileContext } from "../../context";
 import { TemplateContextPair } from "../template-context-pair";
-
-
-function isTopicTypeEligible(subject: Structure): boolean {
-  let annotation = NestedAnnotation.PresentIn(subject);
-  return (annotation === undefined) || !annotation.isNested
-}
 
 
 export function structTcpFactoryHelper(subject: ScopeMember, providerName: string, withTopicSupport: boolean): TemplateContextPair[] {
