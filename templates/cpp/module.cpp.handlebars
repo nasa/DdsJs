@@ -1,0 +1,53 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the implementation for the \c {{subject.name}} module wrapper class.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+//
+// Module Member Definitions
+{{#definitionHeadersWithin subject withTopicSupport="yes"}}
+#include <{{.}}>
+{{/definitionHeadersWithin}}
+
+//
+// Class Definition
+#include "{{companionHeaderFile}}"
+
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+Napi::Object
+{{moduleWrapperName subject}}::Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg)
+{
+    {{#modulesWithin subject}}
+    ::Napi::Object {{moduleNsVarName .}} = ::Napi::Object::New(env);
+    {{moduleWrapperName . fullyQualified="yes"}}::Init(env, {{moduleNsVarName .}}, ctorReg);
+    {{/modulesWithin}}
+
+    {{#instanceMembersWithin subject}}
+    exports.DefineProperty(::Napi::PropertyDescriptor::Value("{{name}}", {{napiInstanceValue .}}, napi_enumerable));
+    {{/instanceMembersWithin}}
+
+    {{#proxyMembersWithin subject}}
+    {{proxyName . fullyQualified="yes"}}::Init(env, exports, ctorReg);
+    {{/proxyMembersWithin}}
+
+    {{#topicTypeMembersWithin subject}}
+    {{dataReaderWrapName . fullyQualified="yes"}}::Init(env, exports, ctorReg);
+    {{dataWriterWrapName . fullyQualified="yes"}}::Init(env, exports, ctorReg);
+    {{typeSupportWrapName . fullyQualified="yes"}}::Init(env, exports, ctorReg);
+    {{/topicTypeMembersWithin}}
+
+    return exports;
+}
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{.}}
+
+{{/itemsInReverse}}
+// vim: set ts=4 sw=4 expandtab:

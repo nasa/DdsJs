@@ -4,7 +4,7 @@ project(
     "hostmonitor"
     VERSION "1.0.0"
     LANGUAGES
-        CXX
+        C CXX
 )
 set(DDSJS_ROOT "$ENV{npm_config_local_prefix}/node_modules/dds-js-devkit" CACHE PATH "Root of dds-js-devkit package.")
 set(ADDON_GEN_ROOT "${PROJECT_SOURCE_DIR}/native/addon" CACHE PATH "Directory where C++ add-on source files will go.")
@@ -13,14 +13,16 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" "${DDSJS_ROOT}/cmake
 
 include(DdsJsUtilities)
 include(HostMonitorAddonUtilities)
+include(TargetIDLSources)
 
 if (WITH_DDS STREQUAL "CoreDX")
-    include(TargetIDLSources)
     find_package(CoreDX REQUIRED COMPONENTS Cxx)
     list  (APPEND DDS_DEPENDENCIES "CoreDX::Cxx")
+    set(IDL_BINDING "CXX")
 elseif (WITH_DDS STREQUAL "CycloneDDS")
     find_package(CycloneDDS REQUIRED)
     list (APPEND DDS_DEPENDENCIES "CycloneDDS::ddsc")
+    set(IDL_BINDING "C")
 endif ()
 
 # ==============================================================================
@@ -57,16 +59,14 @@ add_ddsjs_sources(
     DDS_PROVIDER ${WITH_DDS}
 )
 add_HostMonitorAddon_sources("${PROJECT_NAME}" "${ADDON_GEN_ROOT}")
-if (WITH_DDS STREQUAL "CoreDX")
-    target_idl_sources(
-        "${PROJECT_NAME}"
-        BINDING "CXX"
-        DDS_PROVIDER "${WITH_DDS}"
-        IDL_SOURCES "${PROJECT_SOURCE_DIR}/HostMonitor.idl"
-        OUTPUT_DIR "${PROVIDER_ROOT}"
-        USE_EXISTING
-    )
-endif ()
+target_idl_sources(
+    "${PROJECT_NAME}"
+    BINDING "${IDL_BINDING}"
+    DDS_PROVIDER "${WITH_DDS}"
+    IDL_SOURCES "${PROJECT_SOURCE_DIR}/HostMonitor.idl"
+    OUTPUT_DIR "${PROVIDER_ROOT}"
+    USE_EXISTING
+)
 
 set_target_properties(
     ${PROJECT_NAME}

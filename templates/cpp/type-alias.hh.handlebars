@@ -1,0 +1,50 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the definition of the \c {{subject.name}} type alias proxy.
+ * \note Automatically generated code.
+ * \date {{createDate}}
+ */
+
+#ifndef {{includeGuard}}
+#define {{includeGuard}}
+
+//
+// NodeJS Add-on API
+#include <napi.h>
+
+//
+// DdsJs Generic
+#include <DdsJs/DdsJs.hh>
+
+//
+// DdsJs {{providerName}}-Specific
+#include <DdsJs/Providers/{{providerName}}/{{providerName}}.hh>
+
+//
+// {{providerName}} Generated Definitions
+{{#providerHeaders subject}}
+#include <{{.}}>
+{{/providerHeaders}}
+
+//
+// Aliased Type Definition
+{{#definitionHeadersWithin subject}}
+#include <{{.}}>
+{{else}}
+// No generated headers required
+{{/definitionHeadersWithin}}
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+using {{proxyName subject}} = {{{proxyNameWithDecl subject.typespec subject.decl}}};
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{.}}
+
+{{/itemsInReverse}}
+#endif /* !{{includeGuard}} */
+
+// vim: set ts=4 sw=4 expandtab:

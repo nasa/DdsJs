@@ -26,12 +26,12 @@ namespace CycloneDDS
 class TypeInformation
 {
 public:
-    dds_topic_descriptor_t* topicDesc;
+    dds_topic_descriptor_t const* topicDesc;
     std::string typeName;
     std::string jsReaderFqn;
     std::string jsWriterFqn;
 
-    TypeInformation(dds_topic_descriptor_t* in_topicDesc, std::string const& in_typeName, std::string const& in_jsReaderFqn, std::string const& in_jsWriterFqn);
+    TypeInformation(dds_topic_descriptor_t const* in_topicDesc, std::string const& in_typeName, std::string const& in_jsReaderFqn, std::string const& in_jsWriterFqn);
 
     virtual ~TypeInformation() = default;
 

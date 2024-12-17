@@ -1,0 +1,15 @@
+# ===========================================================================
+# Utilities needed by CMake-JS to build add-on native code.
+#
+# Date: {{createDate}}
+# Automatically generated
+# ===========================================================================
+function(add_{{addonWrapperName subject}}_sources TARGET_NAME GEN_ROOT_PATH)
+    target_sources(${TARGET_NAME} PUBLIC
+        {{#each sourceFiles}}
+        "${GEN_ROOT_PATH}/{{.}}"
+        {{/each}}
+    )
+endfunction(add_{{addonWrapperName subject}}_sources TARGET_NAME GEN_ROOT_PATH)
+
+# vim: set ts=4 sw=4 expandtab:

@@ -1,12 +1,13 @@
 {
-    "cmake.configureArgs": [
-        "-DANTLR_VERSION:STRING=4.9.1",
-        "-DCOMMONS_CLI_VERSION:STRING=1.4",
-        "-DST_VERSION:STRING=4.0.8",
-        "-DNODEJS_VERSION:STRING=12.19.0"
-    ],
-    "cmake.configureOnOpen": false,
-    "clangd.arguments": [
-      "--header-insertion=never"
-    ]
+  "antlr4.generation": {
+    "alternativeJar": "/usr/local/lib/antlr-4.13.2-complete.jar",
+    "mode": "external",
+    "listeners": true,
+    "visitors": true,
+    "language": "TypeScript",
+    "outputDir": "parser"
+  },
+  "clangd.arguments": [
+    "--header-insertion=never"
+  ]
 }

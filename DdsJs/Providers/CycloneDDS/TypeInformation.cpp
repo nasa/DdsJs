@@ -17,7 +17,7 @@ namespace CycloneDDS
 {
 
 TypeInformation::TypeInformation(
-    dds_topic_descriptor_t* in_topicDesc,
+    dds_topic_descriptor_t const* in_topicDesc,
     std::string const& in_typeName,
     std::string const& in_jsReaderFqn,
     std::string const& in_jsWriterFqn

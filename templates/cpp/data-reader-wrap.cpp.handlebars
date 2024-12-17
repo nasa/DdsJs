@@ -1,0 +1,72 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the implementation of the \c {{subject.name}} data reader wrapper class.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+//
+// Standard C++ Library
+#include <sstream>
+
+//
+// Class Definition
+#include "{{companionHeaderFile}}"
+
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+const char *{{dataReaderWrapName subject}}::MODNAME = "{{ownerModuleNameFor subject}}";
+
+const char *{{dataReaderWrapName subject}}::NAME = "{{subject.name}}DataReader";
+
+::Napi::Object
+{{dataReaderWrapName subject}}::Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg)
+{
+    ::Napi::Function ctor_func = DefineClass(
+        env,
+        NAME,
+        {
+            InstanceMethod("getQos", &{{dataReaderWrapName subject}}::GetQos, napi_enumerable),
+            InstanceMethod("take", &{{dataReaderWrapName subject}}::Take, napi_enumerable)
+        }
+    );
+
+    ::Napi::FunctionReference *ctor_ref = new ::Napi::FunctionReference();
+    *ctor_ref = ::Napi::Persistent(ctor_func);
+    ctorReg->setConstructorFor(::DdsJs::DottedName({ MODNAME, NAME }), ctor_ref);
+
+    exports.Set(NAME, ctor_func);
+    return exports;
+}
+
+
+{{dataReaderWrapName subject}}::{{dataReaderWrapName subject}}(::Napi::CallbackInfo const& info):
+    {{> dataReaderWrapperBaseInit subject }},
+    ::Napi::ObjectWrap< {{dataReaderWrapName subject}} >(info)
+{
+{{> dataReaderWrapperCtorBody subject }}
+}
+
+
+const char*
+{{dataReaderWrapName subject}}::modname() const
+{
+    return MODNAME;
+}
+
+
+const char*
+{{dataReaderWrapName subject}}::name() const
+{
+    return NAME;
+}
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{.}}
+
+{{/itemsInReverse}}
+// vim: set ts=4 sw=4 expandtab:

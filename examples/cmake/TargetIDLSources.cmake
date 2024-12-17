@@ -58,25 +58,18 @@ function(TARGET_IDL_SOURCES TargetName)
             IDL_SOURCES ${TIS_IDL_SOURCES}
         )
         set(DDS_HEADER_EXT "hh" PARENT_SCOPE)
-    elseif (${TIS_DDS_PROVIDER} STREQUAL "OpenSplice")
-        opensplice_target_idl_sources(
+    elseif (${TIS_DDS_PROVIDER} STREQUAL "CycloneDDS")
+        if (NOT TIS_BINDING STREQUAL "C")
+            message(FATAL_ERROR "DdsJs only supports CycloneDDS C binding.")
+        endif ()
+        cyclonedds_target_idl_sources(
             ${TargetName}
-            ${BINDING_KW} ${TIS_BINDING}
             ${USE_EXISTING_KW}
             ${OUTPUT_DIR_KW} ${TIS_OUTPUT_DIR}
             ${INCLUDE_PATH_LIST_KW} ${TIS_INCLUDE_PATH_LIST}
             IDL_SOURCES ${TIS_IDL_SOURCES}
         )
         set(DDS_HEADER_EXT "h" PARENT_SCOPE)
-    elseif (${TIS_DDS_PROVIDER} STREQUAL "OpenDDS")
-        opendds_target_idl_sources(
-            ${TargetName}
-            ${USE_EXISTING_KW}
-            ${OUTPUT_DIR_KW} ${TIS_OUTPUT_DIR}
-            ${INCLUDE_PATH_LIST_KW} ${TIS_INCLUDE_PATH_LIST}
-            IDL_SOURCES ${TIS_IDL_SOURCES}
-        )
-        set(DDS_HEADER_HEXT "h" PARENT_SCOPE)
     else ()
         message(FATAL_ERROR "Unknown DDS provider '${TIS_DDS_PROVIDER}'.")
     endif ()

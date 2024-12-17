@@ -1,0 +1,54 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the implementation of the \c {{subject.name}} type support wrapper class.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+//
+// Class Definition
+#include "{{companionHeaderFile}}"
+
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+const char *{{typeSupportWrapName subject}}::MODNAME = "{{ownerModuleNameFor subject}}";
+
+const char *{{typeSupportWrapName subject}}::NAME = "{{subject.name}}TypeSupport";
+
+::Napi::Object
+{{typeSupportWrapName subject}}::Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg)
+{
+    ::Napi::Function ctor_func = DefineClass(
+        env,
+        NAME,
+        {
+            InstanceMethod("getTypeName", &{{typeSupportWrapName subject}}::GetTypeName, napi_enumerable),
+            InstanceMethod("registerType", &{{typeSupportWrapName subject}}::RegisterType, napi_enumerable)
+        }
+    );
+
+    ::Napi::FunctionReference *ctor_ref = new ::Napi::FunctionReference();
+    *ctor_ref = ::Napi::Persistent(ctor_func);
+    ctorReg->setConstructorFor(::DdsJs::DottedName({ MODNAME, NAME }), ctor_ref);
+
+    exports.Set(NAME, ctor_func);
+    return exports;
+}
+
+
+{{typeSupportWrapName subject}}::{{typeSupportWrapName subject}}(::Napi::CallbackInfo const& info):
+    {{> typeSupportWrapperBaseInit subject }},
+    ::Napi::ObjectWrap< {{typeSupportWrapName subject}} >(info)
+{
+    {{> typeSupportWrapperCtorBody subject }}
+}
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{.}}
+
+{{/itemsInReverse}}
+// vim: set ts=4 sw=4 expandtab:

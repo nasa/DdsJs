@@ -1,0 +1,59 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the definition of the \c {{subject.name}} enum proxy.
+ * \node Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+#ifndef {{includeGuard}}
+#define {{includeGuard}}
+
+//
+// NodeJs Add-on API
+#include <napi.h>
+
+//
+// DdsJs Generic
+#include <DdsJs/DdsJs.hh>
+
+//
+// DdsJs {{providerName}}-Specific
+#include <DdsJs/Providers/{{providerName}}/{{providerName}}.hh>
+
+//
+// {{providerName}} Generated Definitions
+{{#providerHeaders subject}}
+#include <{{.}}>
+{{/providerHeaders}}
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+class {{proxyName subject}}
+{
+public:
+    using CppEntity = {{nativeTypeName subject}};
+    using NapiContainer = {{napiContainer subject}};
+
+    static const char *NAME;
+
+    static Napi::Object Init(Napi::Env env, Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg);
+
+    static NapiContainer NewInstance(Napi::Env env);
+
+    static NapiContainer NewInstance(Napi::Env env, CppEntity const& cppInstance);
+
+    static void FromCpp(Napi::Env env, CppEntity const& cppVal, NapiContainer& jsValOut);
+
+    static void FromJs(Napi::Env env, NapiContainer const& jsVal, CppEntity& cppValOut);
+};
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{.}}
+
+{{/itemsInReverse}}
+#endif /* !{{includeGuard}} */
+
+// vim: set ts=4 sw=4 expandtab:

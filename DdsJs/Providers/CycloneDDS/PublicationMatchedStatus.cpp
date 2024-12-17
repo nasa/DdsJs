@@ -15,6 +15,9 @@ namespace DdsJs
 
 const char *PublicationMatchedStatusProxy::TotalCountField::NAME = "total_count";
 const char *PublicationMatchedStatusProxy::TotalCountChangeField::NAME = "total_count_change";
+const char *PublicationMatchedStatusProxy::CurrentCountField::NAME = "current_count";
+const char *PublicationMatchedStatusProxy::CurrentCountChangeField::NAME = "current_count_change";
+const char *PublicationMatchedStatusProxy::LastSubscriptionHandleField::NAME = "last_subscription_handle";
 
 const char *PublicationMatchedStatusProxy::MODNAME = "DDS";
 const char *PublicationMatchedStatusProxy::NAME = "PublicationMatchedStatus";

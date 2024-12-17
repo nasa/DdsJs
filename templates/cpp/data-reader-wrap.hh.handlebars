@@ -1,0 +1,62 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the definition of the \c {{subject.name}} data reader wrapper class.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+#ifndef {{includeGuard}}
+#define {{includeGuard}}
+
+//
+// NodeJs Add-on API
+#include <napi.h>
+
+//
+// DdsJs Generic
+#include <DdsJs/DdsJs.hh>
+
+//
+// DdsJs {{providerName}}-Specific
+#include <DdsJs/Providers/{{providerName}}/{{providerName}}.hh>
+
+//
+// {{providerName}} Generated Definitions
+{{#providerHeaders subject}}
+#include <{{.}}>
+{{/providerHeaders}}
+
+//
+// Addon Member Definitions
+#include <{{{proxyHeader subject}}}>
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+class {{dataReaderWrapName subject}} : public {{{dataReaderBaseName subject}}}, public Napi::ObjectWrap< {{dataReaderWrapName subject}} >
+{
+public:
+    static const char *MODNAME;
+
+    static const char *NAME;
+
+    static ::Napi::Object Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg);
+
+    {{dataReaderWrapName subject}}(::Napi::CallbackInfo const& info);
+
+    virtual ~{{dataReaderWrapName subject}}() = default;
+
+    virtual const char* modname() const;
+
+    virtual const char* name() const;
+};
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{.}}
+
+{{/itemsInReverse}}
+#endif /* !{{includeGuard}} */
+
+// vim: set ts=4 sw=4 expandtab:

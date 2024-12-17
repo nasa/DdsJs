@@ -1,0 +1,51 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the implementation for the \c {{subject.idlName}} add-on main class.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+//
+// Addon Member Definitions
+{{#definitionHeadersWithin subject withTopicSupport="yes"}}
+#include <{{.}}>
+{{/definitionHeadersWithin}}
+
+//
+// Class Definition
+#include "{{companionHeaderFile}}"
+
+
+{{addonWrapperName subject}}::{{addonWrapperName subject}}(::Napi::Env env, ::Napi::Object exports):
+    ::Napi::Addon< {{addonWrapperName subject}} >()
+{
+    ::DdsJs::DdsModule::Init(env, exports, this);
+
+    {{#modulesWithin subject}}
+    ::Napi::Object {{moduleNsVarName .}} = ::Napi::Object::New(env);
+    {{moduleWrapperName . fullyQualified="yes"}}::Init(env, {{moduleNsVarName .}}, this);
+
+    {{/modulesWithin}}
+    DefineAddon(
+        exports,
+        {
+            {{#instanceMembersWithin subject}}
+            InstanceValue("{{name}}", {{napiInstanceValue .}}, napi_enumerable){{#unless @last}},{{/unless}}
+            {{/instanceMembersWithin}}
+        }
+    );
+
+    {{#proxyMembersWithin subject}}
+    {{proxyName . fullyQualified="yes"}}::Init(env, exports, this);
+    {{/proxyMembersWithin}}
+
+    {{#topicTypeMembersWithin subject}}
+    {{dataReaderWrapName . fullyQualified="yes"}}::Init(env, exports, this);
+    {{dataWriterWrapName . fullyQualified="yes"}}::Init(env, exports, this);
+    {{typeSupportWrapName . fullyQualified="yes"}}::Init(env, exports, this);
+    {{/topicTypeMembersWithin}}
+}
+
+NODE_API_NAMED_ADDON({{addonModuleName subject}}, {{addonWrapperName subject}})
+
+// vim: set ts=4 sw=4 expandtab:

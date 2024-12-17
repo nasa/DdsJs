@@ -1,0 +1,76 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the implementation for the \c {{subject.name}} enum proxy class.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+//
+// Class Definition
+#include "{{companionHeaderFile}}"
+
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+const char *{{proxyName subject}}::NAME = "{{subject.name}}";
+
+
+Napi::Object
+{{proxyName subject}}::Init(Napi::Env env, Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg)
+{
+    Napi::Object enum_obj = Napi::Object::New(env);
+    enum_obj.DefineProperties(
+        {
+            {{#each subject}}
+            Napi::PropertyDescriptor::Value("{{name}}", Napi::Number::New(env, {{nativeConstName .}}), napi_enumerable){{#unless @last}},{{/unless}}
+            {{/each}}
+        }
+    );
+
+    exports.Set({{proxyName subject}}::NAME, enum_obj);
+
+    return exports;
+}
+
+
+{{proxyName subject}}::NapiContainer
+{{proxyName subject}}::NewInstance(Napi::Env env)
+{
+    Napi::EscapableHandleScope scope(env);
+    Napi::Number result = Napi::Number::New(env, {{#defaultEnumMnemonic subject}}{{nativeConstName .}}{{/defaultEnumMnemonic}});
+
+    return scope.Escape((napi_value)result).ToNumber();
+}
+
+
+{{proxyName subject}}::NapiContainer
+{{proxyName subject}}::NewInstance(Napi::Env env, CppEntity const& cppInstance)
+{
+    Napi::EscapableHandleScope scope(env);
+    Napi::Number result = Napi::Number::New(env, cppInstance);
+
+    return scope.Escape((napi_value)result).ToNumber();
+}
+
+
+void
+{{proxyName subject}}::FromCpp(Napi::Env env, CppEntity const& cppVal, NapiContainer& jsValOut)
+{
+    jsValOut = NewInstance(env, cppVal);
+}
+
+
+void
+{{proxyName subject}}::FromJs(Napi::Env env, NapiContainer const& jsVal, CppEntity& cppValOut)
+{
+    cppValOut = static_cast< CppEntity >(jsVal.Int32Value());
+}
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{.}}
+
+{{/itemsInReverse}}
+// vim: set ts=4 sw=4 expandtab:

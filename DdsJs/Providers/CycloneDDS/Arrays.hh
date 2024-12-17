@@ -63,7 +63,7 @@ FixedArray< ElementProxy, Size >::FromJs(Napi::Env env, NapiContainer const& jsV
 
     for (unsigned idx = 0u; idx < iter_limit; idx++)
     {
-        ElementProxy::FromJs(env, jsVal[idx], cppValOut[idx]);
+        ElementProxy::FromJs(env, jsVal[idx].As< typename ElementProxy::NapiContainer >(), cppValOut[idx]);
     }
 }
 

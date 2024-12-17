@@ -1,0 +1,178 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the implementation of the \c {{subject.name}} union proxy class.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+//
+// Class Definition
+#include "{{companionHeaderFile}}"
+
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+{{#each subject.members}}
+const char *{{proxyName ../subject}}::{{innerStructName .}}::NAME = "{{name}}";
+{{/each}}
+
+const char *{{proxyName subject}}::MODNAME = "{{ownerModuleNameFor subject}}";
+
+const char *{{proxyName subject}}::NAME = "{{subject.name}}";
+
+::Napi::Object
+{{proxyName subject}}::Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg)
+{
+    ::Napi::Function ctor_func = DefineClass(
+        env,
+        {{proxyName subject}}::NAME,
+        {
+            {{#each subject.members}}
+            StaticMethod({{innerStructName .}}::NAME, &{{proxyName ../subject}}::{{caseFactoryMethod .}}, napi_enumerable){{#unless @last}},{{/unless}}
+            {{/each}}
+        }
+    );
+
+    ::Napi::FunctionReference *ctor_ref = new ::Napi::FunctionReference();
+    *ctor_ref = ::Napi::Persistent(ctor_func);
+    ctorReg->setConstructorFor(::DdsJs::DottedName({ {{proxyName subject}}::MODNAME, {{proxyName subject}}::NAME }), ctor_ref);
+
+    exports.Set({{proxyName subject}}::NAME, ctor_func);
+
+    return exports;
+}
+
+
+{{proxyName subject}}::NapiContainer
+{{proxyName subject}}::NewInstance(::Napi::Env env)
+{
+    ::Napi::EscapableHandleScope scope(env);
+    ::Napi::FunctionReference *ctor_ref = env.GetInstanceData< ::DdsJs::ConstructorRegistry >()->getConstructorFor(::DdsJs::DottedName({ {{proxyName subject}}::MODNAME, {{proxyName subject}}::NAME }));
+    if (nullptr == ctor_ref)
+    {
+        throw ::Napi::Error::New(env, "Internal error: Constructor for {{subject.name}} not available.");
+    }
+
+    return scope.Escape((napi_value)ctor_ref->New({})).As< NapiContainer >();
+}
+
+
+{{proxyName subject}}::NapiContainer
+{{proxyName subject}}::NewInstance(::Napi::Env env, CppEntity const& cppInstance)
+{
+    NapiContainer result = NewInstance(env);
+    FromCpp(env, cppInstance, result);
+
+    return result;
+}
+
+
+void
+{{proxyName subject}}::FromCpp(::Napi::Env env, CppEntity const& cppVal, NapiContainer& jsValOut)
+{
+    {{#each subject.members}}
+    jsValOut.Delete({{innerStructName .}}::NAME);
+    {{/each}}
+
+    jsValOut.Set("discriminator", {{proxyName subject.switchTypeSpec fullyQualified="yes"}}::NewInstance(env, cppVal.{{unionDiscriminatorGet subject}}));
+
+    {{#explicitCaseDefinitionsWithin subject}}
+    {{#unless @first}}else {{/unless}}if
+    (
+        {{#nonDefaultUnionConditionsWithin .}}
+        (cppVal.{{unionDiscriminatorGet ../../subject}} == {{constantValueLiteral conditionConstant}}){{#unless @last}} ||{{/unless}}
+        {{/nonDefaultUnionConditionsWithin}}
+    )
+    {
+        jsValOut.Set({{innerStructName .}}::NAME, {{innerStructName .}}::Proxy::NewInstance(env, cppVal.{{unionFieldGet .}}));
+    }
+    {{/explicitCaseDefinitionsWithin}}
+    {{#if subject.defaultCase}}
+    else
+    {
+        {{#with subject.defaultCase}}
+        jsValOut.Set({{innerStructName .}}::NAME, {{innerStructName .}}::Proxy::NewInstance(env, cppVal.{{unionFieldGet .}}));
+        {{/with}}
+    }
+    {{/if}}
+}
+
+
+void
+{{proxyName subject}}::FromJs(::Napi::Env env, NapiContainer const& jsVal, CppEntity& cppValOut)
+{
+    ::Napi::Value discriminator_val = jsVal.Get("discriminator");
+
+    {{#explicitCaseDefinitionsWithin subject}}
+    {{#unless @first}}else {{/unless}}if
+    (
+        {{#nonDefaultUnionConditionsWithin .}}
+        (discriminator_val.StrictEquals({{proxyName ../../subject.switchTypeSpec fullyQualified="yes"}}::NewInstance(env, {{constantValueLiteral conditionConstant}}))){{#unless @last}} ||{{/unless}}
+        {{/nonDefaultUnionConditionsWithin}}
+    )
+    {
+        {{innerStructName .}}::Proxy::CppEntity field_value;
+        {{innerStructName .}}::Proxy::FromJs(env, jsVal.Get({{innerStructName .}}::NAME).As< {{innerStructName .}}::Proxy::NapiContainer >(), field_value);
+        cppValOut.{{#unionFieldSet .}}field_value{{/unionFieldSet}};
+        cppValOut.{{{unionDiscriminatorSet ../subject .}}};
+    }
+    {{/explicitCaseDefinitionsWithin}}
+    {{#if subject.defaultCase}}
+    else
+    {
+        {{#with subject.defaultCase}}
+        {{innerStructName .}}::Proxy::CppEntity field_value;
+        {{innerStructName .}}::Proxy::FromJs(env, jsVal.Get({{innerStructName .}}::NAME).As< {{innerStructName .}}::Proxy::NapiContainer >(), field_value);
+        cppValOut.{{#unionFieldSet .}}field_value{{/unionFieldSet}};
+        cppValOut.{{{unionDiscriminatorSet ../subject .}}};
+        {{/with}}
+    }
+    {{/if}}
+}
+
+
+{{#each subject.members}}
+::Napi::Value
+{{proxyName ../subject}}::{{caseFactoryMethod .}}(::Napi::CallbackInfo const& info)
+{
+    ::Napi::EscapableHandleScope scope(info.Env());
+
+    if (info.Length() != 1)
+    {
+        throw ::Napi::Error::New(info.Env(), "{{proxyName ../subject}}::{{caseFactoryMethod .}}() requires an argument.");
+    }
+
+    {{innerStructName .}}::Proxy::CppEntity field_value;
+    {{innerStructName .}}::Proxy::FromJs(info.Env(), info[0].As< {{innerStructName .}}::Proxy::NapiContainer >(), field_value);
+    CppEntity new_val;
+    new_val.{{#unionFieldSet .}}field_value{{/unionFieldSet}};
+    new_val.{{{unionDiscriminatorSet ../subject .}}};
+    NapiContainer result = NapiContainer::New(info.Env());
+    {{proxyName ../subject}}::FromCpp(info.Env(), new_val, result);
+
+    return scope.Escape(result);
+}
+
+
+{{/each}}
+{{proxyName subject}}::{{proxyName subject}}(::Napi::CallbackInfo const& info):
+    ::Napi::ObjectWrap< {{proxyName subject}} >(info)
+{
+    NapiContainer this_instance = info.This().As< NapiContainer >();
+    {{#firstUnionMember subject}}
+    {{innerStructName .}}::Proxy::CppEntity field_value;
+    CppEntity new_val;
+    new_val.{{#unionFieldSet .}}field_value{{/unionFieldSet}};
+    new_val.{{{unionDiscriminatorSet ../subject .}}};
+    {{proxyName ../subject}}::FromCpp(info.Env(), new_val, this_instance);
+    {{/firstUnionMember}}
+}
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{.}}
+
+{{/itemsInReverse}}
+// vim: set ts=4 sw=4 expandtab:

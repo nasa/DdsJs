@@ -58,9 +58,9 @@ public:
 
     virtual ~DataReaderWrapBaseT();
 
-    virtual const char* modname() = 0;
+    virtual const char* modname() const = 0;
 
-    virtual const char* name() = 0;
+    virtual const char* name() const = 0;
 };
 
 

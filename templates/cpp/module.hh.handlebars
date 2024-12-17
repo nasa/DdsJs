@@ -1,0 +1,47 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the definition of the \c {{subject.name}} module wrapper.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+#ifndef {{includeGuard}}
+#define {{includeGuard}}
+
+//
+// NodeJs Add-on API
+#include <napi.h>
+
+//
+// DdsJs Generic
+#include <DdsJs/DdsJs.hh>
+
+//
+// DdsJs {{providerName}}-Specific
+#include <DdsJs/Providers/{{providerName}}/{{providerName}}.hh>
+
+//
+// {{providerName}} Generated Definitions
+{{#providerHeaders subject}}
+#include <{{.}}>
+{{/providerHeaders}}
+
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+class {{moduleWrapperName subject}}
+{
+public:
+    static ::Napi::Object Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg);
+};
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{this}}
+
+{{/itemsInReverse}}
+#endif /* !{{includeGuard}} */
+
+// vim: set ts=4 sw=4 expandtab:

@@ -1,0 +1,28 @@
+    if (info.Length() != 1)
+    {
+        std::stringstream msg;
+
+        msg << NAME << " constructor provided insufficient arguments.";
+
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+
+    if (!info[0].IsExternal())
+    {
+        std::stringstream msg;
+
+        msg << NAME << " constructor passed invalid data writer external argument.";
+
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+
+    dds_entity_t *writer_maybe = info[0].As< Napi::External< dds_entity_t > >().Data();
+    if (nullptr == writer_maybe)
+    {
+        std::stringstream msg;
+
+        msg << NAME << " backing entity not available.";
+
+        throw Napi::Error::New(info.Env(), msg.str());
+    }
+    m_writer = *writer_maybe;

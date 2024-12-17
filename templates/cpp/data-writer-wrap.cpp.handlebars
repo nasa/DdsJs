@@ -1,0 +1,72 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the implementation of the \c {{subject.name}} data writer wrapper class.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+//
+// Standard C++ Library
+#include <sstream>
+
+//
+// Class Definition
+#include "{{companionHeaderFile}}"
+
+
+{{#each namespaceStack}}
+namespace {{.}}
+{
+
+{{/each}}
+const char *{{dataWriterWrapName subject}}::MODNAME = "{{ownerModuleNameFor subject}}";
+
+const char *{{dataWriterWrapName subject}}::NAME = "{{subject.name}}DataWriter";
+
+::Napi::Object
+{{dataWriterWrapName subject}}::Init(::Napi::Env env, ::Napi::Object exports, ::DdsJs::ConstructorRegistry *ctorReg)
+{
+    ::Napi::Function ctor_func = DefineClass(
+        env,
+        NAME,
+        {
+            InstanceMethod("getQos", &{{dataWriterWrapName subject}}::GetQos, napi_enumerable),
+            InstanceMethod("write", &{{dataWriterWrapName subject}}::Write, napi_enumerable)
+        }
+    );
+
+    ::Napi::FunctionReference *ctor_ref = new ::Napi::FunctionReference();
+    *ctor_ref = ::Napi::Persistent(ctor_func);
+    ctorReg->setConstructorFor(::DdsJs::DottedName({ MODNAME, NAME }), ctor_ref);
+
+    exports.Set(NAME, ctor_func);
+    return exports;
+}
+
+
+{{dataWriterWrapName subject}}::{{dataWriterWrapName subject}}(::Napi::CallbackInfo const& info):
+    {{> dataWriterWrapperBaseInit subject }},
+    ::Napi::ObjectWrap< {{dataWriterWrapName subject}} >(info)
+{
+{{> dataWriterWrapperCtorBody subject }}
+}
+
+
+const char*
+{{dataWriterWrapName subject}}::modname() const
+{
+    return MODNAME;
+}
+
+
+const char*
+{{dataWriterWrapName subject}}::name() const
+{
+    return NAME;
+}
+
+{{#itemsInReverse namespaceStack}}
+} // end namespace {{.}}
+
+{{/itemsInReverse}}
+// vim: set ts=4 sw=4 expandtab:

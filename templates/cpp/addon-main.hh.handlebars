@@ -1,0 +1,40 @@
+/**
+ * \file {{fileName}}
+ * \brief Contains the definition of the \c {{subject.idlName}} add-on top-level class.
+ * \note Automatically-generated code.
+ * \date {{createDate}}
+ */
+
+#ifndef {{includeGuard}}
+#define {{includeGuard}}
+
+//
+// NodeJs Add-on API
+#include <napi.h>
+
+//
+// DdsJs Generic
+#include <DdsJs/DdsJs.hh>
+
+//
+// DdsJs {{providerName}}-Specific
+#include <DdsJs/Providers/{{providerName}}/{{providerName}}.hh>
+
+//
+// {{providerName}} Generated Definitions
+{{#providerHeaders subject}}
+#include <{{.}}>
+{{/providerHeaders}}
+
+
+class {{addonWrapperName subject}} : public ::Napi::Addon< {{addonWrapperName subject}} >, public ::DdsJs::ConstructorRegistry
+{
+public:
+    {{addonWrapperName subject}}(::Napi::Env env, ::Napi::Object exports);
+
+    virtual ~{{addonWrapperName subject}}() = default;
+};
+
+#endif /* !{{includeGuard}} */
+
+// vim: set ts=4 sw=4 expandtab:

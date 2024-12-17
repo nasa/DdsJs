@@ -1,4 +1,3 @@
-# Licensed for U.S. Government use only.
 #.rst:
 # CoreDXTargetIDLSources
 # ----------------------

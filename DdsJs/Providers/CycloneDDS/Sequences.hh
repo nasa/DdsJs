@@ -56,7 +56,7 @@ SequenceProxy< NativeSequenceType, ElementProxy, Bounds >::FromCpp(Napi::Env env
 
     for (unsigned idx = 0u; idx < cppVal._length; idx++)
     {
-        jsValOut.Set(idx, ElementProxy::NewInstance(env, *(cppVal._buffer[idx])));
+        jsValOut.Set(idx, ElementProxy::NewInstance(env, cppVal._buffer[idx]));
     }
 }
 
@@ -74,7 +74,7 @@ SequenceProxy< NativeSequenceType, ElementProxy, Bounds >::FromJs(Napi::Env env,
 
     for (unsigned idx = 0u; idx < jsVal.Length(); idx++)
     {
-        ElementProxy::FromJs(env, jsVal.Get(idx), *(cppValOut._buffer[idx]));
+        ElementProxy::FromJs(env, jsVal.Get(idx).As< typename ElementProxy::NapiContainer >(), cppValOut._buffer[idx]);
     }
 }
 
