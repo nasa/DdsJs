@@ -48,6 +48,22 @@ union ExampleUnion switch (UnionValueType)
         long intVal;
 };
 
+@nested
+struct DataPoint {
+    double acqTime;
+    unsigned short dpId;
+    ExampleUnion value;
+};
+
+const unsigned long MAX_DP_COUNT = 100;
+
+typedef sequence< DataPoint, MAX_DP_COUNT > DataPointValues;
+
+struct DataPointFrame {
+    unsigned short senderId;
+    DataPointValues values;
+};
+
 const unsigned long FIXED_FRAME_SIZE = 64;
 
 typedef octet FixedFrameContent[FIXED_FRAME_SIZE];
