@@ -21,7 +21,9 @@ class OiTestPub {
 
   publish(resolveCall) {
     let aSample = new HostMonitor.OverallInformation();
-    aSample.hostName = "astraws011";
+    aSample.hostInfo.hostName = "astraws011";
+    aSample.cpuUtilization = Math.floor(Math.random() * 100.0);
+    aSample.memoryUtilization = Math.floor(Math.random() * 30.0);
     console.log(JSON.stringify(aSample));
     this.hostInfoDw.write(aSample);
     this.publishCounter++;

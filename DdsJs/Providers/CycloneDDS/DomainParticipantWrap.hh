@@ -62,6 +62,7 @@ private:
     dds_entity_t m_participant;
 
     Napi::Value CreatePublisher(Napi::CallbackInfo const& info);
+    Napi::Value CreateSubscriber(Napi::CallbackInfo const& info);
     Napi::Value CreateTopic(Napi::CallbackInfo const& info);
     Napi::Value GetInstanceHandle(Napi::CallbackInfo const& info);
     Napi::Value GetQos(Napi::CallbackInfo const& info);

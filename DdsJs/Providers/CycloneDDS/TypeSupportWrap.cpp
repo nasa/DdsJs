@@ -51,6 +51,11 @@ TypeSupportWrapBase::RegisterType(Napi::CallbackInfo const& info)
     return info.Env().Undefined();
 }
 
+
+TypeSupportWrapBase::TypeSupportWrapBase(CycloneDDS::TypeInformation const& typeInfo):
+    m_typeInfo(typeInfo)
+{}
+
 } // end namespace DdsJs
 
 // vim: set ts=4 sw=4 expandtab:

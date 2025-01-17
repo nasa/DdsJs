@@ -103,6 +103,10 @@ DataReaderWrapBaseT< SampleProxy >::Take(Napi::CallbackInfo const& info)
 
     max_samples = info[0].As< Napi::Number >().Uint32Value();
     samples.reset(new typename SampleProxy::CppEntity*[max_samples]);
+    for (int init_idx = 0; init_idx < max_samples; init_idx++)
+    {
+        (samples.get())[init_idx] = nullptr;
+    }
     sample_infos.reset(new dds_sample_info_t[max_samples]);
 
     dds_return_t take_result = dds_take_wl(m_reader, reinterpret_cast< void** >(samples.get()), sample_infos.get(), max_samples);

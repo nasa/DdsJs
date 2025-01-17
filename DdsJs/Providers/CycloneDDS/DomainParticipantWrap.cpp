@@ -15,6 +15,8 @@
 #include <DdsJs/Providers/CycloneDDS/InstanceHandle.hh>
 #include <DdsJs/Providers/CycloneDDS/PublisherQos.hh>
 #include <DdsJs/Providers/CycloneDDS/PublisherWrap.hh>
+#include <DdsJs/Providers/CycloneDDS/SubscriberQos.hh>
+#include <DdsJs/Providers/CycloneDDS/SubscriberWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/TopicQos.hh>
 #include <DdsJs/Providers/CycloneDDS/TopicWrap.hh>
 #include <DdsJs/Providers/CycloneDDS/dds_error_util.hh>
@@ -40,6 +42,8 @@ DomainParticipantWrap::Init(Napi::Env env, Napi::Object exports, ConstructorRegi
         NAME,
         {
             InstanceMethod("createPublisher", &DomainParticipantWrap::CreatePublisher, napi_enumerable),
+            InstanceMethod("createSubscriber", &DomainParticipantWrap::CreateSubscriber, napi_enumerable),
+            InstanceMethod("createTopic", &DomainParticipantWrap::CreateTopic, napi_enumerable),
             InstanceMethod("getInstanceHandle", &DomainParticipantWrap::GetInstanceHandle, napi_enumerable),
             InstanceMethod("getQos", &DomainParticipantWrap::GetQos, napi_enumerable)
         }
@@ -104,27 +108,62 @@ DomainParticipantWrap::registerTopicTypeInfo(CycloneDDS::TypeInformation typeInf
 Napi::Value
 DomainParticipantWrap::CreatePublisher(Napi::CallbackInfo const& info)
 {
-    dds_qos_t *pub_qos = nullptr;
+    CycloneDDS::QosUniquePtr pub_qos;
 
     switch(info.Length())
     {
         case 1:
-            pub_qos = dds_create_qos();
-            PublisherQosProxy::FromJs(info.Env(), info[0].As< PublisherQosProxy::NapiContainer >(), pub_qos);
-            // fall-through intentional
+        {
+            pub_qos.reset(dds_create_qos());
+            // Temporary get to bare-bald pointer so we can bind to ref in FromJs()
+            dds_qos_t *the_qos = pub_qos.get();
+            PublisherQosProxy::FromJs(info.Env(), info[0].As< PublisherQosProxy::NapiContainer >(), the_qos);
+            // Fall-through intentional
+        }
         case 0:
             break;
         default:
-            throw Napi::Error::New(info.Env(), "DomainParticipantWrap::createPublisher(): Invalid number of arguments provided.");
+            throw Napi::Error::New(info.Env(), "DomainParticipant.createPublisher(): Invalid number of arguments provided.");
     }
 
-    dds_entity_t the_pub = dds_create_publisher(m_participant, pub_qos, nullptr);
+    dds_entity_t the_pub = dds_create_publisher(m_participant, pub_qos.get(), nullptr);
     if (the_pub < 0)
     {
         throw NewDdsError(info.Env(), NAME, "createPublisher", (dds_return_t)the_pub);
     }
 
     return PublisherWrap::NewInstance(info.Env(), the_pub, info.This().As< Napi::Object >());
+}
+
+
+Napi::Value
+DomainParticipantWrap::CreateSubscriber(Napi::CallbackInfo const& info)
+{
+    CycloneDDS::QosUniquePtr sub_qos;
+
+    switch(info.Length())
+    {
+        case 1:
+        {
+            sub_qos.reset(dds_create_qos());
+            // Temporary get to bare-bald pointer so we can bind to ref in FromJs()
+            dds_qos_t *the_qos = sub_qos.get();
+            SubscriberQosProxy::FromJs(info.Env(), info[0].As< SubscriberQosProxy::NapiContainer >(), the_qos);
+            // Fall-through intentional
+        }
+        case 0:
+            break;
+        default:
+            throw Napi::Error::New(info.Env(), "DomainParticipant.createSubscriber(): Invalid number of arguments provided.");
+    }
+
+    dds_entity_t the_sub = dds_create_subscriber(m_participant, sub_qos.get(), nullptr);
+    if (the_sub < 0)
+    {
+        throw NewDdsError(info.Env(), NAME, "createSubscriber", (dds_return_t)(-1 * the_sub));
+    }
+
+    return SubscriberWrap::NewInstance(info.Env(), the_sub, info.This().As< Napi::Object >());
 }
 
 
