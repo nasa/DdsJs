@@ -150,7 +150,7 @@ NPM scripts:
 ```json
 {
     "scripts": {
-        "addon-src-gen": "ddsjs-idl -o native/addon -r HostMonitorAmalgam.hh -d ${npm_config_with_dds} -b cmake-js HostMonitor.idl",
+        "addon-src-gen": "ddsjs-idl -o native/addon -d ${npm_config_with_dds} -b cmake-js HostMonitor.idl",
         "addon-type-gen": "ddsjs-idl-types -m ${npm_package_name} -o ${npm_config_local_prefix}/index.d.ts HostMonitor.idl"
     }
 }
@@ -160,18 +160,10 @@ The above example for `addon-src-gen` shows that the NPM script invokes the
 `ddsjs-idl` compiler, accepting the file `HostMonitor.idl` as input, emitting
 native code to the `native/addon` directory, targeting the DDS provider
 specified in the NPM configuration environment variable `npm_config_with_dds`,
-and emitting CMake.js build environment helper scripts. The example also shows
-the identification of an "amalgam" header file, `HostMonitorAmalgam.hh`, that
-includes any and all header files produced by the DDS provider's compiler.
-Re-generating native code is then as simple as invoking `npm run`:
+and emitting CMake.js build environment helper scripts. Re-generating native
+code is then as simple as invoking `npm run`:
 
     npm --with-dds=<DDS Provider> run addon-src-gen
-
-> [!NOTE]
-> The "amalgam" header file is one that is not always produced by the DDS
-> provider's compiler. That is certainly the case for CoreDX. As such, it falls
-> upon the developer to create it. Refer to the `HostMonitorAmalgam.hh` in the
-> example's `native/CoreDX` sub-directory for reference.
 
 The above example for `addon-type-gen` shows that the NPM script invokes the
 `ddsjs-idl-types` compiler, accepting the same `HostMonitor.idl` file as input,
@@ -182,8 +174,10 @@ folder. Re-generating the ambient type definitions can then be done by invoking
     npm --with-dds=<DDS Provider> run addon-type-gen
 
 Where `<DDS Provider>` is the name of the DDS provider to target. As of this
-writing, only [CoreDX from Twin Oaks Computing](https://www.twinoakscomputing.com/coredx) 
-is supported. The DDS provider may also be specified via other
+writing, only
+[CoreDX from Twin Oaks Computing](https://www.twinoakscomputing.com/coredx) 
+and [CycloneDDS](https://cyclonedds.io/) are supported. The DDS provider may
+also be specified via other
 [NPM configuration vectors](https://docs.npmjs.com/cli/v10/using-npm/config).
 
 ## Preparing Native Code Build Plan
