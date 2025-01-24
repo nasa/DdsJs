@@ -1,7 +1,0 @@
-const {{name}}: {
-    {{#each mnemonics}}
-    readonly {{.}}: {{../mnemonicValType}};
-    {{/each}}
-};
-
-type {{mnemonicValTypeName}} = typeof {{name}}[keyof typeof {{name}}];
