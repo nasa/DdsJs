@@ -39,7 +39,7 @@ public:
     {
         using Proxy = CoreDX::SequenceProxy<
             OctetPrimitive,
-            CoreDX::CppUnboundedSequencePolicy<typename OctetPrimitive::CppEntity >,
+            CoreDX::CppUnboundedSequencePolicy< decltype(DDS::GroupDataQosPolicy::value) >,
             CoreDX::CppDirectContainmentPolicy< typename OctetPrimitive::CppEntity >
         >;
         static const char* NAME;

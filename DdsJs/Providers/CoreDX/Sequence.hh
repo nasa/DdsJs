@@ -130,31 +130,52 @@ public:
 };
 
 
-template< typename CppElementType >
+// template< typename CppElementType >
+// class CppUnboundedSequencePolicy
+// {
+// public:
+//     static constexpr unsigned MAX_SIZE = 0u;
+
+//     using CppContainer = DDS::sequence< CppElementType >;
+
+//     static bool WithinBounds(CppContainer const& sequence, unsigned size)
+//     { return true; }
+// };
+template< typename CppSeqType >
 class CppUnboundedSequencePolicy
 {
 public:
     static constexpr unsigned MAX_SIZE = 0u;
 
-    using CppContainer = DDS::sequence< CppElementType >;
+    using CppContainer = CppSeqType;
 
     static bool WithinBounds(CppContainer const& sequence, unsigned size)
     { return true; }
 };
 
 
-template< typename CppElementType, unsigned Bounds >
+// template< typename CppElementType, unsigned Bounds >
+// class CppBoundedSequencePolicy
+// {
+// public:
+//     static constexpr unsigned MAX_SIZE = Bounds;
+
+//     using CppContainer = DDS::bounded_sequence< CppElementType, Bounds >;
+
+//     static bool WithinBounds(CppContainer const& sequence, unsigned size)
+//     { return size < Bounds; }
+// };
+template< typename CppSeqType, unsigned Bounds >
 class CppBoundedSequencePolicy
 {
 public:
     static constexpr unsigned MAX_SIZE = Bounds;
 
-    using CppContainer = DDS::bounded_sequence< CppElementType, Bounds >;
+    using CppContainer = CppSeqType;
 
     static bool WithinBounds(CppContainer const& sequence, unsigned size)
     { return size < Bounds; }
 };
-
 
 class CppStyleContainmentPolicy
 {
@@ -183,7 +204,7 @@ public:
 };
 
 
-template< typename SeqHolderType, typename CppElementType >
+template< typename CppElementType >
 class CppIndirectContainmentPolicy : public CppStyleContainmentPolicy
 {
 public:

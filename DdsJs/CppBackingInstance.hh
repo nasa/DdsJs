@@ -21,6 +21,9 @@ namespace DdsJs {
 template< typename CppEntity >
 class CppBackingInstance
 {
+public:
+    using CppEntityType = CppEntity;
+
 private:
     const std::string m_className;
     // Tried using std::unique_ptr but DDS protects the Publisher,

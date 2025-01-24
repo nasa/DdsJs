@@ -323,7 +323,7 @@ DomainParticipantWrap::GetDiscoveredParticipants(Napi::CallbackInfo const& info)
 
     return CoreDX::SequenceProxy<
         InstanceHandleProxy,
-        CoreDX::CppUnboundedSequencePolicy< typename InstanceHandleProxy::CppEntity >,
+        CoreDX::CppUnboundedSequencePolicy< DDS::InstanceHandleSeq >,
         CoreDX::CppDirectContainmentPolicy< typename InstanceHandleProxy::CppEntity >
     >::NewInstance(info.Env(), discovered_participants);
 }

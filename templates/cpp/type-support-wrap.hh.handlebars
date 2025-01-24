@@ -36,7 +36,7 @@ namespace {{.}}
 {
 
 {{/each}}
-class {{typeSupportWrapName subject}} : public {{typeSupportBaseName subject}}, public Napi::ObjectWrap< {{typeSupportWrapName subject}} >
+class {{typeSupportWrapName subject}} : public {{{typeSupportBaseName subject}}}, public Napi::ObjectWrap< {{typeSupportWrapName subject}} >
 {
 public:
     static const char *MODNAME;

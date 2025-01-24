@@ -4,7 +4,7 @@
  * @date 2024-10-24 18:37:22
  */
 
-import { BaseDeclarator } from "./declarator";
+import { ArrayDeclarator, BaseDeclarator } from "./declarator";
 import { BaseTypeSpec, DeclaredTypeSpec, TemplateTypeSpec } from "./typespec";
 
 
@@ -17,8 +17,13 @@ export class TypeAlias extends DeclaredTypeSpec {
   }
 
   public resolvesTo(): BaseTypeSpec {
-    let result: BaseTypeSpec = this.typespec;
+    let result: BaseTypeSpec = this;
     while (result instanceof TypeAlias) {
+      // Stop once we find an ArrayDeclarator, as descending further will
+      // result in information loss.
+      if (result.decl instanceof ArrayDeclarator) {
+        break;
+      }
       result = result.typespec;
     }
 

@@ -11,6 +11,7 @@ import { registerTcpFactoryHelpers } from "../template-mgmt/helpers";
 import { addonModuleName } from "./addon-module-name";
 import { addonWrapperName } from "./addon-wrapper-name";
 import { caseFactoryMethod } from "./case-factory-method";
+import { registerCoreDxHelpers } from "./coredx";
 import { registerCycloneDdsHelpers } from "./cyclonedds";
 import { dataReaderWrapName } from "./data-reader-wrap-name";
 import { dataWriterWrapName } from "./data-writer-wrap-name";
@@ -72,6 +73,8 @@ export function registerHandlebarsHelpers(providerName: string): void {
   Handlebars.registerHelper("typeSupportWrapName", typeSupportWrapName);
   if (providerName === "CycloneDDS") {
     registerCycloneDdsHelpers();
+  } else if (providerName === "CoreDX") {
+    registerCoreDxHelpers();
   }
 }
 

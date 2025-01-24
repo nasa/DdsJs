@@ -41,7 +41,7 @@ public:
         using SeqElemProxy = OctetPrimitive;
         using Proxy = CoreDX::SequenceProxy<
             SeqElemProxy,
-            CoreDX::CppUnboundedSequencePolicy< typename SeqElemProxy::CppEntity >,
+            CoreDX::CppUnboundedSequencePolicy< decltype(DDS::TopicDataQosPolicy::value) >,
             CoreDX::CppDirectContainmentPolicy< typename SeqElemProxy::CppEntity >
         >;
         static const char* NAME;

@@ -28,6 +28,8 @@ function structInnerDefinitions(subject: Structure): ScopeMember[] {
   for (let aField of subject.members as StructMember[]) {
     if (isScopeMember(aField.typespec)) {
       result.push(aField.typespec);
+    } else if (aField.typespec instanceof TemplateTypeSpec) {
+      result = result.concat(templateTypeInnerDefinitions(aField.typespec));
     }
   }
 

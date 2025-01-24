@@ -8,92 +8,6 @@ import Handlebars from "handlebars";
 import { ArrayDeclarator, BaseDeclarator, BaseTypeSpec, BasicCharType, BooleanType, BoundedSequenceType, BoundedStringType, CaseDefinition, DeclaredTypeSpec, DoublePrecisionFloatingPointType, Int16Type, Int32Type, Int64Type, isScopeMember, OctetType, ScopeMember, SinglePrecisionFloatingPointType, StructMember, TemplateTypeSpec, TypeAlias, Uint16Type, Uint32Type, Uint64Type, UnboundedSequenceType, UnboundedStringType, WideCharType } from "../../dds-idl-compiler";
 
 
-// function proxyNameForTypespec(typespec: BaseTypeSpec): string {
-//   let result: string = "";
-
-//   if (typespec instanceof BooleanType) {
-//     result = "::DdsJs::BooleanPrimitive";
-//   } else if ((typespec instanceof BasicCharType) || (typespec instanceof WideCharType)) {
-//     result = "::DdsJs::CharPrimitive";
-//   } else if (typespec instanceof DoublePrecisionFloatingPointType) {
-//     result = "::DdsJs::DoublePrimitive";
-//   } else if (typespec instanceof SinglePrecisionFloatingPointType) {
-//     result = "::DdsJs::FloatPrimitive";
-//   } else if (typespec instanceof Int32Type) {
-//     result = "::DdsJs::LongPrimitive";
-//   } else if (typespec instanceof Int64Type) {
-//     result = "::DdsJs::LongLongPrimitive";
-//   } else if (typespec instanceof OctetType) {
-//     result = "::DdsJs::OctetPrimitive";
-//   } else if (typespec instanceof Int16Type) {
-//     result = "::DdsJs::ShortPrimitive";
-//   } else if (typespec instanceof Uint32Type) {
-//     result = "::DdsJs::UnsignedLongPrimitive";
-//   } else if (typespec instanceof Uint64Type) {
-//     result = "::DdsJs::UnsignedLongLongPrimitive";
-//   } else if (typespec instanceof Uint16Type) {
-//     result = "::DdsJs::UnsignedShortPrimitive";
-//   }
-
-//   return result;
-// }
-
-// function proxyNameForScopeMember(member: ScopeMember, fullyQualified: boolean): string {
-//   let result: string = "";
-
-//   if (fullyQualified) {
-//     result = `${member.fullyQualifiedName}Proxy`;
-//   } else {
-//     result = `${member.name}Proxy`;
-//   }
-
-//   return result;
-// }
-
-
-// export function proxyNameForTypespecDeclaratorPairImpl(field: StructMember | CaseDefinition | TypeAlias, fullyQualified: boolean): string {
-//   let result: string = "";
-
-//   if (field.typespec instanceof BoundedSequenceType) {
-//     // Anonymous bounded sequence type in struct field
-//     result = Handlebars.compile< StructMember | CaseDefinition | TypeAlias >("{{> boundedSeqProxyName . }}")(field);
-//   } else if (field.typespec instanceof UnboundedSequenceType) {
-//     result = Handlebars.compile< StructMember | CaseDefinition | TypeAlias >("{{> unboundedSeqProxyName . }}")(field);
-//     // Anonymous unbounded sequence type in struct field
-//   } else if (field.typespec instanceof BoundedStringType) {
-//     // Anonymous bounded string type in struct field
-//     result = Handlebars.compile< StructMember | CaseDefinition | TypeAlias >("{{> anonBoundedStrProxyName . }}")(field);
-//   } else if (field.typespec instanceof UnboundedStringType) {
-//     // Anonymous unbounded string type in struct field
-//     result = Handlebars.compile< StructMember | CaseDefinition | TypeAlias >("{{> anonUnboundedStrProxyName . }}")(field);
-//   } else if (isScopeMember(field.typespec)) {
-//     result = proxyNameForScopeMember(field.typespec, fullyQualified);
-//   } else {
-//     result = proxyNameForTypespec(field.typespec);
-//   }
-
-//   if (field.decl instanceof ArrayDeclarator) {
-//     let dimsInReverse = ([] as number[]).concat(field.decl.arrayDims).reverse();
-//     for (let aDim of dimsInReverse) {
-//       result = `::DdsJs::FixedArray< ${result}, ${aDim} >`;
-//     }
-//   }
-
-//   return result;
-// }
-
-// export function proxyNameImpl(member: BaseTypeSpec, fullyQualified: boolean): string {
-//   if (isScopeMember(member)) {
-//     if ((member instanceof StructMember) || (member instanceof CaseDefinition)) {
-//       return proxyNameForTypespecDeclaratorPairImpl(member, fullyQualified);
-//     } else {
-//       return proxyNameForScopeMember(member, fullyQualified);
-//     }
-//   } else {
-//     return proxyNameForTypespec(member);
-//   }
-// }
-
 export function typespecProxyName(typespec: BaseTypeSpec, fullyQualified: boolean): string {
   let result: string = "";
 
@@ -166,11 +80,5 @@ export function proxyName(typespec: BaseTypeSpec, options: Handlebars.HelperOpti
 
   return typespecProxyName(typespec, fullyQualified);
 }
-
-// export function proxyNameForTypespecDeclaratorPair(subject: StructMember | CaseDefinition | TypeAlias, options: Handlebars.HelperOptions): string {
-//   let fullyQualified: boolean = ("fullyQualified" in options.hash) && (options.hash["fullyQualified"].toLowerCase() == "yes");
-
-//   return proxyNameForTypespecDeclaratorPairImpl(subject, fullyQualified);
-// }
 
 // vim: set ts=2 sw=2 expandtab:

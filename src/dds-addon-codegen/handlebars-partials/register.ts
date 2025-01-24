@@ -4,12 +4,15 @@
  * @date 2024-12-06 15:22:28
  */
 
+import { registerCoreDxPartials } from "./coredx/register";
 import { registerCycloneDdsPartials } from "./cyclonedds/register";
 
 
 export function registerHandlebarsPartials(providerName: string): void {
   if (providerName == "CycloneDDS") {
     registerCycloneDdsPartials();
+  } else if (providerName === "CoreDX") {
+    registerCoreDxPartials();
   }
 }
 

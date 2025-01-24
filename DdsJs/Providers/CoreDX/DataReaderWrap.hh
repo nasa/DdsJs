@@ -71,6 +71,9 @@ public:
 template< typename ReaderType, typename SampleProxy >
 class DataReaderWrapBaseT : public DataReaderWrapFactory
 {
+public:
+    using ReaderBackingInstance = CppBackingInstance< ReaderType >;
+
 protected:
     /**
      * take() operation logic type alias.
@@ -80,7 +83,7 @@ protected:
     /**
      * Reference to the actual C++ \c DDS::DataReader derived instance.
      */
-    CppBackingInstance< ReaderType > m_reader;
+    ReaderBackingInstance m_reader;
 
     /**
      * \brief Wrap the \c DDS::DataReader::get_liveliness_changed_status() C++ call
@@ -279,7 +282,7 @@ DataReaderWrapBaseT< ReaderType, SampleProxy >::GetMatchedPublications(Napi::Cal
 
     return CoreDX::SequenceProxy<
         InstanceHandleProxy,
-        CoreDX::CppUnboundedSequencePolicy< typename InstanceHandleProxy::CppEntity >,
+        CoreDX::CppUnboundedSequencePolicy< DDS::InstanceHandleSeq >,
         CoreDX::CppDirectContainmentPolicy< typename InstanceHandleProxy::CppEntity >
     >::NewInstance(info.Env(), matched_pubs);
 }

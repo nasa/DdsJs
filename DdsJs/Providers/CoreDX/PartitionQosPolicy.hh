@@ -42,7 +42,7 @@ public:
         using SeqElemProxy = UnboundedString< CoreDX::StringUtilities >;
         using Proxy = CoreDX::SequenceProxy<
             SeqElemProxy,
-            CoreDX::CppUnboundedSequencePolicy< typename SeqElemProxy::CppEntity >,
+            CoreDX::CppUnboundedSequencePolicy< decltype(DDS::PartitionQosPolicy::name) >,
             CoreDX::CppDirectContainmentPolicy< typename SeqElemProxy::CppEntity >
         >;
         static const char *NAME;

@@ -64,8 +64,10 @@ find_program(CoreDX_DDLC
     NAMES coredx_ddl
     PATHS
         "${CoreDX_ROOT}/host/${CoreDX_HOST}/bin"
+    NO_SYSTEM_ENVIRONMENT_PATH
 )
 if (NOT CoreDX_DDLC MATCHES "NOTFOUND")
+    message(STATUS "Found CoreDX IDL compiler at: ${CoreDX_DDLC}")
     add_executable(CoreDX::DdlCompiler IMPORTED)
     set_property(TARGET CoreDX::DdlCompiler PROPERTY IMPORTED_LOCATION "${CoreDX_DDLC}")
 endif ()

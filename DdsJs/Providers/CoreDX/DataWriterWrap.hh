@@ -31,8 +31,8 @@
 
 // --------------------------------------------------------------------------
 // DdsJs CoreDX-Specific
+#include <DdsJs/Providers/CoreDX/DataWriterQos.hh>
 #include <DdsJs/Providers/CoreDX/InstanceHandle.hh>
-// #include <DdsJs/Providers/CoreDX/SequenceUtilities.hh>
 #include <DdsJs/Providers/CoreDX/Sequence.hh>
 #include <DdsJs/Providers/CoreDX/StatusMask.hh>
 #include <DdsJs/Providers/CoreDX/SubscriptionBuiltinTopicData.hh>
@@ -51,11 +51,14 @@ public:
 template< typename WriterType, typename SampleProxy >
 class DataWriterWrapBaseT : public DataWriterWrapFactory
 {
+public:
+    using WriterBackingInstance = CppBackingInstance< WriterType >;
+
 protected:
     /**
      * Reference to the actual C++ \c DDS::DataWriter derived instance.
      */
-    CppBackingInstance< WriterType > m_writer;
+    WriterBackingInstance m_writer;
 
     /**
      * \brief Wrap the \c DDS::DataWriter::get_matched_subscription_data() C++ call
@@ -78,6 +81,17 @@ protected:
      * \param info {in} Contains the JavaScript call context.
      */
     Napi::Value GetMatchedSubscriptions(Napi::CallbackInfo const& info);
+
+    /**
+     * \brief Wrap the \c DDS::DataWriter::get_qos() C++ call
+     *
+     * The \c GetQos() class method is called whenever a Node.js
+     * JavaScript script calls the \c getQos() method in an object instance of
+     * this class wrapper.
+     *
+     * \param info {in} Contains the JavaScript call context.
+     */
+    Napi::Value GetQos(Napi::CallbackInfo const& info);
 
     /**
      * \brief Wrap the \c DDS::DataWriter::get_status_changes() C++ call
@@ -156,9 +170,26 @@ DataWriterWrapBaseT< WriterType, SampleProxy >::GetMatchedSubscriptions(Napi::Ca
 
     return CoreDX::SequenceProxy<
         InstanceHandleProxy,
-        CoreDX::CppUnboundedSequencePolicy< typename InstanceHandleProxy::CppEntity >,
+        CoreDX::CppUnboundedSequencePolicy< DDS::InstanceHandleSeq >,
         CoreDX::CppDirectContainmentPolicy< typename InstanceHandleProxy::CppEntity >
     >::NewInstance(info.Env(), matched_subs);
+}
+
+
+template< typename WriterType, typename SampleProxy >
+Napi::Value
+DataWriterWrapBaseT< WriterType, SampleProxy >::GetQos(Napi::CallbackInfo const& info)
+{
+    static const char *METHOD_NAME = "getQos";
+    DDS::DataWriterQos dw_qos;
+
+    DDS::ReturnCode_t result = m_writer.get(info.Env(), METHOD_NAME)->get_qos(dw_qos);
+    if (DDS::RETCODE_OK != result)
+    {
+        throw NewDdsError(info.Env(), DottedName({ modname(), name() }).flat(), METHOD_NAME, result);
+    }
+
+    return DataWriterQosProxy::NewInstance(info.Env(), dw_qos);
 }
 
 

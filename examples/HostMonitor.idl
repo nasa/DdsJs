@@ -8,6 +8,8 @@ typedef string<HOST_NAME_MAX_LEN> HostNameType;
 
 const unsigned long HOST_LOC_MAX_LEN = 1024;
 
+const octet OCTET_CONSTANT = 32;
+
 typedef string< HOST_LOC_MAX_LEN > HostLocType;
 
 struct HostInformation {
@@ -82,7 +84,17 @@ struct FixedFrame {
 struct OtherData {
     unsigned long jitArray[128];
     sequence< unsigned short, 32 > jitBoundedSequence;
+    sequence< octet, 16 > jitBoundedOctetSequence;
     sequence< float > jitUnboundedSequence;
+    sequence< string< 128 > > jitUnboundedStringSeq; // uses holder
+    sequence< string > jitUnboundedStringSeq2;
+    sequence< HostLocType > jitHostLocSeq; // uses holder
+    sequence< ExampleUnion > jitUnionSeq;
+    sequence< FixedFrameContent > jitArraySeq; // uses holder
+    // Just-in-time defined sequence of sequences in CoreDX is wonky ...
+    // avoiding for now
+    // sequence< sequence< unsigned long > > jitUint32SeqSeq;
+    // sequence< sequence< sequence< unsigned long > > > jitUint32SeqSeqSeq;
     string< 64 > jitBoundedString;
     string jitUnboundedString;
 };

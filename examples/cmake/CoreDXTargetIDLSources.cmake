@@ -176,6 +176,12 @@ function(COREDX_TARGET_IDL_SOURCES TargetName)
                 COMMAND_EXPAND_LISTS
                 COMMENT "Cleaning out ${PpLang} source files generated from ${IDL_FILE}."
             )
+            # Add placeholder files that emit an error so that configuration can succeed.
+            foreach (BINDING_FILE IN LISTS LANG_BINDING_HEADERS LANG_BINDING_SOURCES)
+                if (NOT EXISTS "${BINDING_FILE}")
+                    file (WRITE "${BINDING_FILE}" "#error Must run ${TargetName}_binding target before building.")
+                endif ()
+            endforeach ()
         else ()
             add_custom_command(
                 OUTPUT
