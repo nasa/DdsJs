@@ -15,7 +15,7 @@ function cycloneDdsAnonymousNativeTypeName(subject: TemplateTypeSpec, prefix: st
   } else if (subject instanceof UnboundedSequenceType) {
     result = `${prefix}sequence_${cycloneDdsNativeTypeNameImpl(subject.elementType, "")}`;
   } else if (subject instanceof BoundedStringType) {
-    result = "string";
+    result = `string${subject.upperBound}`;
   } else if (subject instanceof UnboundedStringType) {
     result = "string";
   }
