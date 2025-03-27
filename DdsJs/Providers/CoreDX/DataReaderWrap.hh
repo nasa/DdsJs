@@ -258,7 +258,7 @@ DataReaderWrapBaseT< ReaderType, SampleProxy >::GetMatchedPublicationData(Napi::
     typename InstanceHandleProxy::CppEntity pub_handle;
     InstanceHandleProxy::FromJs(info.Env(), info[0].As< InstanceHandleProxy::NapiContainer >(), pub_handle);
     DDS::ReturnCode_t result = m_reader.get(info.Env(), METHOD_NAME)->get_matched_publication_data(&pub_info, pub_handle);
-    if (DDS::RETCODE_OK != result)
+    if ((DDS::RETCODE_OK != result) && (DDS::RETCODE_NO_DATA != result))
     {
         throw NewDdsError(info.Env(), DottedName({ modname(), name() }).flat(), METHOD_NAME, result);
     }
