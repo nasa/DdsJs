@@ -6,7 +6,7 @@ project(
     LANGUAGES
         C CXX
 )
-set(DDSJS_ROOT "$ENV{npm_config_local_prefix}/node_modules/dds-js-devkit" CACHE PATH "Root of dds-js-devkit package.")
+set(DDSJS_ROOT "$ENV{npm_config_local_prefix}/node_modules/dds-js" CACHE PATH "Root of dds-js package.")
 set(ADDON_GEN_ROOT "${PROJECT_SOURCE_DIR}/native/addon" CACHE PATH "Directory where C++ add-on source files will go.")
 set(PROVIDER_ROOT "${PROJECT_SOURCE_DIR}/native/${WITH_DDS}" CACHE PATH "Directory where DDS provider deposits generated C++.")
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" "${DDSJS_ROOT}/cmake-js" "${ADDON_GEN_ROOT}/cmake-js")

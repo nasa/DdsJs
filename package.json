@@ -1,6 +1,6 @@
 {
-  "name": "dds-js-devkit",
-  "version": "2.3.0",
+  "name": "dds-js",
+  "version": "2.3.1",
   "description": "Development dependencies for NodeJS CoreDX API binding",
   "author": {
     "name": "Rolando J. Nieves",
@@ -8,8 +8,8 @@
   },
   "main": "dist/index.js",
   "bin": {
-    "ddsjs-idl": "dist/ddsjs-idl.js",
-    "ddsjs-idl-types": "dist/ddsjs-idl-types.js"
+    "dds-js-idl": "dist/dds-js-idl.js",
+    "dds-js-idl-types": "dist/dds-js-idl-types.js"
   },
   "scripts": {
     "compile-grammar": "java -Xmx500M -cp ${npm_config_antlr4_jar} org.antlr.v4.Tool -Dlanguage=TypeScript -no-listener -visitor -o src/dds-idl-compiler/parser src/dds-idl-compiler/DdsIdl.g4",

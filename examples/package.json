@@ -7,8 +7,8 @@
     "scripts": {
         "prepack": "npm run native-build",
         "cmake-js": "cmake-js",
-        "addon-src-gen": "ddsjs-idl -o native/addon -d ${npm_config_with_dds} -b cmake-js HostMonitor.idl",
-        "addon-type-gen": "ddsjs-idl-types -m ${npm_package_name} -o ${npm_config_local_prefix}/index.d.ts HostMonitor.idl",
+        "addon-src-gen": "dds-js-idl -o native/addon -d ${npm_config_with_dds} -b cmake-js HostMonitor.idl",
+        "addon-type-gen": "dds-js-idl-types -m ${npm_package_name} -o ${npm_config_local_prefix}/index.d.ts HostMonitor.idl",
         "dds-src-gen": "cmake-js -T hostmonitor_binding build",
         "native-build": "cmake-js -C --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_PREFIX_PATH=\"${npm_config_prefix_path}\" --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON rebuild",
         "native-configure": "cmake-js -C --CDWITH_DDS=${npm_config_with_dds} --CDCMAKE_PREFIX_PATH=\"${npm_config_prefix_path}\" --CDCMAKE_EXPORT_COMPILE_COMMANDS=ON reconfigure"
@@ -18,7 +18,7 @@
     },
     "devDependencies": {
         "cmake-js": "^7.3.0",
-        "dds-js-devkit": "file:../",
+        "dds-js": "file:../",
         "node-addon-api": "^7.1.0"
     },
     "files": [

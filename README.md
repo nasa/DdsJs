@@ -24,7 +24,7 @@ adapting layer.
 
 The **DDS.js** repository does not, in and of itself, compile or build native
 code. Instead, the repository is designed to produce an NPM package called
-`dds-js-devkit` that can then be used as a development dependency in any project
+`dds-js` that can then be used as a development dependency in any project
 meant to create a NodeJS add-on from DDS IDL. The NPM package brings with it the
 runtime source code required to produce a fully-functional NodeJS native add-on.
 
@@ -40,15 +40,15 @@ package is done the usual way:
     npm pack
 
 The above command will produce an NPM archive in the repository top-level called
-`dds-js-devkit-<version>.tgz` where `<version>` is the **DDS.js** version as of
+`dds-js-<version>.tgz` where `<version>` is the **DDS.js** version as of
 this writing.
 
 # Using DDS.js
 
-The distributable `dds-js-devkit` package is meant to be used as a development
+The distributable `dds-js` package is meant to be used as a development
 dependency in an NPM project.
 
-    npm install --save-dev <folder>/dds-js-devkit-<version>.tgz
+    npm install --save-dev <folder>/dds-js-<version>.tgz
 
 Where `<folder>` is the folder containing the distributable package and
 `<version>` is the **DDS.js** version identifier.
@@ -56,7 +56,7 @@ Where `<folder>` is the folder containing the distributable package and
 The assumption is the destination NPM project implements an interface layer
 between NodeJS code and a DDS domain, as prescribed by definitions specified in
 an IDL file. The `examples` folder in the **DDS.js** repository shows one way to
-produce such an add-on, although it is not the only way the `dds-js-devkit`
+produce such an add-on, although it is not the only way the `dds-js`
 package may be used.
 
 The package brings with it the following top-level items:
@@ -67,7 +67,7 @@ The package brings with it the following top-level items:
 3. A compiler that produces TypeScript ambient type definitions (i.e., a
    `.d.ts` file) according to the definitions present in an IDL file.
 
-The basic anatomy of a NodeJS project leveraging `dds-js-devkit` to produce a
+The basic anatomy of a NodeJS project leveraging `dds-js` to produce a
 DDS interfacing add-on would include the following top-level items in addition
 to the standard NodeJS project content:
 
@@ -80,17 +80,17 @@ to the standard NodeJS project content:
 
 ## Generating Native Code From IDL
 
-The `dds-js-devkit` package brings with it a compiler, called `ddsjs-idl`, that
+The `dds-js` package brings with it a compiler, called `dds-js-idl`, that
 can produce C++ code based on IDL definitions. After installation in the target
 NPM project, the compiler may be invoked as follows:
 
-    npx ddsjs-idl --help
+    npx dds-js-idl --help
 
 Which results in the following help content, describing how the compiler may be
 invoked.
 
 ```
-ddsjs-idl [processing flags...] IDL source file
+dds-js-idl [processing flags...] IDL source file
 
 Positionals:
   input-file  Path to the IDL file to process                           [string]
@@ -112,17 +112,17 @@ Options:
 
 ## Generating TypeScript Ambient Definitions
 
-The `dds-js-devkit` package also brings a compiler that produces TypeScript
+The `dds-js` package also brings a compiler that produces TypeScript
 ambient type definitions describing the content of the native add-on it would
 produce based on an IDL file as input:
 
-    npx ddsjs-idl-types --help
+    npx dds-js-idl-types --help
 
 Which results in the following help content, describing how the compiler may be
 invoked
 
 ```
-ddsjs-idl-types <input-file>
+dds-js-idl-types <input-file>
 
 Generate TypeScript type descriptions from IDL file.
 
@@ -150,14 +150,14 @@ NPM scripts:
 ```json
 {
     "scripts": {
-        "addon-src-gen": "ddsjs-idl -o native/addon -d ${npm_config_with_dds} -b cmake-js HostMonitor.idl",
-        "addon-type-gen": "ddsjs-idl-types -m ${npm_package_name} -o ${npm_config_local_prefix}/index.d.ts HostMonitor.idl"
+        "addon-src-gen": "dds-js-idl -o native/addon -d ${npm_config_with_dds} -b cmake-js HostMonitor.idl",
+        "addon-type-gen": "dds-js-idl-types -m ${npm_package_name} -o ${npm_config_local_prefix}/index.d.ts HostMonitor.idl"
     }
 }
 ```
 
 The above example for `addon-src-gen` shows that the NPM script invokes the
-`ddsjs-idl` compiler, accepting the file `HostMonitor.idl` as input, emitting
+`dds-js-idl` compiler, accepting the file `HostMonitor.idl` as input, emitting
 native code to the `native/addon` directory, targeting the DDS provider
 specified in the NPM configuration environment variable `npm_config_with_dds`,
 and emitting CMake.js build environment helper scripts. Re-generating native
@@ -166,7 +166,7 @@ code is then as simple as invoking `npm run`:
     npm --with-dds=<DDS Provider> run addon-src-gen
 
 The above example for `addon-type-gen` shows that the NPM script invokes the
-`ddsjs-idl-types` compiler, accepting the same `HostMonitor.idl` file as input,
+`dds-js-idl-types` compiler, accepting the same `HostMonitor.idl` file as input,
 emitting the type definitions to the `index.d.ts` file in the project's root
 folder. Re-generating the ambient type definitions can then be done by invoking
 `npm run` accordingly:
@@ -276,7 +276,7 @@ dependency. The example also includes three (3) development time dependencies:
 
 * The CMake.js build system.
 * The `node-addon-api` library.
-* The `dds-js-devkit` package discussed in the [Packaging section](#packaging).
+* The `dds-js` package discussed in the [Packaging section](#packaging).
 
 ### Example Main Entry Point
 
@@ -455,7 +455,7 @@ for more information regarding writing parsers using the visitor pattern.
 
 When modifying the native code that makes the runtime, under the `DdsJs`
 directory, it is possible to "sanity check" the code modifications without
-having to package and deploy the `dds-js-devkit` NPM package onto a test
+having to package and deploy the `dds-js` NPM package onto a test
 package. The `package.json` file for **DDS.js** brings a script called
 `dbgbuild` that, when invoked, creates a static library with the runtime code
 compiled. The static library is not meant for any use, but rather serves as a
